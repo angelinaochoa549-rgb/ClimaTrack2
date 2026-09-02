@@ -43,6 +43,7 @@
     <color name="status_en_proceso">@color/status_in_progress</color>
     <color name="status_finalizada">@color/status_completed</color>
     <color name="status_cancelada">@color/status_cancelled</color>
+    <color name="status_operativo">@color/status_completed</color>
 
     <!-- Legacy / Compatibility (To be phased out) -->
     <color name="primary_dark">#00358A</color>

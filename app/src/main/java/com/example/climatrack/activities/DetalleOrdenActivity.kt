@@ -35,7 +35,7 @@ class DetalleOrdenActivity : AppCompatActivity() {
         cargarDetalle()
 
         findViewById<Button>(R.id.btnIniciarMantenimiento).setOnClickListener {
-            val intent = Intent(this, RegistroMantenimientoActivity::class.java)
+            val intent = Intent(this, MantenimientoActivity::class.java)
             intent.putExtra("ORDEN_ID", ordenId)
             startActivity(intent)
         }

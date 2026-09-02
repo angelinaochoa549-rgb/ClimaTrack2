@@ -59,7 +59,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activities.RegistroMantenimientoActivity"
+            android:name=".activities.MantenimientoActivity"
             android:exported="false" />
 
         <activity

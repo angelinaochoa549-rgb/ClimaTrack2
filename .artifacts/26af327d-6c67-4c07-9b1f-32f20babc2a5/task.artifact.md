@@ -1,0 +1,7 @@
+- [x] Crear iconos vectoriales faltantes (`ic_arrow_back`, `ic_calendar`, `ic_clock`, etc.)
+- [x] Actualizar `item_repuesto.xml` con los campos necesarios (`imgRepuesto`, `tvPrecio`, `btnOpciones`)
+- [x] Corregir referencias de IDs en `RepuestoAdapter.kt`
+- [x] Corregir errores en `RepuestosActivity.kt` (IDs de BottomNav y Header)
+- [x] Actualizar `activity_repuestos.xml` con el diseño completo
+- [x] Eliminar advertencias de cadenas "hardcoded" usando `strings.xml`
+- [x] Verificar compilación exitosa

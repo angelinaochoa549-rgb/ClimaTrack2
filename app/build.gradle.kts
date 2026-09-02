@@ -50,4 +50,8 @@ dependencies {
 
     // Librería gratuita de mapas interactivos (sin API Key ni tarjetas)
     implementation("org.osmdroid:osmdroid-android:6.1.18")
+
+    // Glide para carga de imágenes
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
 }

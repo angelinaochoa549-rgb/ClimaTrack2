@@ -4,4 +4,15 @@
     <string name="error_incorrecto">Usuario o contraseña incorrectos</string>
     <string name="bienvenida_hola">Hola, %1$s</string>
     <string name="no_hay_ordenes">No hay órdenes en este estado</string>
+
+    <!-- Etiquetas de Equipo -->
+    <string name="label_tipo">Tipo: %1$s</string>
+    <string name="label_marca">Marca: %1$s</string>
+    <string name="label_modelo">Modelo: %1$s</string>
+    <string name="label_serie">Serie: %1$s</string>
+    <string name="label_cliente">Cliente: %1$s</string>
+
+    <!-- Etiquetas de Repuesto -->
+    <string name="label_cantidad">Cantidad: %1$d</string>
+    <string name="label_orden_num">Orden: %1$s</string>
 </resources>

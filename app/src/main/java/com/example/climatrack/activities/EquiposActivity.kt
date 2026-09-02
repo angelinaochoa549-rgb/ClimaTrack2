@@ -45,14 +45,16 @@ class EquiposActivity : AppCompatActivity() {
     }
 
     private fun cargarDatos() {
-        listaEquipos.add(Equipo("1", "EQ-00015", "Split Pared", "LG", "Dual Inverter 24K", "LG24TI2022015", "ACME S.A.S.", "OPERATIVO", R.drawable.ic_equipos))
-        listaEquipos.add(Equipo("2", "EQ-00016", "Cassette", "Samsung", "360 Cassette 36K", "SAM36C2021120", "Frio Total Ltda.", "EN MANTENIMIENTO", R.drawable.ic_equipos))
-        listaEquipos.add(Equipo("3", "EQ-00017", "Mini Split", "Midea", "MS-18K", "MIDEA18K3344", "Hotel Caribe", "FUERA DE SERVICIO", R.drawable.ic_equipos))
-        listaEquipos.add(Equipo("4", "EQ-00018", "Chiller", "York", "YK-50TR", "YORK50TR7788", "Clinica del Norte", "OPERATIVO", R.drawable.ic_equipos))
+        listaEquipos.add(Equipo(1, "EQ-00015", "Split Pared", "LG", "Dual Inverter 24K", "LG24TI2022015", "ACME S.A.S.", "OPERATIVO"))
+        listaEquipos.add(Equipo(2, "EQ-00016", "Cassette", "Samsung", "360 Cassette 36K", "SAM36C2021120", "Frio Total Ltda.", "EN MANTENIMIENTO"))
+        listaEquipos.add(Equipo(3, "EQ-00017", "Mini Split", "Midea", "MS-18K", "MIDEA18K3344", "Hotel Caribe", "FUERA DE SERVICIO"))
+        listaEquipos.add(Equipo(4, "EQ-00018", "Chiller", "York", "YK-50TR", "YORK50TR7788", "Clinica del Norte", "OPERATIVO"))
     }
 
     private fun setupRecyclerView() {
-        adapter = EquipoAdapter(listaEquipos)
+        adapter = EquipoAdapter(listaEquipos) { equipo ->
+            // Manejar clic en equipo
+        }
         binding.rvEquipos.layoutManager = LinearLayoutManager(this)
         binding.rvEquipos.adapter = adapter
     }
