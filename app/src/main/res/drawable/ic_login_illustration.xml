@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="200dp"
+    android:viewportWidth="300"
+    android:viewportHeight="200">
+
+    <!-- Technician Body -->
+    <path
+        android:fillColor="#0047BA"
+        android:pathData="M100,80 L140,80 L135,160 L105,160 Z" />
+    <!-- Technician Head -->
+    <path
+        android:fillColor="#FFE0B2"
+        android:pathData="M120,50 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0" />
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M105,50 Q105,35 120,35 Q135,35 135,50 L105,50 Z" /> <!-- Hair -->
+
+    <!-- Clipboard -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M130,100 L155,100 L155,140 L130,140 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M132,105 L153,105 L153,138 L132,138 Z" />
+
+    <!-- AC Unit -->
+    <path
+        android:fillColor="#ECEFF1"
+        android:pathData="M180,60 L260,60 Q265,60 265,65 L265,100 Q265,105 260,105 L180,105 Q175,105 175,100 L175,65 Q175,60 180,60 Z" />
+    <path
+        android:fillColor="#CFD8DC"
+        android:pathData="M180,70 L260,70 L260,72 L180,72 Z" />
+    <path
+        android:fillColor="#CFD8DC"
+        android:pathData="M180,80 L260,80 L260,82 L180,82 Z" />
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M245,65 L255,65 L255,75 L245,75 Z" />
+
+    <!-- Toolbox -->
+    <path
+        android:fillColor="#00358A"
+        android:pathData="M170,140 L230,140 L235,175 L165,175 Z" />
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M185,135 L215,135 L215,140 L185,140 Z" />
+
+</vector>

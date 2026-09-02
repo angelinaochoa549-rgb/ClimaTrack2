@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="200dp"
+    android:viewportWidth="400"
+    android:viewportHeight="200">
+    <!-- Bottom layer: Darkest blue -->
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M0,200 L400,200 L400,100 C300,140 100,60 0,110 Z" />
+    <!-- Middle layer: Primary blue -->
+    <path
+        android:fillAlpha="0.7"
+        android:fillColor="#1E88E5"
+        android:pathData="M0,200 L400,200 L400,120 C320,160 120,80 0,135 Z" />
+    <!-- Top layer: Very light blue -->
+    <path
+        android:fillAlpha="0.4"
+        android:fillColor="#90CAF9"
+        android:pathData="M0,200 L400,200 L400,80 C350,120 150,40 0,90 Z" />
+</vector>

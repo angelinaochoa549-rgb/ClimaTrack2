@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ClimaTrack</string>
+    <string name="error_incompleto">Por favor completa usuario y contraseña</string>
+    <string name="error_incorrecto">Usuario o contraseña incorrectos</string>
+    <string name="bienvenida_hola">Hola, %1$s</string>
+    <string name="no_hay_ordenes">No hay órdenes en este estado</string>
+</resources>

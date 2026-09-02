@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Core Professional Palette (M3 Inspired) -->
+    <color name="primary">#0047BA</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#D7E2FF</color>
+    <color name="on_primary_container">#001B3F</color>
+
+    <color name="secondary">#F8931F</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#FFDDBA</color>
+    <color name="on_secondary_container">#2B1700</color>
+
+    <color name="tertiary">#4F6070</color>
+    <color name="on_tertiary">#FFFFFF</color>
+
+    <color name="error">#BA1A1A</color>
+    <color name="on_error">#FFFFFF</color>
+
+    <color name="background">#FDFBFF</color>
+    <color name="on_background">#1A1C1E</color>
+    <color name="surface">#FDFBFF</color>
+    <color name="on_surface">#1A1C1E</color>
+    <color name="surface_variant">#E0E2EC</color>
+    <color name="on_surface_variant">#44474E</color>
+    <color name="outline">#74777F</color>
+
+    <!-- Status Colors (Refined) -->
+    <color name="status_pending">#8B5000</color>
+    <color name="status_pending_container">#FFDCBE</color>
+    <color name="status_in_progress">#0056D2</color>
+    <color name="status_in_progress_container">#D7E2FF</color>
+    <color name="status_completed">#006D39</color>
+    <color name="status_completed_container">#99F6B4</color>
+    <color name="status_cancelled">#BA1A1A</color>
+    <color name="status_cancelled_container">#FFDAD6</color>
+
+    <!-- Compatibility Aliases -->
+    <color name="status_pendiente">@color/status_pending</color>
+    <color name="status_en_proceso">@color/status_in_progress</color>
+    <color name="status_finalizada">@color/status_completed</color>
+    <color name="status_cancelada">@color/status_cancelled</color>
+
+    <!-- Legacy / Compatibility (To be phased out) -->
+    <color name="primary_dark">#00358A</color>
+    <color name="accent">#F8931F</color>
+    <color name="background_light">#F5F5F5</color>
+    <color name="text_primary">#1A1C1E</color>
+    <color name="text_secondary">#44474E</color>
+    <color name="card_pendientes">#FFDCBE</color>
+    <color name="card_en_proceso">#D7E2FF</color>
+    <color name="card_finalizadas">#99F6B4</color>
+
+</resources>

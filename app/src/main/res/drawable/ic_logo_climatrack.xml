@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Primary Blue Circle Background -->
+    <path
+        android:fillColor="#0047BA"
+        android:pathData="M100,20 A80,80 0 1,0 100,180 A80,80 0 1,0 100,20" />
+
+    <!-- Orange Border Arc at the bottom -->
+    <path
+        android:fillColor="#F8931F"
+        android:pathData="M35,140 C60,185 140,185 165,140 L150,135 C130,170 70,170 50,135 Z" />
+
+    <!-- Internal Snowflake details (White) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3"
+        android:pathData="M80,45 l3,3 M83,45 l-3,3 M81.5,43 l0,7 M78,46.5 l7,0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.2"
+        android:pathData="M120,40 l2,2 M122,40 l-2,2 M121,38 l0,6 M118,41 l6,0" />
+
+    <!-- AC Unit (White) on the left -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M45,95 Q45,90 50,90 L100,90 Q105,90 105,95 L105,115 Q105,120 100,120 L50,120 Q45,120 45,115 Z" />
+    <!-- AC Details (Blue) -->
+    <path
+        android:fillColor="#0047BA"
+        android:pathData="M50,100 L100,100 L100,102 L50,102 Z" />
+    <path
+        android:fillColor="#0047BA"
+        android:pathData="M50,108 L100,108 L100,110 L50,110 Z" />
+    <path
+        android:fillColor="#0047BA"
+        android:pathData="M92,93 L100,93 L100,97 L92,97 Z" />
+
+    <!-- Tools (White) on the right -->
+    <!-- Wrench -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M120,115 L145,90 L152,97 L127,122 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M145,90 m-12,-12 a17,17 0 1,1 24,24 L145,90 Z" />
+    <path
+        android:fillColor="#0047BA"
+        android:pathData="M145,90 m-4,-4 a6,6 0 1,1 8,8 L145,90 Z" />
+
+    <!-- Screwdriver -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M145,115 L120,90 L127,83 L152,108 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M120,90 m-6,-6 a8,8 0 1,1 12,12 L120,90 Z" />
+
+</vector>
