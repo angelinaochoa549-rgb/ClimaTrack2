@@ -1,6 +1,7 @@
 package com.example.climatrack.activities
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -8,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,29 +35,24 @@ class RepuestosActivity : AppCompatActivity() {
         setContentView(R.layout.activity_repuestos)
 
         dbHelper = DatabaseHelper(this)
-        ordenId = intent.getIntExtra("ORDEN_ID", 1) // ID por defecto de prueba en caso de recibir -1
+        ordenId = intent.getIntExtra("ORDEN_ID", 1)
 
-        // Buscamos o creamos el mantenimiento_id asociado a esta orden
         mantenimientoId = obtenerOcrearMantenimientoId()
 
         tvTotalRepuestos = findViewById(R.id.tvTotalRepuestos)
         rvRepuestos = findViewById(R.id.rvRepuestos)
         val fabAgregar = findViewById<FloatingActionButton>(R.id.fabAgregar)
 
-        // Configuración de Toolbar
         findViewById<Toolbar>(R.id.toolbar).setNavigationOnClickListener {
             finish()
         }
 
-        val btnAgregarHeader = findViewById<ImageView>(R.id.btnAgregarRepuesto)
-        btnAgregarHeader?.setOnClickListener {
+        findViewById<ImageView>(R.id.btnAgregarRepuesto)?.setOnClickListener {
             mostrarDialogoAgregar()
         }
 
-        // Configuración de BottomNavigationView
         configurarBottomNavigation()
 
-        // Configuración del RecyclerView
         rvRepuestos.layoutManager = LinearLayoutManager(this)
         adapter = RepuestoAdapter(emptyList())
         rvRepuestos.adapter = adapter
@@ -72,20 +67,27 @@ class RepuestosActivity : AppCompatActivity() {
 
     private fun configurarBottomNavigation() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNav?.selectedItemId = R.id.nav_equipos
+        bottomNav?.selectedItemId = R.id.nav_ordenes
         bottomNav?.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    Toast.makeText(this, "Navegar a Inicio", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, DashboardActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.nav_ordenes -> {
-                    Toast.makeText(this, "Navegar a Órdenes", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, OrdenesActivity::class.java))
+                    finish()
                     true
                 }
-                R.id.nav_equipos -> true
+                R.id.nav_equipos -> {
+                    startActivity(Intent(this, EquiposActivity::class.java))
+                    finish()
+                    true
+                }
                 R.id.nav_historial -> {
-                    Toast.makeText(this, "Navegar a Historial", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, HistorialActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false
@@ -105,7 +107,6 @@ class RepuestosActivity : AppCompatActivity() {
         }
         cursor.close()
 
-        // Si no existe un mantenimiento asociado a la orden, creamos uno de prueba automáticamente
         if (id == -1) {
             val dbWritable = dbHelper.writableDatabase
             val values = ContentValues().apply {
@@ -137,7 +138,7 @@ class RepuestosActivity : AppCompatActivity() {
             val equipoModelo = cursor.getString(4) ?: "24K"
             val equipoCodigo = cursor.getString(5) ?: "EQ-00015"
 
-            findViewById<TextView>(R.id.tvNumeroOrden)?.text = getString(R.string.label_orden_num, numOrden)
+            findViewById<TextView>(R.id.tvNumeroOrden)?.text = "Orden: $numOrden"
             findViewById<TextView>(R.id.tvEstadoBadge)?.text = estado.uppercase()
             findViewById<TextView>(R.id.tvClienteInfo)?.text = "Cliente: $cliente"
             findViewById<TextView>(R.id.tvEquipoInfo)?.text = "Equipo: $equipoTipo $equipoModelo ($equipoCodigo)"
@@ -174,7 +175,6 @@ class RepuestosActivity : AppCompatActivity() {
                 )
                 lista.add(rep)
 
-                // Asignación de precio dinámico según el código para calcular el costo total
                 val precioUnitario = when (codigo.uppercase().trim()) {
                     "RPT-001", "RPT-0007" -> 25000.0
                     "RPT-002", "RPT-0012" -> 18000.0
@@ -197,48 +197,48 @@ class RepuestosActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoAgregar() {
+        val repuestos = dbHelper.getRepuestosDisponibles()
+        val nombres = repuestos.map { "${it.nombre} (${it.codigo})" }.toTypedArray()
+
         AlertDialog.Builder(this)
-            .setTitle("Agregar Repuesto")
-            .setMessage("¿Desea agregar 'Capacitor 35 uF x1' a este mantenimiento?")
-            .setPositiveButton("AGREGAR") { _, _ ->
-                agregarRepuestoMock()
+            .setTitle("Seleccionar Repuesto")
+            .setItems(nombres) { _, which ->
+                val seleccionado = repuestos[which]
+                pedirDetallesRepuesto(seleccionado.id, seleccionado.nombre)
             }
             .setNegativeButton("CANCELAR", null)
             .show()
     }
 
-    private fun agregarRepuestoMock() {
-        if (mantenimientoId == -1) {
-            Toast.makeText(this, "Debe registrar el mantenimiento primero", Toast.LENGTH_SHORT).show()
-            return
-        }
+    private fun pedirDetallesRepuesto(repuestoId: Int, nombre: String) {
+        val view = layoutInflater.inflate(R.layout.dialog_detalle_repuesto, null)
+        val etCantidad = view.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etCantidadRepuesto)
+        val etObservacion = view.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etObservacionRepuesto)
 
+        AlertDialog.Builder(this)
+            .setTitle("Detalles de $nombre")
+            .setView(view)
+            .setPositiveButton("AGREGAR") { _, _ ->
+                val cantidad = etCantidad.text.toString().toIntOrNull() ?: 1
+                val observacion = etObservacion.text.toString().trim()
+                agregarRepuestoReal(repuestoId, cantidad, observacion)
+            }
+            .setNegativeButton("CANCELAR", null)
+            .show()
+    }
+
+    private fun agregarRepuestoReal(repuestoId: Int, cantidad: Int, observacion: String) {
         val db = dbHelper.writableDatabase
-        val cursor = db.rawQuery("SELECT id FROM repuestos WHERE codigo = 'RPT-002' LIMIT 1", null)
-        if (cursor.moveToFirst()) {
-            val repuestoId = cursor.getInt(0)
-            val values = ContentValues().apply {
-                put("mantenimiento_id", mantenimientoId)
-                put("repuesto_id", repuestoId)
-                put("cantidad", 1)
-            }
-            db.insert("detalle_repuestos", null, values)
-            cargarRepuestos()
-        } else {
-            // Si no encuentra RPT-002, agrega con el primer repuesto de la tabla
-            val cursorFallback = db.rawQuery("SELECT id FROM repuestos LIMIT 1", null)
-            if (cursorFallback.moveToFirst()) {
-                val repuestoId = cursorFallback.getInt(0)
-                val values = ContentValues().apply {
-                    put("mantenimiento_id", mantenimientoId)
-                    put("repuesto_id", repuestoId)
-                    put("cantidad", 1)
-                }
-                db.insert("detalle_repuestos", null, values)
-                cargarRepuestos()
-            }
-            cursorFallback.close()
+        val values = ContentValues().apply {
+            put("mantenimiento_id", mantenimientoId)
+            put("repuesto_id", repuestoId)
+            put("cantidad", cantidad)
+            put("observacion", observacion)
         }
-        cursor.close()
+        val res = db.insert("detalle_repuestos", null, values)
+        if (res != -1L) {
+            Toast.makeText(this, "Repuesto agregado", Toast.LENGTH_SHORT).show()
+            cargarRepuestos()
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.climatrack.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.climatrack.R
 import com.example.climatrack.adapters.EquipoAdapter
+import com.example.climatrack.database.DatabaseHelper
 import com.example.climatrack.databinding.ActivityEquiposBinding
 import com.example.climatrack.models.Equipo
 
 class EquiposActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEquiposBinding
+    private lateinit var dbHelper: DatabaseHelper
     private lateinit var adapter: EquipoAdapter
     private val listaEquipos = mutableListOf<Equipo>()
 
@@ -21,10 +24,20 @@ class EquiposActivity : AppCompatActivity() {
         binding = ActivityEquiposBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        dbHelper = DatabaseHelper(this)
+
         setupBottomNavigation()
-        cargarDatos()
         setupRecyclerView()
         setupBuscador()
+
+        binding.btnAgregarEquipo.setOnClickListener {
+            startActivity(Intent(this, FormularioEquipoActivity::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cargarDatos()
     }
 
     private fun setupBottomNavigation() {
@@ -33,27 +46,38 @@ class EquiposActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
+                    startActivity(Intent(this, DashboardActivity::class.java))
                     finish()
                     true
                 }
-                R.id.nav_ordenes -> true
+                R.id.nav_ordenes -> {
+                    startActivity(Intent(this, OrdenesActivity::class.java))
+                    finish()
+                    true
+                }
                 R.id.nav_equipos -> true
-                R.id.nav_historial -> true
+                R.id.nav_historial -> {
+                    startActivity(Intent(this, HistorialActivity::class.java))
+                    finish()
+                    true
+                }
                 else -> false
             }
         }
     }
 
     private fun cargarDatos() {
-        listaEquipos.add(Equipo(1, "EQ-00015", "Split Pared", "LG", "Dual Inverter 24K", "LG24TI2022015", "ACME S.A.S.", "OPERATIVO"))
-        listaEquipos.add(Equipo(2, "EQ-00016", "Cassette", "Samsung", "360 Cassette 36K", "SAM36C2021120", "Frio Total Ltda.", "EN MANTENIMIENTO"))
-        listaEquipos.add(Equipo(3, "EQ-00017", "Mini Split", "Midea", "MS-18K", "MIDEA18K3344", "Hotel Caribe", "FUERA DE SERVICIO"))
-        listaEquipos.add(Equipo(4, "EQ-00018", "Chiller", "York", "YK-50TR", "YORK50TR7788", "Clinica del Norte", "OPERATIVO"))
+        val equiposDB = dbHelper.getEquipos()
+        listaEquipos.clear()
+        listaEquipos.addAll(equiposDB)
+        adapter.actualizarLista(listaEquipos)
     }
 
     private fun setupRecyclerView() {
         adapter = EquipoAdapter(listaEquipos) { equipo ->
-            // Manejar clic en equipo
+            val intent = Intent(this, DetalleEquipoActivity::class.java)
+            intent.putExtra("EQUIPO_ID", equipo.id)
+            startActivity(intent)
         }
         binding.rvEquipos.layoutManager = LinearLayoutManager(this)
         binding.rvEquipos.adapter = adapter

@@ -10,7 +10,7 @@ class DatabaseHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "climatrack.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 3
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -90,6 +90,8 @@ class DatabaseHelper(context: Context) :
                 trabajo_realizado TEXT,
                 observaciones TEXT,
                 recomendaciones TEXT,
+                tiempo_empleado TEXT,
+                tecnico_nombre TEXT,
                 FOREIGN KEY(orden_id) REFERENCES ordenes(id)
             )
             """.trimIndent()
@@ -115,6 +117,7 @@ class DatabaseHelper(context: Context) :
                 mantenimiento_id INTEGER,
                 repuesto_id INTEGER,
                 cantidad INTEGER,
+                observacion TEXT,
                 FOREIGN KEY(mantenimiento_id) REFERENCES mantenimientos(id),
                 FOREIGN KEY(repuesto_id) REFERENCES repuestos(id)
             )
@@ -143,6 +146,7 @@ class DatabaseHelper(context: Context) :
                 cliente TEXT,
                 aceptado INTEGER,
                 fecha TEXT,
+                ruta_firma TEXT,
                 FOREIGN KEY(orden_id) REFERENCES ordenes(id)
             )
             """.trimIndent()
@@ -266,5 +270,171 @@ class DatabaseHelper(context: Context) :
         }
         cursor.close()
         return resultado
+    }
+
+    // --- MÉTODOS PARA EQUIPOS ---
+
+    fun getEquipos(filtro: String = ""): List<com.example.climatrack.models.Equipo> {
+        val lista = mutableListOf<com.example.climatrack.models.Equipo>()
+        val db = readableDatabase
+        val query = if (filtro.isEmpty()) {
+            "SELECT e.id, e.codigo, e.tipo, e.marca, e.modelo, e.serial, c.nombre as cliente, e.estado " +
+                    "FROM equipos e LEFT JOIN clientes c ON e.cliente_id = c.id"
+        } else {
+            "SELECT e.id, e.codigo, e.tipo, e.marca, e.modelo, e.serial, c.nombre as cliente, e.estado " +
+                    "FROM equipos e LEFT JOIN clientes c ON e.cliente_id = c.id " +
+                    "WHERE e.codigo LIKE ? OR e.serial LIKE ? OR e.modelo LIKE ?"
+        }
+        val args = if (filtro.isEmpty()) null else arrayOf("%$filtro%", "%$filtro%", "%$filtro%")
+
+        db.rawQuery(query, args).use { cursor ->
+            if (cursor.moveToFirst()) {
+                do {
+                    lista.add(
+                        com.example.climatrack.models.Equipo(
+                            id = cursor.getInt(0),
+                            codigo = cursor.getString(1),
+                            tipo = cursor.getString(2),
+                            marca = cursor.getString(3),
+                            modelo = cursor.getString(4),
+                            serie = cursor.getString(5),
+                            cliente = cursor.getString(6) ?: "Sin Cliente",
+                            estado = cursor.getString(7)
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+        }
+        return lista
+    }
+
+    fun getEquipoPorId(id: Int): com.example.climatrack.models.Equipo? {
+        val db = readableDatabase
+        val query = "SELECT e.id, e.codigo, e.tipo, e.marca, e.modelo, e.serial, c.nombre as cliente, e.estado " +
+                "FROM equipos e LEFT JOIN clientes c ON e.cliente_id = c.id WHERE e.id = ?"
+        db.rawQuery(query, arrayOf(id.toString())).use { cursor ->
+            if (cursor.moveToFirst()) {
+                return com.example.climatrack.models.Equipo(
+                    id = cursor.getInt(0),
+                    codigo = cursor.getString(1),
+                    tipo = cursor.getString(2),
+                    marca = cursor.getString(3),
+                    modelo = cursor.getString(4),
+                    serie = cursor.getString(5),
+                    cliente = cursor.getString(6) ?: "Sin Cliente",
+                    estado = cursor.getString(7)
+                )
+            }
+        }
+        return null
+    }
+
+    fun insertarEquipo(codigo: String, tipo: String, marca: String, modelo: String, serial: String, capacidad: String, ubicacion: String, clienteId: Int, estado: String): Long {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("codigo", codigo)
+            put("tipo", tipo)
+            put("marca", marca)
+            put("modelo", modelo)
+            put("serial", serial)
+            put("capacidad", capacidad)
+            put("ubicacion", ubicacion)
+            put("cliente_id", clienteId)
+            put("estado", estado)
+        }
+        return db.insert("equipos", null, values)
+    }
+
+    // --- MÉTODOS PARA HISTORIAL Y MANTENIMIENTOS ---
+
+    fun getHistorialMantenimientos(tipoFiltro: String = "TODOS"): List<com.example.climatrack.models.Mantenimiento> {
+        val lista = mutableListOf<com.example.climatrack.models.Mantenimiento>()
+        val db = readableDatabase
+        var query = """
+            SELECT m.id, o.numero, m.fecha, 'N/A' as hora, u.nombre as tecnico, o.tipo_servicio, m.trabajo_realizado
+            FROM mantenimientos m
+            JOIN ordenes o ON m.orden_id = o.id
+            JOIN usuarios u ON o.tecnico_id = u.id
+        """.trimIndent()
+
+        if (tipoFiltro != "TODOS") {
+            query += " WHERE o.tipo_servicio = '$tipoFiltro'"
+        }
+
+        db.rawQuery(query, null).use { cursor ->
+            if (cursor.moveToFirst()) {
+                do {
+                    lista.add(
+                        com.example.climatrack.models.Mantenimiento(
+                            id = cursor.getString(0),
+                            orden = cursor.getString(1),
+                            fecha = cursor.getString(2),
+                            hora = cursor.getString(3),
+                            tecnico = cursor.getString(4),
+                            tipo = cursor.getString(5),
+                            descripcion = cursor.getString(6)
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+        }
+        return lista
+    }
+
+    // --- MÉTODOS PARA REPUESTOS ---
+
+    fun getRepuestosDisponibles(): List<com.example.climatrack.models.Repuesto> {
+        val lista = mutableListOf<com.example.climatrack.models.Repuesto>()
+        val db = readableDatabase
+        db.rawQuery("SELECT id, nombre, codigo, unidad FROM repuestos", null).use { cursor ->
+            if (cursor.moveToFirst()) {
+                do {
+                    lista.add(
+                        com.example.climatrack.models.Repuesto(
+                            id = cursor.getInt(0),
+                            nombre = cursor.getString(1),
+                            codigo = cursor.getString(2),
+                            unidad = cursor.getString(3),
+                            cantidad = 0
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+        }
+        return lista
+    }
+
+    // --- MÉTODOS PARA CLIENTES ---
+
+    fun getClientes(): List<com.example.climatrack.models.Cliente> {
+        val lista = mutableListOf<com.example.climatrack.models.Cliente>()
+        val db = readableDatabase
+        db.rawQuery("SELECT id, nombre, telefono, direccion, email FROM clientes", null).use { cursor ->
+            if (cursor.moveToFirst()) {
+                do {
+                    lista.add(
+                        com.example.climatrack.models.Cliente(
+                            id = cursor.getInt(0),
+                            nombre = cursor.getString(1),
+                            telefono = cursor.getString(2),
+                            direccion = cursor.getString(3),
+                            email = cursor.getString(4)
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+        }
+        return lista
+    }
+
+    fun insertarCliente(nombre: String, telefono: String, direccion: String, email: String): Long {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("nombre", nombre)
+            put("telefono", telefono)
+            put("direccion", direccion)
+            put("email", email)
+        }
+        return db.insert("clientes", null, values)
     }
 }

@@ -65,14 +65,17 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.nav_home -> true
                 R.id.nav_ordenes -> {
                     startActivity(Intent(this, OrdenesActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.nav_equipos -> {
                     startActivity(Intent(this, EquiposActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.nav_historial -> {
                     startActivity(Intent(this, HistorialActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false

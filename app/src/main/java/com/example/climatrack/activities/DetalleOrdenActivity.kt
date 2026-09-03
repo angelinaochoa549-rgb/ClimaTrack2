@@ -63,6 +63,18 @@ class DetalleOrdenActivity : AppCompatActivity() {
             intent.putExtra("ORDEN_ID", ordenId)
             startActivity(intent)
         }
+
+        findViewById<Button>(R.id.btnVerEquipo).setOnClickListener {
+            val db = dbHelper.readableDatabase
+            db.rawQuery("SELECT equipo_id FROM ordenes WHERE id = ?", arrayOf(ordenId.toString())).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val eqId = cursor.getInt(0)
+                    val intent = Intent(this, DetalleEquipoActivity::class.java)
+                    intent.putExtra("EQUIPO_ID", eqId)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -80,7 +92,7 @@ class DetalleOrdenActivity : AppCompatActivity() {
             WHERE o.id = ?
         """.trimIndent()
 
-        dbHelper.readableDatabase.rawQuery(query, arrayOf(ordenId.toString())).use { cursor ->
+        db.rawQuery(query, arrayOf(ordenId.toString())).use { cursor ->
             if (cursor.moveToFirst()) {
                 findViewById<TextView>(R.id.tvNumeroOrden).text = cursor.getString(0)
                 findViewById<TextView>(R.id.tvFecha).text = "Fecha: ${cursor.getString(1)}"

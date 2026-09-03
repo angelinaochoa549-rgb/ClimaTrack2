@@ -28,6 +28,7 @@ class MantenimientoActivity : AppCompatActivity() {
     private lateinit var etDiagnostico: TextInputEditText
     private lateinit var etTrabajoRealizado: TextInputEditText
     private lateinit var etObservaciones: TextInputEditText
+    private lateinit var etRecomendaciones: TextInputEditText
     private lateinit var spEstadoEquipo: AutoCompleteTextView
     private lateinit var spTiempoEmpleado: AutoCompleteTextView
     private lateinit var spTecnico: AutoCompleteTextView
@@ -56,6 +57,7 @@ class MantenimientoActivity : AppCompatActivity() {
         etDiagnostico = findViewById(R.id.etDiagnostico)
         etTrabajoRealizado = findViewById(R.id.etTrabajoRealizado)
         etObservaciones = findViewById(R.id.etObservaciones)
+        etRecomendaciones = findViewById(R.id.etRecomendaciones)
         spEstadoEquipo = findViewById(R.id.spEstadoEquipo)
         spTiempoEmpleado = findViewById(R.id.spTiempoEmpleado)
         spTecnico = findViewById(R.id.spTecnico)
@@ -119,7 +121,13 @@ class MantenimientoActivity : AppCompatActivity() {
 
     private fun cargarDatosOrden() {
         val db = dbHelper.readableDatabase
-        val query = "SELECT numero_orden, cliente, equipo, tipo_servicio, fecha, hora_inicio, diagnostico, trabajo_realizado, observaciones, estado_equipo, tiempo_empleado, tecnico FROM ordenes WHERE id = ?"
+        val query = """
+            SELECT o.numero, c.nombre, e.modelo, o.tipo_servicio, o.fecha, o.descripcion, e.estado
+            FROM ordenes o
+            JOIN clientes c ON o.cliente_id = c.id
+            JOIN equipos e ON o.equipo_id = e.id
+            WHERE o.id = ?
+        """.trimIndent()
 
         db.rawQuery(query, arrayOf(ordenId.toString())).use { cursor ->
             if (cursor.moveToFirst()) {
@@ -128,13 +136,8 @@ class MantenimientoActivity : AppCompatActivity() {
                 findViewById<TextView>(R.id.tvEquipoInfo).text = "Equipo: ${cursor.getString(2)}"
 
                 etFecha.setText(cursor.getString(4))
-                etHoraInicio.setText(cursor.getString(5))
-                etDiagnostico.setText(cursor.getString(6))
-                etTrabajoRealizado.setText(cursor.getString(7))
-                etObservaciones.setText(cursor.getString(8))
-                spEstadoEquipo.setText(cursor.getString(9), false)
-                spTiempoEmpleado.setText(cursor.getString(10), false)
-                spTecnico.setText(cursor.getString(11), false)
+                etDiagnostico.setText(cursor.getString(5))
+                spEstadoEquipo.setText(cursor.getString(6), false)
             }
         }
     }
@@ -148,35 +151,52 @@ class MantenimientoActivity : AppCompatActivity() {
             return
         }
 
-        val tipoServicio = when (toggleGroupTipoServicio.checkedButtonId) {
-            R.id.btnPreventivo -> "Preventivo"
-            R.id.btnCorrectivo -> "Correctivo"
-            R.id.btnAsesoria -> "Asesoría"
-            R.id.btnInspeccion -> "Inspección"
-            else -> "Preventivo"
-        }
-
         val db = dbHelper.writableDatabase
-        val values = ContentValues().apply {
-            put("tipo_servicio", tipoServicio)
-            put("fecha", etFecha.text.toString())
-            put("hora_inicio", etHoraInicio.text.toString())
-            put("diagnostico", diagnostico)
-            put("trabajo_realizado", trabajo)
-            put("observaciones", etObservaciones.text.toString().trim())
-            put("estado_equipo", spEstadoEquipo.text.toString())
-            put("tiempo_empleado", spTiempoEmpleado.text.toString())
-            put("tecnico", spTecnico.text.toString())
-            put("estado_orden", "EN PROCESO")
-        }
+        db.beginTransaction()
+        try {
+            // 1. Insertar en la tabla mantenimientos
+            val mantValues = ContentValues().apply {
+                put("orden_id", ordenId)
+                put("fecha", etFecha.text.toString())
+                put("diagnostico", diagnostico)
+                put("trabajo_realizado", trabajo)
+                put("observaciones", etObservaciones.text.toString().trim())
+                put("recomendaciones", etRecomendaciones.text.toString().trim())
+                put("tiempo_empleado", spTiempoEmpleado.text.toString())
+                put("tecnico_nombre", spTecnico.text.toString())
+            }
+            val mantId = db.insert("mantenimientos", null, mantValues)
 
-        val rowsUpdated = db.update("ordenes", values, "id = ?", arrayOf(ordenId.toString()))
+            if (mantId == -1L) throw Exception("Error al insertar mantenimiento")
 
-        if (rowsUpdated > 0) {
-            Toast.makeText(this, "Mantenimiento guardado exitosamente", Toast.LENGTH_SHORT).show()
+            // 2. Actualizar estado de la orden a EN PROCESO
+            val orderValues = ContentValues().apply {
+                put("estado", "EN PROCESO")
+            }
+            db.update("ordenes", orderValues, "id = ?", arrayOf(ordenId.toString()))
+
+            // 3. Actualizar estado del equipo
+            val nuevoEstadoEquipo = spEstadoEquipo.text.toString().uppercase()
+            val queryEquipoId = "SELECT equipo_id FROM ordenes WHERE id = ?"
+            var equipoId = -1
+            db.rawQuery(queryEquipoId, arrayOf(ordenId.toString())).use { cursor ->
+                if (cursor.moveToFirst()) equipoId = cursor.getInt(0)
+            }
+
+            if (equipoId != -1) {
+                val equipoValues = ContentValues().apply {
+                    put("estado", nuevoEstadoEquipo)
+                }
+                db.update("equipos", equipoValues, "id = ?", arrayOf(equipoId.toString()))
+            }
+
+            db.setTransactionSuccessful()
+            Toast.makeText(this, "Mantenimiento registrado correctamente", Toast.LENGTH_SHORT).show()
             finish()
-        } else {
-            Toast.makeText(this, "Error al guardar el mantenimiento", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        } finally {
+            db.endTransaction()
         }
     }
 }

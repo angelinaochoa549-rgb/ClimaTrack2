@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <queries>
@@ -25,6 +27,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClimaTrack">
 
+        <activity
+            android:name=".activities.FormularioClienteActivity"
+            android:exported="false"
+            android:label="Nuevo Cliente" />
+        <activity
+            android:name=".activities.DetalleEquipoActivity"
+            android:exported="false"
+            android:label="Hoja de Vida" />
+        <activity
+            android:name=".activities.FormularioEquipoActivity"
+            android:exported="false"
+            android:label="Nuevo Equipo" />
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true"

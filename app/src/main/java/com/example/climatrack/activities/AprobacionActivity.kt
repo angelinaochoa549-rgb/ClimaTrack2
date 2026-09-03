@@ -2,13 +2,17 @@ package com.example.climatrack.activities
 
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.climatrack.R
 import com.example.climatrack.database.DatabaseHelper
 import com.example.climatrack.databinding.ActivityAprobacionBinding
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -95,11 +99,14 @@ class AprobacionActivity : AppCompatActivity() {
         val db = dbHelper.writableDatabase
         db.beginTransaction()
         try {
+            val rutaFirma = guardarFirmaComoImagen()
+
             val values = ContentValues().apply {
                 put("orden_id", ordenId)
                 put("cliente", nombreCliente)
                 put("aceptado", 1)
                 put("fecha", SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date()))
+                put("ruta_firma", rutaFirma)
             }
             db.insert("aprobaciones", null, values)
 
@@ -110,15 +117,35 @@ class AprobacionActivity : AppCompatActivity() {
             db.update("ordenes", orderValues, "id = ?", arrayOf(ordenId.toString()))
 
             db.setTransactionSuccessful()
-            Toast.makeText(this, "Orden finalizada correctamente", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Orden finalizada y firma guardada", Toast.LENGTH_SHORT).show()
 
             // Regresar al Dashboard (limpiando stack)
             val intent = Intent(this, DashboardActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
         } finally {
             db.endTransaction()
+        }
+    }
+
+    private fun guardarFirmaComoImagen(): String? {
+        val bitmap = binding.signatureView.getBitmap() ?: return null
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val fileName = "FIRMA_${ordenId}_$timeStamp.png"
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        
+        return try {
+            val file = File(storageDir, fileName)
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            out.flush()
+            out.close()
+            file.absolutePath
+        } catch (e: Exception) {
+            null
         }
     }
 }

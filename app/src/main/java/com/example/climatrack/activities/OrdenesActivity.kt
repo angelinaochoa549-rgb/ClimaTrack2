@@ -70,18 +70,19 @@ class OrdenesActivity : AppCompatActivity() {
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    val intent = Intent(this, DashboardActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    startActivity(intent)
+                    startActivity(Intent(this, DashboardActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.nav_ordenes -> true
                 R.id.nav_equipos -> {
                     startActivity(Intent(this, EquiposActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.nav_historial -> {
                     startActivity(Intent(this, HistorialActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false
