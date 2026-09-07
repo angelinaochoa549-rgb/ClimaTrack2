@@ -233,7 +233,6 @@ class DatabaseHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Por ahora, en desarrollo, recreamos las tablas al subir de versión
         db.execSQL("DROP TABLE IF EXISTS ubicaciones")
         db.execSQL("DROP TABLE IF EXISTS aprobaciones")
         db.execSQL("DROP TABLE IF EXISTS evidencias")
@@ -247,10 +246,6 @@ class DatabaseHelper(context: Context) :
         onCreate(db)
     }
 
-    /**
-     * Valida las credenciales del técnico contra la tabla usuarios.
-     * Retorna el Usuario si las credenciales son correctas, o null si no.
-     */
     fun validarUsuario(usuario: String, password: String): com.example.climatrack.models.Usuario? {
         val db = readableDatabase
         val cursor = db.rawQuery(
@@ -270,6 +265,19 @@ class DatabaseHelper(context: Context) :
         }
         cursor.close()
         return resultado
+    }
+
+    // --- MÉTODOS PARA UBICACIONES ---
+
+    fun guardarUbicacion(ordenId: Int, latitud: Double, longitud: Double, fecha: String): Long {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("orden_id", ordenId)
+            put("latitud", latitud)
+            put("longitud", longitud)
+            put("fecha", fecha)
+        }
+        return db.insert("ubicaciones", null, values)
     }
 
     // --- MÉTODOS PARA EQUIPOS ---

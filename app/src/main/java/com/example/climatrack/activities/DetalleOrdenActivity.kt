@@ -31,7 +31,6 @@ class DetalleOrdenActivity : AppCompatActivity() {
         findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar).setNavigationOnClickListener {
             finish()
         }
-
         cargarDetalle()
 
         findViewById<Button>(R.id.btnIniciarMantenimiento).setOnClickListener {
