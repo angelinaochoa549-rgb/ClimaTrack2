@@ -1,24 +1,18 @@
-# Walkthrough - OSMDroid HTTP 403 Fix
+# Walkthrough - OSMDroid HTTP 403 Fix (Deep Fix)
 
-The HTTP 403 error in `osmdroid` was fixed by providing a proper `User-Agent` and correctly loading the configuration using `PreferenceManager`.
+The HTTP 403 error in `osmdroid` was addressed by reordering the configuration sequence and clearing the tile cache to remove persistent error images.
 
 ## Changes
 
-### Build Configuration
-- Added `androidx.preference:preference-ktx:1.2.1` to [app/build.gradle.kts](file:///C:/Users/Aprendiz/Documents/actividades_android/ClimaTrackProject/app/build.gradle.kts).
-
 ### UI - Activities
-- Updated [UbicacionActivity.kt](file:///C:/Users/Aprendiz/Documents/actividades_android/ClimaTrackProject/app/src/main/java/com/example/climatrack/activities/UbicacionActivity.kt) to:
-    - Include `androidx.preference.PreferenceManager` import.
-    - Set a descriptive `userAgentValue` before `setContentView`.
-    - Use `PreferenceManager.getDefaultSharedPreferences(applicationContext)` to load the configuration.
+- Updated [UbicacionActivity.kt](file:///C:/Users/Aprendiz/Documents/actividades_android/ClimaTrackProject/app/src/main/java/com/example/climatrack/activities/UbicacionActivity.kt):
+    - **Reordered Config**: `Configuration.load()` is now called *before* setting `userAgentValue`. This prevents the User-Agent from being overridden by default values during the load process.
+    - **Cache Clearing**: Added `map.tileProvider.clearTileCache()` during initialization. This forces the app to discard the "403 Access Blocked" images that were cached on the device and download fresh tiles.
 
 ## Verification Results
 
-### Automated Tests
-- Gradle sync was successful.
-- Semantic analysis of `UbicacionActivity.kt` confirms no compilation errors.
-
 ### Manual Verification
 > [!IMPORTANT]
-> Please deploy the app to your device and verify that the map tiles are now loading correctly.
+> 1. Run the app again.
+> 2. The code will now automatically try to clear the old error tiles.
+> 3. If you still see the error, please **Clear Storage/Data** for ClimaTrack in your Android phone settings and restart the app.

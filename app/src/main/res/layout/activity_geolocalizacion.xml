@@ -154,7 +154,7 @@
                 android:layout_margin="12dp"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp"
-                android:text="Ver en mapa"
+                android:text="🗺️ Ver en mapa"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
@@ -162,7 +162,6 @@
                 app:backgroundTint="#03254C"
                 app:cornerRadius="20dp"
                 app:elevation="4dp"
-                app:icon="@drawable/ic_puntero"
                 app:iconPadding="6dp"
                 app:iconSize="16dp"
                 app:iconTint="#FFFFFF" />
@@ -223,10 +222,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="29dp"
+                    android:layout_height="43dp"
+                    android:background="@drawable/ic_verde"
                     android:gravity="center"
-                    android:text="●"
                     android:textColor="#68D0BC"
                     android:textSize="35sp" />
 
@@ -254,7 +253,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="●   Latitud"
+                    android:text="📍   Latitud"
                     android:textColor="#DDE9F7"
                     android:textSize="16sp" />
 
@@ -282,7 +281,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="●   Longitud"
+                    android:text="📍   Longitud"
                     android:textColor="#DDE9F7"
                     android:textSize="16sp" />
 
@@ -338,7 +337,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="▣   Fecha y Hora"
+                    android:text="📅  Fecha y Hora"
                     android:textColor="#DDE9F7"
                     android:textSize="16sp" />
 
@@ -371,7 +370,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_button_blue"
                 android:gravity="center"
-                android:text="◎   ACTUALIZAR"
+                android:text="🔄   ACTUALIZAR"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -384,7 +383,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_button_turquoise"
                 android:gravity="center"
-                android:text="▣   GUARDAR"
+                android:text=" 💾 GUARDAR"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp"
                 android:textStyle="bold" />

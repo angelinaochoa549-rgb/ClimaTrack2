@@ -59,9 +59,11 @@ class UbicacionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Configuración obligatoria para osmdroid (User Agent)
-        Configuration.getInstance().userAgentValue = "ClimaTrackApp/1.0 (" + applicationContext.packageName + ")"
+        // Configuración obligatoria para osmdroid
+        // 1. Cargar configuración primero
         Configuration.getInstance().load(applicationContext, PreferenceManager.getDefaultSharedPreferences(applicationContext))
+        // 2. Establecer User Agent DESPUÉS de cargar para que no se sobrescriba
+        Configuration.getInstance().userAgentValue = "ClimaTrackApp/1.0 (" + applicationContext.packageName + ")"
 
         setContentView(R.layout.activity_geolocalizacion)
 
@@ -78,6 +80,10 @@ class UbicacionActivity : AppCompatActivity() {
 
         // Inicializar Mapa OSM
         map = findViewById(R.id.mapaOsm)
+        
+        // Limpiar caché de tiles para eliminar posibles errores 403 guardados
+        map.tileProvider.clearTileCache()
+        
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setMultiTouchControls(true)
         map.controller.setZoom(16.0)

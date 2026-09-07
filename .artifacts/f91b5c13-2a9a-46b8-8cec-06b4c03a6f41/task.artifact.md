@@ -1,3 +1,3 @@
 - [x] Add `androidx.preference:preference-ktx:1.2.1` dependency to `app/build.gradle.kts`
-- [x] Update `UbicacionActivity.kt` with osmdroid configuration and imports
-- [x] Sync Gradle and verify build
+- [x] Update `UbicacionActivity.kt` with robust osmdroid configuration and cache clearing
+- [x] Verify map functionality on device

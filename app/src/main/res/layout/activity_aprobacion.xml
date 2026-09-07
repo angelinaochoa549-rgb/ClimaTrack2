@@ -1,30 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:background="#F7FAFC">
+
+    <!-- ====================================== -->
+    <!-- FONDO DECORATIVO -->
+    <!-- ====================================== -->
+
+    <ImageView
+        android:id="@+id/imgFondoAprobacion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/fondo_aprobacion"
+        android:scaleType="fitXY"
+        android:contentDescription="@null" />
+
+
+    <!-- ====================================== -->
+    <!-- BARRA SUPERIOR -->
+    <!-- ====================================== -->
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#0D47A1"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
             app:navigationIcon="@android:drawable/ic_menu_revert"
             app:navigationIconTint="@color/white"
             app:title="Aprobación del cliente"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white"
+            app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
     </com.google.android.material.appbar.AppBarLayout>
+
+
+    <!-- ====================================== -->
+    <!-- CONTENIDO -->
+    <!-- ====================================== -->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingStart="20dp"
+        android:paddingTop="22dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="45dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -32,21 +65,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Card de Resumen del Servicio -->
+
+            <!-- ====================================== -->
+            <!-- TARJETA RESUMEN -->
+            <!-- ====================================== -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#EBF3FA"
-                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="18dp"
+                app:cardBackgroundColor="#EAF6FA"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp"
-                app:strokeWidth="0dp">
+                app:strokeColor="#D6EDF1"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="18dp">
+
+
+                    <!-- ORDEN + ESTADO -->
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -57,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Orden: OT-00025"
-                            android:textColor="#1E293B"
+                            android:textColor="#0D50B5"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -65,150 +106,220 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:background="@drawable/bg_status_green"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="FINALIZADA"
-                            android:textColor="#2E7D32"
-                            android:textSize="12sp"
+                            android:background="@drawable/bg_status_aprobacion"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp"
+                            android:text="✓  FINALIZADA"
+                            android:textColor="#24813A"
+                            android:textSize="11sp"
                             android:textStyle="bold" />
+
                     </RelativeLayout>
+
+
+                    <!-- CLIENTE -->
 
                     <TextView
                         android:id="@+id/tvCliente"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="10dp"
                         android:text="Cliente: ACME S.A.S."
-                        android:textColor="#64748B" />
+                        android:textColor="#607594"
+                        android:textSize="14sp" />
+
+
+                    <!-- EQUIPO -->
 
                     <TextView
                         android:id="@+id/tvEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="Equipo: Split Inverter 24K (EQ-00015)"
-                        android:textColor="#64748B" />
+                        android:textColor="#607594"
+                        android:textSize="14sp" />
+
+
+                    <!-- SEPARADOR -->
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginVertical="12dp"
-                        android:background="#CBD5E1" />
+                        android:layout_marginTop="14dp"
+                        android:layout_marginBottom="13dp"
+                        android:background="#C5DDE8" />
+
+
+                    <!-- TITULO RESUMEN -->
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Resumen del servicio"
-                        android:textColor="#1E293B"
+                        android:textColor="#0D50B5"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <!-- Detalles del Mantenimiento Dinámicos -->
+
+                    <!-- ================================= -->
+                    <!-- CONTENIDO DINÁMICO -->
+                    <!-- ================================= -->
+
                     <LinearLayout
                         android:id="@+id/llResumen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="8dp">
-                        <!-- Dinámicamente llenado -->
-                    </LinearLayout>
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical" />
+
                 </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Observaciones del cliente -->
+
+            <!-- ====================================== -->
+            <!-- OBSERVACIONES -->
+            <!-- ====================================== -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="17dp"
                 android:hint="Observaciones del cliente (opcional)"
+                app:boxBackgroundColor="#FBFCFE"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="9dp"
+                app:boxCornerRadiusBottomStart="9dp"
+                app:boxCornerRadiusTopEnd="9dp"
+                app:boxCornerRadiusTopStart="9dp"
+                app:boxStrokeColor="#8B96A5"
                 app:counterEnabled="true"
                 app:counterMaxLength="250"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp">
+                app:hintTextColor="#555D69">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etObservaciones"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
+                    android:layout_height="125dp"
+                    android:gravity="top|start"
                     android:inputType="textMultiLine"
-                    android:lines="3"
+                    android:padding="15dp"
+                    android:textColor="#26364D"
+                    android:textSize="15sp"
+                    android:lines="4"
                     android:maxLength="250" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Nombre del cliente -->
+
+            <!-- ====================================== -->
+            <!-- NOMBRE CLIENTE -->
+            <!-- ====================================== -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="Nombre del cliente *"
+                android:layout_marginBottom="17dp"
+                android:hint="👤  Nombre del cliente *"
+                app:boxBackgroundColor="#FBFCFE"
                 app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp">
+                app:boxCornerRadiusBottomEnd="9dp"
+                app:boxCornerRadiusBottomStart="9dp"
+                app:boxCornerRadiusTopEnd="9dp"
+                app:boxCornerRadiusTopStart="9dp"
+                app:boxStrokeColor="#8B96A5"
+                app:hintTextColor="#555D69">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNombreCliente"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="58dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:textColor="#607594"
+                    android:textSize="15sp"
                     android:inputType="textPersonName" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- ====================================== -->
+            <!-- ACEPTACIÓN -->
+            <!-- ====================================== -->
+
+
+            <!-- ====================================== -->
+            <!-- FIRMA -->
+            <!-- ====================================== -->
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_acceptance_green"
+                android:layout_height="70dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_acceptance_aprobacion"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp">
 
                 <CheckBox
                     android:id="@+id/cbAceptacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="#2E7D32" />
+                    android:buttonTint="#318441" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="3dp"
                     android:text="El cliente acepta el servicio realizado"
-                    android:textColor="#2E7D32"
+                    android:textColor="#287D38"
                     android:textSize="14sp"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
-            <!-- Card de Firma del cliente -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
                 android:text="Firma del cliente"
-                android:textColor="#1E293B"
+                android:textColor="#18253A"
+                android:textSize="15sp"
                 android:textStyle="bold" />
+
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="8dp"
-                app:strokeColor="#CBD5E1"
+                android:layout_height="125dp"
+                android:layout_marginBottom="22dp"
+                app:cardBackgroundColor="#FBF7FC"
+                app:cardCornerRadius="9dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#B9CBE5"
                 app:strokeWidth="1dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <!-- Canvas/Lienzo para dibujar la firma -->
+
+                    <!-- ================================= -->
+                    <!-- NO MODIFICAR: FIRMA -->
+                    <!-- ================================= -->
+
                     <com.example.climatrack.views.SignatureView
                         android:id="@+id/signatureView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
+
+
+                    <!-- ================================= -->
+                    <!-- BOTÓN LIMPIAR -->
+                    <!-- ================================= -->
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnLimpiarFirma"
@@ -216,30 +327,39 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="12dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="5dp"
                         android:text="LIMPIAR"
-                        android:textColor="#1565C0"
+                        android:textColor="#0D50B5"
+                        android:textSize="14sp"
                         app:icon="@android:drawable/ic_menu_edit"
-                        app:iconTint="#1565C0" />
+                        app:iconTint="#0D50B5" />
+
                 </RelativeLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Botón Guardar Aprobación -->
+
+            <!-- ====================================== -->
+            <!-- GUARDAR -->
+            <!-- ====================================== -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGuardarAprobacion"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:backgroundTint="#2E7D32"
-                android:text="GUARDAR APROBACIÓN"
+                android:backgroundTint="#0D50B5"
+                android:text="💾  GUARDAR APROBACIÓN"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                app:cornerRadius="8dp"
-                app:icon="@android:drawable/checkbox_on_background"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
                 app:iconGravity="textStart"
                 app:iconTint="@color/white" />
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
