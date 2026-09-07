@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.preference.PreferenceManager
 import com.example.climatrack.R
 import com.example.climatrack.database.DatabaseHelper
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -59,8 +60,8 @@ class UbicacionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Configuración obligatoria para osmdroid (User Agent)
-        Configuration.getInstance().userAgentValue = packageName
-        Configuration.getInstance().load(this, getPreferences(MODE_PRIVATE))
+        Configuration.getInstance().userAgentValue = "ClimaTrackApp/1.0 (" + applicationContext.packageName + ")"
+        Configuration.getInstance().load(applicationContext, PreferenceManager.getDefaultSharedPreferences(applicationContext))
 
         setContentView(R.layout.activity_geolocalizacion)
 
