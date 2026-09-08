@@ -156,23 +156,20 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Barra de navegación limpia como la imagen 2 -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            app:backgroundTint="@android:color/white"
+            app:elevation="8dp"
+            app:itemActiveIndicatorStyle="@null"
+            app:itemIconTint="@color/bottom_nav_colors"
+            app:itemTextColor="@color/bottom_nav_colors"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_menu" />
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAgregar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:src="@android:drawable/ic_input_add"
-        app:tint="@color/white"
-        app:backgroundTint="@color/accent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:text="TRACK"
-                android:textColor="@color/secondary"
+                android:textColor="#68d0bc"
                 android:textSize="40sp"
                 android:letterSpacing="0.05" />
         </LinearLayout>
@@ -76,10 +76,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="SOLUCIONES INDUSTRIALES"
+            android:text="GESTIÓN DE MANTENIMIENTO DE EQUIPOS DE CLIMATIZACIÓN"
             android:textColor="@color/on_surface_variant"
             android:textSize="12sp"
-            android:letterSpacing="0.3"
+            android:letterSpacing="0.05"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -100,11 +100,12 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="92dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/on_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

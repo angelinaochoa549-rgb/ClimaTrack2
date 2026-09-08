@@ -41,7 +41,6 @@ class RepuestosActivity : AppCompatActivity() {
 
         tvTotalRepuestos = findViewById(R.id.tvTotalRepuestos)
         rvRepuestos = findViewById(R.id.rvRepuestos)
-        val fabAgregar = findViewById<FloatingActionButton>(R.id.fabAgregar)
 
         findViewById<Toolbar>(R.id.toolbar).setNavigationOnClickListener {
             finish()
@@ -56,10 +55,6 @@ class RepuestosActivity : AppCompatActivity() {
         rvRepuestos.layoutManager = LinearLayoutManager(this)
         adapter = RepuestoAdapter(emptyList())
         rvRepuestos.adapter = adapter
-
-        fabAgregar?.setOnClickListener {
-            mostrarDialogoAgregar()
-        }
 
         cargarHeaderOrden()
         cargarRepuestos()

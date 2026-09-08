@@ -1,99 +1,431 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@drawable/fondo_hoja_vida">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- CONTENIDO SCROLLABLE -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#0D47A1"
-            app:title="Hoja de Vida del Equipo"
-            app:titleTextColor="@color/white"
-            app:navigationIcon="@android:drawable/ic_menu_revert"
-            app:navigationIconTint="@color/white" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <!-- BARRA SUPERIOR -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:gravity="center_vertical"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:navigationIconTint="@android:color/white"
+                app:title="Hoja de Vida del Equipo"
+                app:titleTextColor="@android:color/white" />
+
+            <!-- TARJETA CABECERA DEL EQUIPO -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#F4F8FE">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <ImageView
-                        android:id="@+id/imgEquipoDetalle"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_manage" />
-                    <TextView
-                        android:id="@+id/tvCodigoDetalle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:text="EQ-00015"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:textColor="#0D47A1" />
-                    <TextView
-                        android:id="@+id/tvEstadoDetalle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="OPERATIVO"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
 
-            <com.google.android.material.card.MaterialCardView
+                    <FrameLayout
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:background="@drawable/circulo_blanco_borde">
+
+                        <ImageView
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="Herramienta"
+                            android:src="@drawable/ic_wrench"
+                            app:tint="#0F387A" />
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="50dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="#D0DCED" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCodigoDetalle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EQ-00015"
+                            android:textColor="#0B234A"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:background="@drawable/bg_badge_operativo"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp">
+
+                            <View
+                                android:layout_width="7dp"
+                                android:layout_height="7dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/circulo_verde" />
+
+                            <TextView
+                                android:id="@+id/tvEstadoDetalle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="OPERATIVO"
+                                android:textColor="#0F387A"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- TARJETA INFORMACIÓN TÉCNICA -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="INFORMACIÓN TÉCNICA" android:textStyle="bold" android:textColor="#64748B" android:textSize="12sp" android:layout_marginBottom="12dp"/>
-                    <TextView android:id="@+id/tvTipoDetalle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tipo: Split Pared" android:layout_marginBottom="4dp"/>
-                    <TextView android:id="@+id/tvMarcaDetalle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Marca: LG" android:layout_marginBottom="4dp"/>
-                    <TextView android:id="@+id/tvModeloDetalle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Modelo: Dual Inverter 24K" android:layout_marginBottom="4dp"/>
-                    <TextView android:id="@+id/tvSerieDetalle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Serial: LGD123456789" android:layout_marginBottom="4dp"/>
-                    <TextView android:id="@+id/tvClienteDetalle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Cliente: ACME S.A.S." />
+                    android:orientation="vertical">
+
+                    <!-- Header Sección Info -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#EDF4FC"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:contentDescription="Info"
+                            android:src="@drawable/ic_info_circle"
+                            app:tint="#0F387A" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="INFORMACIÓN TÉCNICA"
+                            android:textColor="#0F387A"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- Lista de Datos Técnicos -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Tipo -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/circulo_claro"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_settings"
+                                app:tint="#0F387A" />
+
+                            <TextView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="Tipo:"
+                                android:textColor="#60738C"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="14dp"
+                                android:layout_marginEnd="14dp"
+                                android:background="#D2DCED" />
+
+                            <TextView
+                                android:id="@+id/tvTipoDetalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Split Pared"
+                                android:textColor="#0B234A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Marca -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/circulo_claro"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_tag"
+                                app:tint="#0F387A" />
+
+                            <TextView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="Marca:"
+                                android:textColor="#60738C"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="14dp"
+                                android:layout_marginEnd="14dp"
+                                android:background="#D2DCED" />
+
+                            <TextView
+                                android:id="@+id/tvMarcaDetalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="LG"
+                                android:textColor="#0B234A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Modelo -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/circulo_claro"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_box"
+                                app:tint="#0F387A" />
+
+                            <TextView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="Modelo:"
+                                android:textColor="#60738C"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="14dp"
+                                android:layout_marginEnd="14dp"
+                                android:background="#D2DCED" />
+
+                            <TextView
+                                android:id="@+id/tvModeloDetalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Dual Inverter 24K"
+                                android:textColor="#0B234A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Serial -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/circulo_claro"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_barcode"
+                                app:tint="#0F387A" />
+
+                            <TextView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="Serial:"
+                                android:textColor="#60738C"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="14dp"
+                                android:layout_marginEnd="14dp"
+                                android:background="#D2DCED" />
+
+                            <TextView
+                                android:id="@+id/tvSerieDetalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="LGD123456789"
+                                android:textColor="#0B234A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Cliente -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/circulo_claro"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_person"
+                                app:tint="#0F387A" />
+
+                            <TextView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="Cliente:"
+                                android:textColor="#60738C"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="14dp"
+                                android:layout_marginEnd="14dp"
+                                android:background="#D2DCED" />
+
+                            <TextView
+                                android:id="@+id/tvClienteDetalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="ACME S.A.S."
+                                android:textColor="#0B234A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HISTORIAL DE SERVICIOS" android:textStyle="bold" android:textColor="#1E293B" android:layout_marginBottom="8dp" />
+            </androidx.cardview.widget.CardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvHistorialEquipo"
+            <!-- TARJETA HISTORIAL DE SERVICIOS -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Header Historial -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#EDF4FC"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:contentDescription="Historial"
+                            android:src="@drawable/ic_clock"
+                            app:tint="#0F387A" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="HISTORIAL DE SERVICIOS"
+                            android:textColor="#0F387A"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvHistorialEquipo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="4dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_historial" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,6 @@
+- [x] Update `nav_equipos` icon in `bottom_menu.xml`
+- [x] Fix build error in `activity_splash.xml` (letterSpacing)
+- [x] Fix unresolved reference `nav_home` in `bottom_menu.xml`
+- [x] Fix unresolved reference `fabAgregar` in `RepuestosActivity.kt`
+- [x] Adjust icon sizes in Dashboard cards for better fit
+- [x] Final verification of build status

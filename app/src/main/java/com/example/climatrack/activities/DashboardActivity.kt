@@ -59,7 +59,11 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setupBottomNavigation() {
         val bottomNavigation = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.nav_home
+        bottomNavigation.selectedItemId = R.id.
+
+
+
+        nav_home
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> true
