@@ -41,7 +41,7 @@ class AprobacionActivity : AppCompatActivity() {
 
         binding.btnLimpiarFirma.setOnClickListener {
             binding.signatureView.clear()
-            Toast.makeText(this, "Firma borrada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.firma_borrada), Toast.LENGTH_SHORT).show()
         }
 
         cargarResumen()
@@ -50,17 +50,17 @@ class AprobacionActivity : AppCompatActivity() {
             val nombre = binding.etNombreCliente.text.toString().trim()
 
             if (nombre.isEmpty()) {
-                binding.etNombreCliente.error = "Por favor ingrese el nombre del cliente"
+                binding.etNombreCliente.error = getString(R.string.error_nombre_requerido)
                 return@setOnClickListener
             }
 
             if (!binding.cbAceptacion.isChecked) {
-                Toast.makeText(this, "El cliente debe aceptar el servicio", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.error_aceptacion_requerida), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (binding.signatureView.isEmpty()) {
-                Toast.makeText(this, "Por favor solicite la firma del cliente", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.error_firma_requerida), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -83,12 +83,12 @@ class AprobacionActivity : AppCompatActivity() {
         val cursor = db.rawQuery(query, arrayOf(ordenId.toString()))
 
         if (cursor.moveToFirst()) {
-            binding.tvOrden.text = "Orden: ${cursor.getString(0)}"
-            binding.tvCliente.text = "Cliente: ${cursor.getString(1)}"
-            binding.tvEquipo.text = "Equipo: ${cursor.getString(2)} (${cursor.getString(3)})"
+            binding.tvOrden.text = getString(R.string.label_orden_num, cursor.getString(0))
+            binding.tvCliente.text = getString(R.string.label_cliente, cursor.getString(1))
+            binding.tvEquipo.text = getString(R.string.label_equipo_aprobacion, "${cursor.getString(2)} (${cursor.getString(3)})")
 
             val tv = TextView(this)
-            tv.text = "Servicio: ${cursor.getString(6)}\n\nDiagnóstico: ${cursor.getString(4)}\n\nTrabajo: ${cursor.getString(5)}"
+            tv.text = getString(R.string.label_servicio_resumen, cursor.getString(6), cursor.getString(4), cursor.getString(5))
             tv.setTextColor(resources.getColor(R.color.on_surface, theme))
             binding.llResumen.addView(tv)
         }
@@ -117,7 +117,7 @@ class AprobacionActivity : AppCompatActivity() {
             db.update("ordenes", orderValues, "id = ?", arrayOf(ordenId.toString()))
 
             db.setTransactionSuccessful()
-            Toast.makeText(this, "Orden finalizada y firma guardada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.aprobacion_guardada), Toast.LENGTH_SHORT).show()
 
             // Regresar al Dashboard (limpiando stack)
             val intent = Intent(this, DashboardActivity::class.java)
@@ -125,7 +125,7 @@ class AprobacionActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_guardar_aprobacion, e.message), Toast.LENGTH_SHORT).show()
         } finally {
             db.endTransaction()
         }

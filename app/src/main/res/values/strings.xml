@@ -15,4 +15,26 @@
     <!-- Etiquetas de Repuesto -->
     <string name="label_cantidad">Cantidad: %1$d</string>
     <string name="label_orden_num">Orden: %1$s</string>
+
+    <!-- Aprobación -->
+    <string name="title_aprobacion">Aprobación del cliente</string>
+    <string name="desc_documento">Documento</string>
+    <string name="estado_finalizada">✓  FINALIZADA</string>
+    <string name="label_equipo_aprobacion">Equipo: %1$s</string>
+    <string name="resumen_servicio">📃Resumen del servicio</string>
+    <string name="hint_observaciones">💬 Observaciones del cliente (opcional)</string>
+    <string name="hint_nombre_cliente">👤  Nombre del cliente *</string>
+    <string name="aceptacion_cliente">El cliente acepta el servicio realizado</string>
+    <string name="firma_cliente">🖊️  Firma del cliente</string>
+    <string name="btn_limpiar">LIMPIAR</string>
+    <string name="btn_guardar_aprobacion">💾  GUARDAR APROBACIÓN</string>
+
+    <!-- Mensajes de Aprobación -->
+    <string name="error_nombre_requerido">Por favor ingrese el nombre del cliente</string>
+    <string name="error_aceptacion_requerida">El cliente debe aceptar el servicio</string>
+    <string name="error_firma_requerida">Por favor solicite la firma del cliente</string>
+    <string name="aprobacion_guardada">Orden finalizada y firma guardada</string>
+    <string name="error_guardar_aprobacion">Error al guardar: %1$s</string>
+    <string name="firma_borrada">Firma borrada</string>
+    <string name="label_servicio_resumen">Servicio: %1$s\n\nDiagnóstico: %2$s\n\nTrabajo: %3$s</string>
 </resources>

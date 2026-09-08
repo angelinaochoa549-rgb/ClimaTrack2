@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F7FAFC">
@@ -15,9 +14,9 @@
         android:id="@+id/imgFondoAprobacion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/fondo_aprobacion"
+        android:contentDescription="@null"
         android:scaleType="fitXY"
-        android:contentDescription="@null" />
+        android:src="@drawable/fondo_aprobacion" />
 
 
     <!-- ====================================== -->
@@ -38,9 +37,9 @@
             android:elevation="0dp"
             app:navigationIcon="@android:drawable/ic_menu_revert"
             app:navigationIconTint="@color/white"
-            app:title="Aprobación del cliente"
-            app:titleTextColor="@color/white"
-            app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+            app:title="@string/title_aprobacion"
+            app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -63,6 +62,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
 
@@ -87,63 +87,107 @@
                     android:padding="18dp">
 
 
+                    <!-- ================================= -->
                     <!-- ORDEN + ESTADO -->
+                    <!-- ================================= -->
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tvOrden"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Orden: OT-00025"
-                            android:textColor="#0D50B5"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+
+                        <!-- ================================= -->
+                        <!-- NUEVO: CÍRCULO + ÍCONO DOCUMENTO -->
+                        <!-- ================================= -->
+
+                        <FrameLayout
+                            android:id="@+id/flIconoDocumento"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:layout_alignParentStart="true"
+                            android:background="@drawable/bg_icon_documento">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/desc_documento"
+                                android:src="@drawable/ic_documento" />
+
+                        </FrameLayout>
+
+
+                        <!-- ================================= -->
+                        <!-- ESTADO -->
+                        <!-- ================================= -->
 
                         <TextView
+                            android:id="@+id/tvStatusLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
                             android:background="@drawable/bg_status_aprobacion"
                             android:paddingStart="12dp"
                             android:paddingTop="6dp"
                             android:paddingEnd="12dp"
                             android:paddingBottom="6dp"
-                            android:text="✓  FINALIZADA"
+                            android:text="@string/estado_finalizada"
                             android:textColor="#24813A"
                             android:textSize="11sp"
                             android:textStyle="bold" />
 
+                        <!-- ================================= -->
+                        <!-- ORDEN -->
+                        <!-- ================================= -->
+
+                        <TextView
+                            android:id="@+id/tvOrden"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_toStartOf="@id/tvStatusLabel"
+                            android:layout_toEndOf="@id/flIconoDocumento"
+                            android:textColor="#0D50B5"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Orden: OT-00025" />
+
                     </RelativeLayout>
 
 
+                    <!-- ================================= -->
                     <!-- CLIENTE -->
+                    <!-- ================================= -->
 
                     <TextView
                         android:id="@+id/tvCliente"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Cliente: ACME S.A.S."
                         android:textColor="#607594"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="Cliente: ACME S.A.S." />
 
 
+                    <!-- ================================= -->
                     <!-- EQUIPO -->
+                    <!-- ================================= -->
 
                     <TextView
                         android:id="@+id/tvEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Equipo: Split Inverter 24K (EQ-00015)"
                         android:textColor="#607594"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="Equipo: Split Inverter 24K (EQ-00015)" />
 
 
+                    <!-- ================================= -->
                     <!-- SEPARADOR -->
+                    <!-- ================================= -->
 
                     <View
                         android:layout_width="match_parent"
@@ -153,12 +197,14 @@
                         android:background="#C5DDE8" />
 
 
+                    <!-- ================================= -->
                     <!-- TITULO RESUMEN -->
+                    <!-- ================================= -->
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Resumen del servicio"
+                        android:text="@string/resumen_servicio"
                         android:textColor="#0D50B5"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -188,7 +234,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="17dp"
-                android:hint="Observaciones del cliente (opcional)"
+                android:hint="@string/hint_observaciones"
                 app:boxBackgroundColor="#FBFCFE"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="9dp"
@@ -198,7 +244,7 @@
                 app:boxStrokeColor="#8B96A5"
                 app:counterEnabled="true"
                 app:counterMaxLength="250"
-                app:hintTextColor="#555D69">
+                app:hintTextColor="#607594">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etObservaciones"
@@ -206,11 +252,11 @@
                     android:layout_height="125dp"
                     android:gravity="top|start"
                     android:inputType="textMultiLine"
-                    android:padding="15dp"
-                    android:textColor="#26364D"
-                    android:textSize="15sp"
                     android:lines="4"
-                    android:maxLength="250" />
+                    android:maxLength="250"
+                    android:padding="15dp"
+                    android:textColor="#183B73"
+                    android:textSize="15sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -223,7 +269,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="17dp"
-                android:hint="👤  Nombre del cliente *"
+                android:hint="@string/hint_nombre_cliente"
                 app:boxBackgroundColor="#FBFCFE"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="9dp"
@@ -231,24 +277,19 @@
                 app:boxCornerRadiusTopEnd="9dp"
                 app:boxCornerRadiusTopStart="9dp"
                 app:boxStrokeColor="#8B96A5"
-                app:hintTextColor="#555D69">
+                app:hintTextColor="#607594">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNombreCliente"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
+                    android:inputType="textPersonName"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:textColor="#607594"
-                    android:textSize="15sp"
-                    android:inputType="textPersonName" />
+                    android:textColor="#183B73"
+                    android:textSize="15sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-
-            <!-- ====================================== -->
-            <!-- ACEPTACIÓN -->
-            <!-- ====================================== -->
 
 
             <!-- ====================================== -->
@@ -275,8 +316,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:text="El cliente acepta el servicio realizado"
-                    android:textColor="#287D38"
+                    android:text="@string/aceptacion_cliente"
+                    android:textColor="#24813A"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -286,8 +327,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
-                android:text="Firma del cliente"
-                android:textColor="#18253A"
+                android:text="@string/firma_cliente"
+                android:textColor="#183B73"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -330,7 +371,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="5dp"
-                        android:text="LIMPIAR"
+                        android:text="@string/btn_limpiar"
                         android:textColor="#0D50B5"
                         android:textSize="14sp"
                         app:icon="@android:drawable/ic_menu_edit"
@@ -350,7 +391,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:backgroundTint="#0D50B5"
-                android:text="💾  GUARDAR APROBACIÓN"
+                android:text="@string/btn_guardar_aprobacion"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
