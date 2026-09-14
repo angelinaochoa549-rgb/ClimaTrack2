@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Fondo circular celeste -->
+    <path
+        android:fillColor="#E0F7FA"
+        android:pathData="M 24, 2 A 22,22 0 1,0 24, 46 A 22,22 0 1,0 24, 2 Z" />
+
+    <!-- Engranaje (Turquesa oscuro) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#00838F"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 24,18 A 6,6 0 1,0 24,30 A 6,6 0 1,0 24,18 Z
+                          M 24,14 V 17 M 24,31 V 34
+                          M 14,24 H 17 M 31,24 H 34
+                          M 17,17 L 19,19 M 29,29 L 31,31
+                          M 17,31 L 19,29 M 29,19 L 31,17" />
+</vector>

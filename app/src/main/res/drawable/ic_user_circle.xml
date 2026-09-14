@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Círculo celeste de fondo -->
+    <path
+        android:fillColor="#E0F7FA"
+        android:pathData="M 24, 2 A 22,22 0 1,0 24, 46 A 22,22 0 1,0 24, 2 Z" />
+
+    <!-- Cabeza del usuario -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#00838F"
+        android:strokeWidth="2.5"
+        android:pathData="M 24, 18 A 5,5 0 1,0 24, 28 A 5,5 0 1,0 24, 18 Z" />
+
+    <!-- Hombros / Cuerpo del usuario -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#00838F"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M 16,35 C 16,30 19.5,29 24,29 C 28.5,29 32,30 32,35" />
+
+</vector>

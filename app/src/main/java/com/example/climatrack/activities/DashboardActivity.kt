@@ -59,11 +59,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setupBottomNavigation() {
         val bottomNavigation = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.
-
-
-
-        nav_home
+        bottomNavigation.selectedItemId = R.id.nav_home
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> true
@@ -89,14 +85,13 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun contarOrdenesPorEstado(estado: String): Int {
         var total = 0
-        dbHelper.readableDatabase.use { db ->
-            db.rawQuery(
-                "SELECT COUNT(*) FROM ordenes WHERE estado = ?",
-                arrayOf(estado)
-            ).use { cursor ->
-                if (cursor.moveToFirst()) {
-                    total = cursor.getInt(0)
-                }
+        val db = dbHelper.readableDatabase
+        db.rawQuery(
+            "SELECT COUNT(*) FROM ordenes WHERE estado = ?",
+            arrayOf(estado)
+        ).use { cursor ->
+            if (cursor.moveToFirst()) {
+                total = cursor.getInt(0)
             }
         }
         return total

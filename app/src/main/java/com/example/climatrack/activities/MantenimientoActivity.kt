@@ -40,6 +40,12 @@ class MantenimientoActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
         ordenId = intent.getIntExtra("ORDEN_ID", -1)
 
+        if (ordenId == -1) {
+            Toast.makeText(this, "Error: Orden no encontrada", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
         inicializarVistas()
         configurarToolbar()
         configurarPickers()

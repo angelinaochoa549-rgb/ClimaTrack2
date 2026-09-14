@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="60dp"
+    android:height="60dp"
+    android:viewportWidth="60"
+    android:viewportHeight="60">
+
+    <!-- Cuerpo principal del aire acondicionado (Azul) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#1565C0"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 12,12 H 48 C 50.2,12 52,13.8 52,16 V 28 C 52,30.2 50.2,32 48,32 H 12 C 9.8,32 8,30.2 8,28 V 16 C 8,13.8 9.8,12 12,12 Z" />
+
+    <!-- Rejilla/Línea horizontal interior -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#1565C0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M 14,25 H 46" />
+
+    <!-- Rejilla inferior de salida de aire -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#1565C0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M 18,29 H 42" />
+
+    <!-- Ondas de aire frío (Turquesa/Verde menta) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#26A69A"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:pathData="M 20,38 C 19,41 21,43 20,46" />
+
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#26A69A"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:pathData="M 30,38 C 29,41 31,43 30,46" />
+
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#26A69A"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:pathData="M 40,38 C 39,41 41,43 40,46" />
+
+</vector>

@@ -35,7 +35,13 @@ class RepuestosActivity : AppCompatActivity() {
         setContentView(R.layout.activity_repuestos)
 
         dbHelper = DatabaseHelper(this)
-        ordenId = intent.getIntExtra("ORDEN_ID", 1)
+        ordenId = intent.getIntExtra("ORDEN_ID", -1)
+
+        if (ordenId == -1) {
+            Toast.makeText(this, "Error: Orden no especificada", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         mantenimientoId = obtenerOcrearMantenimientoId()
 

@@ -1,184 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:background="@drawable/bg_detalle_orden">
 
+    <!-- BARRA SUPERIOR (TOOLBAR) -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/primary"
-            app:title="Detalle de Orden"
-            app:titleTextColor="@color/white"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
             app:navigationIcon="@drawable/abc_ic_ab_back_material"
-            app:navigationIconTint="@color/white" />
+            app:navigationIconTint="@color/white"
+            app:title="Detalle de Orden"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- CONTENIDO CON SCROLL -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="90dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
 
-            <!-- Order Basic Info Card -->
+            <!-- ========================= -->
+            <!-- CARD 1: ORDEN + CLIENTE   -->
+            <!-- ========================= -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#E0F2F1"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="horizontal">
+
+                    <!-- Indicador lateral turquesa -->
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="#26A69A" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tvNumeroOrden"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="OT-00025"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/primary" />
-                        <TextView
-                            android:id="@+id/tvEstado"
-                            style="@style/StatusChip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PENDIENTE"
-                            android:background="@drawable/bg_status_chip"
-                            android:textColor="@color/white" />
-                    </LinearLayout>
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/tvFecha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Fecha: 18/08/2026"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginTop="4dp" />
+                        <!-- SECCIÓN ORDEN -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <!-- Icono Portapapeles en círculo -->
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="53dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_clipboard_list"
+                                     />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvNumeroOrden"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="OT-00025"
+                                    android:textColor="#0D47A1"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvFecha"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Fecha: 18/08/2026"
+                                    android:textColor="#757575"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+
+                            <!-- Badge PENDIENTE -->
+                            <TextView
+                                android:id="@+id/tvEstado"
+                                style="@style/StatusChip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_badge_pendiente"
+                                android:paddingStart="12dp"
+                                android:paddingTop="6dp"
+                                android:paddingEnd="12dp"
+                                android:paddingBottom="6dp"
+                                android:text="PENDIENTE"
+                                android:textColor="@color/white"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Divisor sutil -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="14dp"
+                            android:background="#F0F4F8" />
+
+                        <!-- SECCIÓN CLIENTE -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <!-- Icono Cliente en círculo -->
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_user_circle" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="CLIENTE"
+                                    android:textColor="#90A4AE"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvCliente"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:text="ACME S.A.S."
+                                    android:textColor="#0D47A1"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvDireccion"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Calle 123 #45-67"
+                                    android:textColor="#757575"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ========================= -->
+            <!-- CARD 2: EQUIPO            -->
+            <!-- ========================= -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#E0F2F1"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CLIENTE"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_secondary" />
-                    <TextView
-                        android:id="@+id/tvCliente"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ACME S.A.S."
-                        android:textSize="16sp"
-                        android:textColor="@color/text_primary" />
-                    <TextView
-                        android:id="@+id/tvDireccion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Calle 123 #45-67"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Equipment Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="EQUIPO"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_secondary" />
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:background="#4FC3F7" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:src="@android:drawable/ic_menu_manage"
-                            app:tint="@color/primary" />
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
                         <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_icon_circle">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_gear_circle" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="EQUIPO"
+                                android:textColor="#90A4AE"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="73dp"
+                                android:layout_height="66dp"
+                                android:src="@drawable/ic_air_conditioner" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvEquipoModelo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Split Inverter 24K"
+                                    android:textColor="#0D47A1"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvEquipoCodigo"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Código: EQ-00015"
+                                    android:textColor="#757575"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnVerEquipo"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginStart="16dp">
-                            <TextView
-                                android:id="@+id/tvEquipoModelo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Split Inverter 24K"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:id="@+id/tvEquipoCodigo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Código: EQ-00015"
-                                android:textSize="14sp"
-                                android:textColor="@color/text_secondary" />
-                        </LinearLayout>
+                            android:layout_gravity="end"
+                            android:layout_marginTop="8dp"
+                            android:backgroundTint="@color/white"
+                            android:text="VER HOJA DE VIDA  >"
+                            android:textColor="#0288D1"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            app:strokeColor="#0288D1"
+                            app:strokeWidth="1.5dp"
+                            app:cornerRadius="20dp" />
+
                     </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btnVerEquipo"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VER HOJA DE VIDA"
-                        android:layout_gravity="end" />
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Service Details Card -->
+            <!-- ========================= -->
+            <!-- CARD 3: SERVICIO          -->
+            <!-- ========================= -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardCornerRadius="12dp">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#E0F2F1"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -186,63 +341,82 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="SERVICIO"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_secondary" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle">
+
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:src="@android:drawable/ic_menu_agenda"
+                                app:tint="#00838F" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="SERVICIO"
+                            android:textColor="#90A4AE"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvTipoServicio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         android:text="Mantenimiento Preventivo"
+                        android:textColor="#0D47A1"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="8dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvDescripcion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:lineSpacingExtra="3dp"
                         android:text="Limpieza de filtros, revisión de presiones y prueba de funcionamiento."
-                        android:textSize="14sp"
-                        android:layout_marginTop="4dp" />
+                        android:textColor="#757575"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <Button
-                android:id="@+id/btnIniciarMantenimiento"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="INICIAR MANTENIMIENTO"
-                android:textStyle="bold" />
-
+            <!-- CONTENEDOR DE ACCIONES (EN PROCESO) -->
             <LinearLayout
                 android:id="@+id/llAccionesMantenimiento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:text="ACCIONES DISPONIBLES"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginBottom="12dp" />
+                    android:textColor="#0D47A1"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:columnCount="2">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRepuestos"
                         style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="0dp"
@@ -250,9 +424,11 @@
                         android:layout_columnWeight="1"
                         android:layout_margin="4dp"
                         android:text="REPUESTOS"
-                        app:icon="@android:drawable/ic_menu_add" />
+                        android:textColor="#0288D1"
+                        app:icon="@android:drawable/ic_menu_add"
+                        app:iconTint="#0288D1" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnEvidencias"
                         style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="0dp"
@@ -260,9 +436,11 @@
                         android:layout_columnWeight="1"
                         android:layout_margin="4dp"
                         android:text="EVIDENCIAS"
-                        app:icon="@android:drawable/ic_menu_camera" />
+                        android:textColor="#0288D1"
+                        app:icon="@android:drawable/ic_menu_camera"
+                        app:iconTint="#0288D1" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnUbicacion"
                         style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="0dp"
@@ -270,9 +448,11 @@
                         android:layout_columnWeight="1"
                         android:layout_margin="4dp"
                         android:text="UBICACIÓN"
-                        app:icon="@android:drawable/ic_menu_mylocation" />
+                        android:textColor="#0288D1"
+                        app:icon="@android:drawable/ic_menu_mylocation"
+                        app:iconTint="#0288D1" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAprobacion"
                         style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="0dp"
@@ -280,12 +460,34 @@
                         android:layout_columnWeight="1"
                         android:layout_margin="4dp"
                         android:text="APROBACIÓN"
-                        app:icon="@android:drawable/ic_menu_edit" />
+                        android:textColor="#0288D1"
+                        app:icon="@android:drawable/ic_menu_edit"
+                        app:iconTint="#0288D1" />
 
                 </GridLayout>
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- BOTÓN INICIAR MANTENIMIENTO FIJO EN LA PARTE INFERIOR -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnIniciarMantenimiento"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#0077C2"
+        android:text="INICIAR MANTENIMIENTO"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="28dp"
+        app:elevation="6dp"
+        app:icon="@android:drawable/ic_menu_preferences"
+        app:iconGravity="textStart"
+        app:iconTint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

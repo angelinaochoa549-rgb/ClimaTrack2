@@ -83,12 +83,16 @@ class AprobacionActivity : AppCompatActivity() {
         val cursor = db.rawQuery(query, arrayOf(ordenId.toString()))
 
         if (cursor.moveToFirst()) {
-            binding.tvOrden.text = getString(R.string.label_orden_num, cursor.getString(0))
-            binding.tvCliente.text = getString(R.string.label_cliente, cursor.getString(1))
-            binding.tvEquipo.text = getString(R.string.label_equipo_aprobacion, "${cursor.getString(2)} (${cursor.getString(3)})")
+            binding.tvOrden.text = getString(R.string.label_orden_num, cursor.getString(0) ?: "N/A")
+            binding.tvCliente.text = getString(R.string.label_cliente, cursor.getString(1) ?: "N/A")
+            binding.tvEquipo.text = getString(R.string.label_equipo_aprobacion, "${cursor.getString(2) ?: ""} (${cursor.getString(3) ?: ""})")
 
             val tv = TextView(this)
-            tv.text = getString(R.string.label_servicio_resumen, cursor.getString(6), cursor.getString(4), cursor.getString(5))
+            val servicio = cursor.getString(6) ?: "N/A"
+            val diagnostico = cursor.getString(4) ?: "Sin diagnóstico"
+            val trabajo = cursor.getString(5) ?: "Sin trabajo registrado"
+            
+            tv.text = getString(R.string.label_servicio_resumen, servicio, diagnostico, trabajo)
             tv.setTextColor(resources.getColor(R.color.on_surface, theme))
             binding.llResumen.addView(tv)
         }
