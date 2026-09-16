@@ -113,7 +113,9 @@ class EvidenciasActivity : AppCompatActivity() {
             Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
         )
 
-        takePictureLauncher.launch(tempPhotoUri)
+        tempPhotoUri?.let {
+            takePictureLauncher.launch(it)
+        }
     }
 
     private fun crearArchivoImagen(): File {
