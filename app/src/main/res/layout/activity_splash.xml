@@ -1,111 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="#F5F8FA">
 
-    <!-- Decorative background elements -->
+    <!-- Imagen de fondo completa (aire acondicionado, hojas y olas azules) -->
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:alpha="0.05"
-        android:rotation="-15"
-        android:src="@drawable/ic_snowflake"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="-80dp"
-        android:layout_marginEnd="-100dp"
-        android:importantForAccessibility="no" />
+        android:id="@+id/imgFondoSplash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_splash" />
 
-    <!-- Branding -->
+    <!-- Bloque Central: Logo, Título, Subtítulo y Loader -->
     <LinearLayout
-        android:id="@+id/llBranding"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4">
+        android:paddingHorizontal="32dp">
 
-        <com.google.android.material.card.MaterialCardView
+        <!-- Logo Circular (Copo de nieve y llave inglesa) -->
+        <ImageView
+            android:id="@+id/imgLogo"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="8dp">
+            android:src="@drawable/logo_climatrack" />
 
-            <ImageView
-                android:id="@+id/ivLogo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:importantForAccessibility="no"
-                android:padding="20dp"
-                android:src="@drawable/logo" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
+        <!-- Título ClimaTrack -->
+        <TextView
+            android:id="@+id/tvTituloApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="16dp"
+            android:text="ClimaTrack"
+            android:textColor="#002B66"
+            android:textSize="36sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="CLIMA"
-                android:textColor="@color/primary"
-                android:textSize="40sp"
-                android:letterSpacing="0.05" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:text="TRACK"
-                android:textColor="#68d0bc"
-                android:textSize="40sp"
-                android:letterSpacing="0.05" />
-        </LinearLayout>
-
+        <!-- Subtítulo de la app -->
         <TextView
+            android:id="@+id/tvSubtituloApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="Gestión de Mantenimiento\nde Equipos de Climatización"
+            android:textColor="#003B7A"
+            android:textSize="15sp" />
+
+        <!-- Progress Bar Circular -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="40dp"
+            android:indeterminateTint="#0080FF" />
+
+        <!-- Texto Cargando... -->
+        <TextView
+            android:id="@+id/tvCargando"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="GESTIÓN DE MANTENIMIENTO DE EQUIPOS DE CLIMATIZACIÓN"
-            android:textColor="@color/on_surface_variant"
-            android:textSize="12sp"
-            android:letterSpacing="0.05"
+            android:text="Cargando..."
+            android:textColor="#003B7A"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-    <!-- Bottom Wave with Gradient or solid look -->
-    <ImageView
-        android:id="@+id/ivWaves"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/bg_splash_waves"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:importantForAccessibility="no"
-        app:tint="@color/primary" />
-
-    <ProgressBar
-        android:id="@+id/pbLoading"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="92dp"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/on_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

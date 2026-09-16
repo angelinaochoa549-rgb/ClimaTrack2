@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos de la aplicación -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -9,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <queries>
@@ -27,27 +29,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClimaTrack">
 
-        <activity
-            android:name=".activities.FormularioClienteActivity"
-            android:exported="false"
-            android:label="Nuevo Cliente" />
-        <activity
-            android:name=".activities.DetalleEquipoActivity"
-            android:exported="false"
-            android:label="Hoja de Vida" />
-        <activity
-            android:name=".activities.FormularioEquipoActivity"
-            android:exported="false"
-            android:label="Nuevo Equipo" />
+        <!-- Pantalla de Inicio / Carga (Lanzador principal) -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ClimaTrack">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Demás Activities de la aplicación -->
+        <activity
+            android:name=".activities.FormularioClienteActivity"
+            android:exported="false"
+            android:label="Nuevo Cliente" />
+
+        <activity
+            android:name=".activities.DetalleEquipoActivity"
+            android:exported="false"
+            android:label="Hoja de Vida" />
+
+        <activity
+            android:name=".activities.FormularioEquipoActivity"
+            android:exported="false"
+            android:label="Nuevo Equipo" />
 
         <activity
             android:name=".activities.MainActivity"
@@ -97,6 +105,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <!-- FileProvider para tomar fotos y adjuntar evidencias -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -108,7 +117,5 @@
         </provider>
 
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
