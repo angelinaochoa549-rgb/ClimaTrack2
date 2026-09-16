@@ -56,4 +56,8 @@
         <item name="backgroundTint">#0D47A1</item>
     </style>
 
+    <style name="CircleImage">
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

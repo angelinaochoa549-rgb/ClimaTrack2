@@ -1,296 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background"
-        app:elevation="0dp">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/bg_header_curve"
-                android:contentDescription="@null" />
-
-            <RelativeLayout
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <ImageView
-                    android:id="@+id/ivMenu"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:src="@android:drawable/ic_menu_myplaces"
-                    app:tint="@color/on_surface"
-                    android:contentDescription="Menú" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Dashboard"
-                    android:textColor="@color/on_surface"
-                    android:textSize="20sp" />
-
-                <FrameLayout
-                    android:id="@+id/btnNotificaciones"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/bg_circle_white_border">
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_popup_reminder"
-                        app:tint="@color/primary"
-                        android:contentDescription="Notificaciones" />
-                </FrameLayout>
-            </RelativeLayout>
-        </FrameLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <!-- Imagen de Fondo Completa -->
+    <ImageView
+        android:id="@+id/imgFondoDashboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="72dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_dashboard" />
+
+    <!-- Top App Bar -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#3982b8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/btnMenu"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_menu"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="Dashboard"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnNotificaciones"
+            android:layout_width="43dp"
+            android:layout_height="46dp"
+            android:src="@drawable/ic_bell"
+            app:tint="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Contenido Scrollable sobre el fondo -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:layout_below="@id/topBar"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="16dp">
 
-            <!-- Profile Section Modern -->
-            <LinearLayout
+            <!-- Banner Saludo -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/bg_greeting_card"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="14dp">
+                android:layout_marginBottom="20dp"
+                android:padding="8dp">
 
-                <!-- Avatar Configurado Correctamente -->
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivUserProfile"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:padding="2dp"
+                <ImageView
+                    android:id="@+id/imgAvatar"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_circle_avatar"
+                    android:padding="4dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_user_avatar"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                    app:strokeColor="@color/primary"
-                    app:strokeWidth="2dp" />
+                    android:src="@drawable/avatar_tec"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_weight="1"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/imgAvatar"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvBienvenida"
+                        android:id="@+id/tvNombreTecnico"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Hola, Técnico"
-                        android:textColor="@color/on_surface"
-                        android:textSize="18sp" />
+                        android:text="Hola, Técnico 01"
+                        android:textColor="#102A43"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha="0.7"
-                        android:text="¡Listo para la jornada!"
-                        android:textColor="@color/on_surface_variant"
-                        android:textSize="13sp" />
+                        android:text="¡Bienvenido de nuevo!"
+                        android:textColor="#627D98"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- Sección Resumen de Órdenes -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="📈 Resumen de Órdenes"
+                android:textColor="#102A43"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <!-- Pendientes -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="125dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_pendientes"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_ordenes"
+                        app:tint="#0D6EFD"/>
+
+                    <TextView
+                        android:id="@+id/tvPendientes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="8"
+                        android:textColor="#102A43"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pendientes"
+                        android:textColor="#627D98"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- En proceso -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="125dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_proceso"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="#FF9800" />
+
+                    <TextView
+                        android:id="@+id/tvEnProceso"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="3"
+                        android:textColor="#102A43"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="En proceso"
+                        android:textColor="#627D98"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Finalizadas -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="125dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_finalizadas"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/check_in"
+                         />
+
+                    <TextView
+                        android:id="@+id/tvFinalizadas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="12"
+                        android:textColor="#102A43"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Finalizadas"
+                        android:textColor="#627D98"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <!-- Stats Grid Refined -->
+            <!-- Accesos Rápidos -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.1"
-                android:text="Resumen de hoy"
-                android:textAllCaps="true"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="12sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.Material3.CardView.Filled"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_weight="1"
-                    app:cardBackgroundColor="@color/status_pending_container"
-                    app:cardCornerRadius="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <ImageView
-                            android:layout_width="59dp"
-                            android:layout_height="45dp"
-                            android:layout_marginBottom="4dp"
-                            android:contentDescription="@null"
-                            android:src="@drawable/ic_pendiente" />
-
-                        <TextView
-                            android:id="@+id/tvPendientes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8"
-                            android:textColor="@color/status_pending"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PENDIENTES"
-                            android:textColor="@color/status_pending"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.Material3.CardView.Filled"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_weight="1"
-                    app:cardBackgroundColor="@color/status_in_progress_container"
-                    app:cardCornerRadius="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <ImageView
-                            android:layout_width="67dp"
-                            android:layout_height="46dp"
-                            android:layout_marginBottom="4dp"
-                            android:contentDescription="@null"
-                            android:src="@android:drawable/ic_menu_recent_history"
-                            app:tint="@color/status_in_progress" />
-
-                        <TextView
-                            android:id="@+id/tvEnProceso"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3"
-                            android:textColor="@color/status_in_progress"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="EN CURSO"
-                            android:textColor="@color/status_in_progress"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.Material3.CardView.Filled"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_weight="1"
-                    app:cardBackgroundColor="@color/status_completed_container"
-                    app:cardCornerRadius="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <ImageView
-                            android:layout_width="53dp"
-                            android:layout_height="44dp"
-                            android:layout_marginBottom="4dp"
-                            android:contentDescription="@null"
-                            android:src="@drawable/ic_chulito" />
-
-                        <TextView
-                            android:id="@+id/tvFinalizadas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12"
-                            android:textColor="@color/status_completed"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="LISTAS"
-                            android:textColor="@color/status_completed"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
-            <!-- Quick Actions Grid Modern -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="12dp"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.1"
-                android:text="Operaciones Rápidas"
-                android:textAllCaps="true"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="12sp" />
+                android:text="⏭️  Accesos rápidos"
+                android:textColor="#102A43"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -298,263 +245,209 @@
                 android:columnCount="2"
                 android:rowCount="2">
 
-                <!-- Order Card -->
-                <com.google.android.material.card.MaterialCardView
+                <!-- Card 1: Órdenes -->
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardOrdenes"
-                    style="@style/Widget.Material3.CardView.Elevated"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="115dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="#E3F2FD"
-                    app:cardCornerRadius="20dp">
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp">
 
-                    <LinearLayout
-                        android:id="@+id/btnOrdenes"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:layout_height="match_parent"
+                        android:padding="14dp">
 
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/bg_circle_white">
+                        <!-- Círculo azul claro para el icono -->
+                        <ImageView
+                            android:id="@+id/iconOrdenes"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_icon"
+                            android:backgroundTint="#EBF3FE"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_ordenes"
+                            app:tint="#0D6EFD" />
 
-                            <ImageView
-                                android:layout_width="46dp"
-                                android:layout_height="36dp"
-                                android:layout_gravity="center"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_pendiente" />
-
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_below="@id/iconOrdenes"
+                            android:layout_marginTop="12dp"
+                            android:text="Órdenes"
+                            android:textColor="#102A43"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Órdenes"
-                                android:textColor="@color/on_surface"
-                                android:textSize="15sp" />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#0D6EFD" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="@color/primary" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Equipment Card -->
-                <com.google.android.material.card.MaterialCardView
+                <!-- Card 2: Equipos -->
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardEquipos"
-                    style="@style/Widget.Material3.CardView.Elevated"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="115dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="#DDF8F1"
-                    app:cardCornerRadius="20dp">
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp">
 
-                    <LinearLayout
-                        android:id="@+id/btnEquipos"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:layout_height="match_parent"
+                        android:padding="14dp">
 
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/bg_circle_white">
+                        <!-- Círculo verde claro para el icono -->
+                        <ImageView
+                            android:id="@+id/iconEquipos"
+                            android:layout_width="52dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_icon"
+                            android:backgroundTint="#E6F8F3"
+                            android:padding="0dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_equipos" />
 
-                            <ImageView
-                                android:layout_width="60dp"
-                                android:layout_height="52dp"
-                                android:layout_gravity="center"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_equipos" />
-
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_below="@id/iconEquipos"
+                            android:layout_marginTop="12dp"
+                            android:text="Equipos"
+                            android:textColor="#102A43"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Equipos"
-                                android:textColor="@color/on_surface"
-                                android:textSize="15sp" />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#0D6EFD" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="@color/primary" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- History Card -->
-                <com.google.android.material.card.MaterialCardView
+                <!-- Card 3: Historial -->
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardHistorial"
-                    style="@style/Widget.Material3.CardView.Elevated"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="115dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="#E8EAFE"
-                    app:cardCornerRadius="20dp">
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp">
 
-                    <LinearLayout
-                        android:id="@+id/btnHistorial"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:layout_height="match_parent"
+                        android:padding="14dp">
 
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/bg_circle_white">
+                        <!-- Círculo morado claro para el icono -->
+                        <ImageView
+                            android:id="@+id/iconHistorial"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_icon"
+                            android:backgroundTint="#F2EAFB"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_clock"
+                            app:tint="#6F42C1" />
 
-                            <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="36dp"
-                                android:layout_gravity="center"
-                                android:contentDescription="@null"
-                                android:src="@android:drawable/ic_menu_recent_history"
-                                app:tint="@color/primary" />
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_below="@id/iconHistorial"
+                            android:layout_marginTop="12dp"
+                            android:text="Historial"
+                            android:textColor="#102A43"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Historial"
-                                android:textColor="@color/on_surface"
-                                android:textSize="15sp" />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#0D6EFD" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="@color/primary" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Logout Card -->
-                <com.google.android.material.card.MaterialCardView
+                <!-- Card 4: Cerrar sesión -->
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardCerrarSesion"
-                    style="@style/Widget.Material3.CardView.Elevated"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="115dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="#FFE6E8"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/outline"
-                    app:strokeWidth="1dp">
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp">
 
-                    <LinearLayout
-                        android:id="@+id/btnCerrarSesion"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:layout_height="match_parent"
+                        android:padding="14dp">
 
-                        <FrameLayout
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/bg_circle_white">
+                        <!-- Círculo rojo claro para el icono -->
+                        <ImageView
+                            android:id="@+id/iconLogout"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_icon"
+                            android:backgroundTint="#FDEBEA"
+                            android:padding="6dp"
+                            android:src="@drawable/cerrar_sesion" />
 
-                            <ImageView
-                                android:layout_width="26dp"
-                                android:layout_height="27dp"
-                                android:layout_gravity="center"
-                                android:contentDescription="@null"
-                                android:src="@android:drawable/ic_lock_power_off"
-                                app:tint="@color/error" />
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_below="@id/iconLogout"
+                            android:layout_marginTop="12dp"
+                            android:text="Cerrar sesión"
+                            android:textColor="#102A43"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Salir"
-                                android:textColor="@color/error"
-                                android:textSize="15sp" />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#0D6EFD" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_chevron_right"
-                                app:tint="@color/error" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
             </GridLayout>
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
+    <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        style="@style/Widget.App.BottomNavigationView"
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:background="#0D50B5"
+        app:itemActiveIndicatorColor="#E6F0FA"
+        app:itemIconTint="@color/bottom_nav_colors_dashboard"
+        app:itemTextColor="#FFFFFF"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

@@ -2,98 +2,60 @@ package com.example.climatrack.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.climatrack.R
-import com.example.climatrack.database.DatabaseHelper
+import com.example.climatrack.databinding.ActivityDashboardBinding
 
 class DashboardActivity : AppCompatActivity() {
 
-    private lateinit var dbHelper: DatabaseHelper
+    private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        dbHelper = DatabaseHelper(this)
-
-        // Recibimos el nombre del técnico que viene desde el Login
-        val nombreTecnico = intent.getStringExtra("NOMBRE_TECNICO") ?: "Técnico"
-
-        val tvBienvenida = findViewById<TextView>(R.id.tvBienvenida)
-        val tvPendientes = findViewById<TextView>(R.id.tvPendientes)
-        val tvEnProceso = findViewById<TextView>(R.id.tvEnProceso)
-        val tvFinalizadas = findViewById<TextView>(R.id.tvFinalizadas)
-
-        tvBienvenida.text = getString(R.string.bienvenida_hola, nombreTecnico)
-
-        // Actualizamos contadores reales
-        tvPendientes.text = contarOrdenesPorEstado("PENDIENTE").toString()
-        tvEnProceso.text = contarOrdenesPorEstado("EN PROCESO").toString()
-        tvFinalizadas.text = contarOrdenesPorEstado("FINALIZADA").toString()
-
-        findViewById<LinearLayout>(R.id.btnOrdenes).setOnClickListener {
-            val intent = Intent(this, OrdenesActivity::class.java)
-            startActivity(intent)
+        // Manejo de eventos en las tarjetas de accesos rápidos
+        binding.cardOrdenes.setOnClickListener {
+            Toast.makeText(this, "Navegando a Órdenes", Toast.LENGTH_SHORT).show()
         }
 
-        findViewById<LinearLayout>(R.id.btnEquipos).setOnClickListener {
-            val intent = Intent(this, EquiposActivity::class.java)
-            startActivity(intent)
+        binding.cardEquipos.setOnClickListener {
+            Toast.makeText(this, "Navegando a Equipos", Toast.LENGTH_SHORT).show()
         }
 
-        findViewById<LinearLayout>(R.id.btnHistorial).setOnClickListener {
-            val intent = Intent(this, HistorialActivity::class.java)
-            startActivity(intent)
+        binding.cardHistorial.setOnClickListener {
+            Toast.makeText(this, "Navegando a Historial", Toast.LENGTH_SHORT).show()
         }
 
-        findViewById<LinearLayout>(R.id.btnCerrarSesion).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+        binding.cardCerrarSesion.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        setupBottomNavigation()
-    }
-
-    private fun setupBottomNavigation() {
-        val bottomNavigation = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.nav_home
-        bottomNavigation.setOnItemSelectedListener { item ->
+        // Configuración de navegación inferior
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_home -> true
+                R.id.nav_inicio -> {
+                    Toast.makeText(this, "Inicio", Toast.LENGTH_SHORT).show()
+                    true
+                }
                 R.id.nav_ordenes -> {
-                    startActivity(Intent(this, OrdenesActivity::class.java))
-                    finish()
+                    Toast.makeText(this, "Órdenes", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.nav_equipos -> {
-                    startActivity(Intent(this, EquiposActivity::class.java))
-                    finish()
+                    Toast.makeText(this, "Equipos", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.nav_historial -> {
-                    startActivity(Intent(this, HistorialActivity::class.java))
-                    finish()
+                    Toast.makeText(this, "Historial", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
             }
         }
-    }
-
-    private fun contarOrdenesPorEstado(estado: String): Int {
-        var total = 0
-        val db = dbHelper.readableDatabase
-        db.rawQuery(
-            "SELECT COUNT(*) FROM ordenes WHERE estado = ?",
-            arrayOf(estado)
-        ).use { cursor ->
-            if (cursor.moveToFirst()) {
-                total = cursor.getInt(0)
-            }
-        }
-        return total
     }
 }

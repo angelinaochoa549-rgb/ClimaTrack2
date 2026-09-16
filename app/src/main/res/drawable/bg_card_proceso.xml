@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:layout_width="120dp"
+    android:height="120dp"
+    android:layout_height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Fondo base con bordes redondeados (Amarillo/Naranja claro) -->
+    <path
+        android:fillColor="#FFF8E1"
+        android:pathData="M 16,0 L 104,0 A 16,16 0 0 1 120,16 L 120,104 A 16,16 0 0 1 104,120 L 16,120 A 16,16 0 0 1 0,104 L 0,16 A 16,16 0 0 1 16,0 Z" />
+
+    <!-- Onda decorativa en la base (Naranja suave) -->
+    <path
+        android:fillColor="#FFE082"
+        android:pathData="M 0,95 C 40,85 80,105 120,95 L 120,104 A 16,16 0 0 1 104,120 L 16,120 A 16,16 0 0 1 0,104 Z" />
+</vector>
