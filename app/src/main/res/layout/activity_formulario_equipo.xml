@@ -132,12 +132,14 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvTipoEquipo"
+                    <AutoCompleteTextView
+                        android:id="@+id/etTipoEquipo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Seleccione el tipo de equipo"
-                        android:textColor="#94A3B8"
+                        android:background="@null"
+                        android:hint="Seleccione el tipo de equipo"
+                        android:textColor="#1E293B"
+                        android:textColorHint="#94A3B8"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -182,12 +184,14 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvMarca"
+                    <AutoCompleteTextView
+                        android:id="@+id/etMarca"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Seleccione la marca"
-                        android:textColor="#94A3B8"
+                        android:background="@null"
+                        android:hint="Seleccione la marca"
+                        android:textColor="#1E293B"
+                        android:textColorHint="#94A3B8"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -367,12 +371,14 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvCliente"
+                    <AutoCompleteTextView
+                        android:id="@+id/etCliente"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Seleccione el cliente"
-                        android:textColor="#94A3B8"
+                        android:background="@null"
+                        android:hint="Seleccione el cliente"
+                        android:textColor="#1E293B"
+                        android:textColorHint="#94A3B8"
                         android:textSize="12sp" />
                 </LinearLayout>
 

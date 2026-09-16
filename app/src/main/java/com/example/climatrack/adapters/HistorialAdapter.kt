@@ -23,8 +23,15 @@ class HistorialAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = lista[position]
         with(holder.binding) {
-            tvNombreItem.text = "Item $position"
+            // Asigna los valores del modelo Mantenimiento.kt
+            tvDate.text = item.fecha
+            tvTime.text = item.hora
+            tvOrderNumber.text = "Orden: ${item.orden}"
+            tvTechnicianName.text = "Técnico: ${item.tecnico}"
+            tvMaintenanceBadge.text = item.tipo
+            tvDescription.text = item.descripcion
 
+            // Mantiene visible o esconde la línea separadora
             if (position == lista.size - 1) {
                 viewDivider.visibility = View.GONE
             } else {

@@ -2,6 +2,7 @@ package com.example.climatrack.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -21,7 +22,7 @@ class FormularioEquipoActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
 
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar).setNavigationOnClickListener {
+        findViewById<View>(R.id.btnVolver).setOnClickListener {
             finish()
         }
 
@@ -35,14 +36,14 @@ class FormularioEquipoActivity : AppCompatActivity() {
     private fun setupSpinners() {
         val tipos = arrayOf("Split Pared", "Mini Split", "Cassette", "Chiller", "Paquete")
         val adapterTipos = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, tipos)
-        findViewById<AutoCompleteTextView>(R.id.spTipoForm).setAdapter(adapterTipos)
+        findViewById<AutoCompleteTextView>(R.id.etTipoEquipo).setAdapter(adapterTipos)
 
         val listaClientes = dbHelper.getClientes()
         val nombres = listaClientes.map { it.nombre }.toMutableList()
         nombres.add("+ Agregar nuevo cliente...")
         
         val adapterClientes = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, nombres)
-        val spCliente = findViewById<AutoCompleteTextView>(R.id.spClienteForm)
+        val spCliente = findViewById<AutoCompleteTextView>(R.id.etCliente)
         spCliente.setAdapter(adapterClientes)
         
         spCliente.setOnItemClickListener { _, _, position, _ ->
@@ -59,13 +60,13 @@ class FormularioEquipoActivity : AppCompatActivity() {
     }
 
     private fun guardarEquipo() {
-        val codigo = findViewById<TextInputEditText>(R.id.etCodigoForm).text.toString().trim()
-        val tipo = findViewById<AutoCompleteTextView>(R.id.spTipoForm).text.toString()
-        val marca = findViewById<TextInputEditText>(R.id.etMarcaForm).text.toString().trim()
-        val modelo = findViewById<TextInputEditText>(R.id.etModeloForm).text.toString().trim()
-        val serie = findViewById<TextInputEditText>(R.id.etSerieForm).text.toString().trim()
-        val capacidad = findViewById<TextInputEditText>(R.id.etCapacidadForm).text.toString().trim()
-        val clienteNombre = findViewById<AutoCompleteTextView>(R.id.spClienteForm).text.toString()
+        val codigo = findViewById<android.widget.EditText>(R.id.etCodigoEquipo).text.toString().trim()
+        val tipo = findViewById<AutoCompleteTextView>(R.id.etTipoEquipo).text.toString()
+        val marca = findViewById<android.widget.EditText>(R.id.etMarca).text.toString().trim()
+        val modelo = findViewById<android.widget.EditText>(R.id.etModelo).text.toString().trim()
+        val serie = findViewById<android.widget.EditText>(R.id.etNumeroSerie).text.toString().trim()
+        val capacidad = findViewById<android.widget.EditText>(R.id.etCapacidad).text.toString().trim()
+        val clienteNombre = findViewById<AutoCompleteTextView>(R.id.etCliente).text.toString()
 
         if (codigo.isEmpty() || tipo.isEmpty() || marca.isEmpty() || modelo.isEmpty() || serie.isEmpty() || clienteNombre.isEmpty() || clienteNombre == "+ Agregar nuevo cliente...") {
             Toast.makeText(this, "Por favor complete los campos obligatorios (*)", Toast.LENGTH_SHORT).show()

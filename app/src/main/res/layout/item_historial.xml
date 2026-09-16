@@ -1,41 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:paddingBottom="16dp">
 
+    <!-- LÍNEA CONECTORA DE TIEMPO (EJE VERTICAL) -->
+    <View
+        android:id="@+id/timelineLine"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:background="#CBD5E1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ICONO DE ESTADO (Check/X/Wrench) CON SU CÍRCULO -->
+    <ImageView
+        android:id="@+id/imgStatusIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="1dp"
+        android:background="@drawable/bg_circle_status_timeline"
+        android:elevation="2dp"
+        android:padding="6dp"
+        android:src="@drawable/ic_check_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/timelineLine"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- TARJETA DEL ÍTEM DE MANTENIMIENTO -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp">
+        android:id="@+id/cardContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_card_rounded"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgStatusIcon"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imgIconoItem"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/circulo_claro"
-            android:padding="5dp"
-            android:src="@drawable/ic_pendiente"
-             />
+        <!-- HEADER DE LA TARJETA (FECHA, ICONO, HORA) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvNombreItem"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgTypeIconInside"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/bg_icon_circle_mint"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_mantenimiento_clipboard"
+                    />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="18/08/2026"
+                    android:textColor="#0052CC"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="🕒 10:30 a. m."
+                android:textColor="#94A3B8"
+                android:textSize="11sp" />
+        </RelativeLayout>
+
+        <!-- CUERPO DE LA TARJETA (ORDEN, TÉCNICO, BADGE) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:text="Item 0"
-            android:textColor="#172F55"
-            android:textSize="14sp" />
+            android:layout_marginTop="6dp">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvOrderNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Orden: OT-00025"
+                    android:textColor="#0052CC"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTechnicianName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Técnico: Técnico 01"
+                    android:textColor="#64748B"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- BADGE DEL TIPO DE MANTENIMIENTO -->
+            <TextView
+                android:id="@+id/tvMaintenanceBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bg_badge_preventivo"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="PREVENTIVO"
+                android:textColor="#22543D"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- PIE DE LA TARJETA (DESCRIPCIÓN Y FLECHA) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/imgArrowItem"
+                android:text="Limpieza de filtros, revisión de presión, ajuste de conexiones eléctricas y prueba de funcionamiento."
+                android:textColor="#64748B"
+                android:textSize="11sp" />
+
+            <ImageView
+                android:id="@+id/imgArrowItem"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="#0052CC" />
+        </RelativeLayout>
     </LinearLayout>
 
+    <!-- Línea divisoria opcional para el adapter -->
     <View
         android:id="@+id/viewDivider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="16dp"
-        android:background="#EAF0F8" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

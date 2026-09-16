@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.climatrack.adapters.EvidenciasAdapter
+import com.example.climatrack.adapters.EvidenciaAdapter
 import com.example.climatrack.databinding.ActivityEvidenciasBinding
 import com.example.climatrack.models.Evidencia
 import java.io.File
@@ -25,7 +25,7 @@ class EvidenciasActivity : AppCompatActivity() {
 
     // Lista 100% vacía al inicio
     private val listaEvidencias = mutableListOf<Evidencia>()
-    private lateinit var adapter: EvidenciasAdapter
+    private lateinit var adapter: EvidenciaAdapter
     private var tempPhotoUri: Uri? = null
 
     private val titulosFrecuentes = listOf(
@@ -79,7 +79,7 @@ class EvidenciasActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         // Inicializa el adaptador con la lista vacía
-        adapter = EvidenciasAdapter(listaEvidencias) { evidencia ->
+        adapter = EvidenciaAdapter(listaEvidencias) { evidencia ->
             adapter.eliminarEvidencia(evidencia)
         }
         binding.rvEvidencias.layoutManager = GridLayoutManager(this, 2)

@@ -41,6 +41,23 @@ class DetalleOrdenActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Accionar botones de acciones
+        findViewById<View>(R.id.btnRepuestos)?.setOnClickListener {
+            irAActividad(RepuestosActivity::class.java)
+        }
+
+        findViewById<View>(R.id.btnEvidencias)?.setOnClickListener {
+            irAActividad(EvidenciasActivity::class.java)
+        }
+
+        findViewById<View>(R.id.btnUbicacion)?.setOnClickListener {
+            irAActividad(UbicacionActivity::class.java)
+        }
+
+        findViewById<View>(R.id.btnAprobacion)?.setOnClickListener {
+            irAActividad(AprobacionActivity::class.java)
+        }
+
         // Accionar botón "Ver Hoja de Vida"
         findViewById<View>(R.id.btnVerEquipo)?.setOnClickListener {
             val db = dbHelper.readableDatabase
@@ -60,6 +77,12 @@ class DetalleOrdenActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         cargarDetalle()
+    }
+
+    private fun irAActividad(cls: Class<*>) {
+        val intent = Intent(this, cls)
+        intent.putExtra("ORDEN_ID", ordenId)
+        startActivity(intent)
     }
 
     private fun cargarDetalle() {

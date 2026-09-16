@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.climatrack.databinding.ItemEvidenciaBinding
 import com.example.climatrack.models.Evidencia
 
-class EvidenciasAdapter(
+class EvidenciaAdapter(
     private val listaEvidencias: MutableList<Evidencia>,
     private val onEliminarClick: (Evidencia) -> Unit
-) : RecyclerView.Adapter<EvidenciasAdapter.EvidenciaViewHolder>() {
+) : RecyclerView.Adapter<EvidenciaAdapter.EvidenciaViewHolder>() {
 
     inner class EvidenciaViewHolder(val binding: ItemEvidenciaBinding) :
         RecyclerView.ViewHolder(binding.root)

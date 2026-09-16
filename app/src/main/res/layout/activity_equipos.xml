@@ -38,7 +38,7 @@
 
         <!-- BOTÓN (+) AGREGAR -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAdd"
+            android:id="@+id/btnAgregarEquipo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -89,7 +89,7 @@
                     app:tint="#64748B" />
 
                 <EditText
-                    android:id="@+id/etSearch"
+                    android:id="@+id/etBuscar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
@@ -129,145 +129,15 @@
         app:layout_constraintTop_toBottomOf="@id/layoutSearch"
         tools:listitem="@layout/item_equipo" />
 
-    <!-- MENÚ INFERIOR REDONDEADO Y FLOTANTE -->
-    <androidx.cardview.widget.CardView
+    <!-- MENÚ INFERIOR -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="28dp"
-        app:cardElevation="10dp"
-        app:cardPreventCornerOverlap="false"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <!-- INICIO -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/ic_home"
-                    app:tint="#64748B" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Inicio"
-                    android:textColor="#64748B"
-                    android:textSize="11sp" />
-
-                <View
-                    android:layout_width="28dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="4dp"
-                    android:visibility="invisible" />
-            </LinearLayout>
-
-            <!-- ÓRDENES -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/ic_ordenes"
-                    app:tint="#0F4C81" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Órdenes"
-                    android:textColor="#64748B"
-                    android:textSize="11sp" />
-
-                <View
-                    android:layout_width="28dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="4dp"
-                    android:visibility="invisible" />
-            </LinearLayout>
-
-            <!-- EQUIPOS (ACTIVO) -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="4dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_copo"
-                    app:tint="#14B8A6" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Equipos"
-                    android:textColor="#14B8A6"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-
-                <!-- LÍNEA INDICADORA VERDE -->
-                <View
-                    android:layout_width="28dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_indicator_active" />
-            </LinearLayout>
-
-            <!-- HISTORIAL -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/ic_historial"
-                    app:tint="#0F4C81" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Historial"
-                    android:textColor="#64748B"
-                    android:textSize="11sp" />
-
-                <View
-                    android:layout_width="28dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="4dp"
-                    android:visibility="invisible" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        app:elevation="8dp"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_menu"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

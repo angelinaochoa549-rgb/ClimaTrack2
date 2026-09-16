@@ -10,7 +10,7 @@ class DatabaseHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "climatrack.db"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 4
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -205,7 +205,7 @@ class DatabaseHelper(context: Context) :
             put("tecnico_id", tecnicoId)
             put("tipo_servicio", "PREVENTIVO")
             put("descripcion", "Mantenimiento preventivo general")
-            put("estado", "PENDIENTE")
+            put("estado", "COMPLETADA")
         })
 
         db.insert("ordenes", null, ContentValues().apply {
@@ -216,7 +216,30 @@ class DatabaseHelper(context: Context) :
             put("tecnico_id", tecnicoId)
             put("tipo_servicio", "CORRECTIVO")
             put("descripcion", "Revisión fuga de gas")
-            put("estado", "EN PROCESO")
+            put("estado", "COMPLETADA")
+        })
+
+        // Mock data: Mantenimientos (Registros requeridos para la consulta de Historial)
+        db.insert("mantenimientos", null, ContentValues().apply {
+            put("orden_id", 1)
+            put("fecha", "18/08/2026")
+            put("diagnostico", "Filtros sucios y presión baja")
+            put("trabajo_realizado", "Mantenimiento preventivo y limpieza")
+            put("observaciones", "Equipo en buen estado general")
+            put("recomendaciones", "Cambio de filtro en 6 meses")
+            put("tiempo_empleado", "2 horas")
+            put("tecnico_nombre", "Técnico 01")
+        })
+
+        db.insert("mantenimientos", null, ContentValues().apply {
+            put("orden_id", 2)
+            put("fecha", "19/08/2026")
+            put("diagnostico", "Fuga en válvula de baja")
+            put("trabajo_realizado", "Corrección de fuga y recarga de R410A")
+            put("observaciones", "Se realizó prueba de estanqueidad")
+            put("recomendaciones", "Monitorear presión la próxima semana")
+            put("tiempo_empleado", "3 horas")
+            put("tecnico_nombre", "Técnico 01")
         })
 
         // Mock data: Repuestos
