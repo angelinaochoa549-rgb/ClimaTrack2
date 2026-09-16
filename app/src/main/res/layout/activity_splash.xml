@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F8FA">
+    android:background="#FFFFFF">
 
     <!-- Imagen de fondo completa (aire acondicionado, hojas y olas azules) -->
     <ImageView
@@ -28,26 +28,41 @@
             android:layout_height="140dp"
             android:src="@drawable/logo_climatrack" />
 
-        <!-- Título ClimaTrack -->
-        <TextView
-            android:id="@+id/tvTituloApp"
+        <!-- Título Dividido para Colores Oficiales en Preview -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="ClimaTrack"
-            android:textColor="#002B66"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvClima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clima"
+                android:textColor="#0D50B5"
+                android:textSize="38sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTrack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Track"
+                android:textColor="#12BFE0"
+                android:textSize="38sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <!-- Subtítulo de la app -->
         <TextView
             android:id="@+id/tvSubtituloApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="Gestión de Mantenimiento\nde Equipos de Climatización"
-            android:textColor="#003B7A"
+            android:textColor="#29466F"
             android:textSize="15sp" />
 
         <!-- Progress Bar Circular -->
@@ -57,7 +72,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginTop="40dp"
-            android:indeterminateTint="#0080FF" />
+            android:indeterminateTint="#68D0BC" />
 
         <!-- Texto Cargando... -->
         <TextView
@@ -66,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Cargando..."
-            android:textColor="#003B7A"
+            android:textColor="#29466F"
             android:textSize="13sp"
             android:textStyle="bold" />
 
