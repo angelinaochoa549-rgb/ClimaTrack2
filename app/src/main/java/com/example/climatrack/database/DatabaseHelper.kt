@@ -166,7 +166,7 @@ class DatabaseHelper(context: Context) :
             """.trimIndent()
         )
 
-        // Usuario de prueba (tecnico01 / 123456)
+        // Usuario de prueba para Login (tecnico01 / 123456)
         val values = ContentValues().apply {
             put("usuario", "tecnico01")
             put("password", "123456")
@@ -219,7 +219,7 @@ class DatabaseHelper(context: Context) :
             put("estado", "COMPLETADA")
         })
 
-        // Mock data: Mantenimientos (Registros requeridos para la consulta de Historial)
+        // Mock data: Mantenimientos
         db.insert("mantenimientos", null, ContentValues().apply {
             put("orden_id", 1)
             put("fecha", "18/08/2026")
@@ -268,6 +268,8 @@ class DatabaseHelper(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS usuarios")
         onCreate(db)
     }
+
+    // --- MÉTODOS DE AUTENTICACIÓN ---
 
     fun validarUsuario(usuario: String, password: String): com.example.climatrack.models.Usuario? {
         val db = readableDatabase
@@ -360,7 +362,17 @@ class DatabaseHelper(context: Context) :
         return null
     }
 
-    fun insertarEquipo(codigo: String, tipo: String, marca: String, modelo: String, serial: String, capacidad: String, ubicacion: String, clienteId: Int, estado: String): Long {
+    fun insertarEquipo(
+        codigo: String,
+        tipo: String,
+        marca: String,
+        modelo: String,
+        serial: String,
+        capacidad: String,
+        ubicacion: String,
+        clienteId: Int,
+        estado: String
+    ): Long {
         val db = writableDatabase
         val values = ContentValues().apply {
             put("codigo", codigo)
