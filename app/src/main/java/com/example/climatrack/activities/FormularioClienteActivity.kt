@@ -1,12 +1,13 @@
 package com.example.climatrack.activities
 
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.climatrack.R
 import com.example.climatrack.database.DatabaseHelper
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
 
 class FormularioClienteActivity : AppCompatActivity() {
 
@@ -18,20 +19,22 @@ class FormularioClienteActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
 
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar).setNavigationOnClickListener {
+        // Botón de flecha atrás en el header personalizado
+        findViewById<ImageButton>(R.id.btnVolver).setOnClickListener {
             finish()
         }
 
-        findViewById<MaterialButton>(R.id.btnGuardarCliente).setOnClickListener {
+        // Botón contenedor de "GUARDAR CLIENTE"
+        findViewById<RelativeLayout>(R.id.btnGuardarCliente).setOnClickListener {
             guardarCliente()
         }
     }
 
     private fun guardarCliente() {
-        val nombre = findViewById<TextInputEditText>(R.id.etNombreCliente).text.toString().trim()
-        val telefono = findViewById<TextInputEditText>(R.id.etTelefonoCliente).text.toString().trim()
-        val direccion = findViewById<TextInputEditText>(R.id.etDireccionCliente).text.toString().trim()
-        val email = findViewById<TextInputEditText>(R.id.etEmailCliente).text.toString().trim()
+        val nombre = findViewById<EditText>(R.id.etNombreCliente).text.toString().trim()
+        val telefono = findViewById<EditText>(R.id.etTelefono).text.toString().trim()
+        val direccion = findViewById<EditText>(R.id.etDireccion).text.toString().trim()
+        val email = findViewById<EditText>(R.id.etCorreo).text.toString().trim()
 
         if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
             Toast.makeText(this, "Por favor complete los campos obligatorios (*)", Toast.LENGTH_SHORT).show()

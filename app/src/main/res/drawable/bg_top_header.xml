@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="80dp"
+    android:viewportWidth="360"
+    android:viewportHeight="80">
+    <!-- Fondo Menta/Turquesa -->
+    <path
+        android:fillColor="#E0F2F1"
+        android:pathData="M0,0H360V80H0Z" />
+    <!-- Ola/Curva Azul -->
+    <path
+        android:fillColor="#0056C6"
+        android:pathData="M0,0 H360 V45 C300,75 220,80 140,65 C70,52 30,68 0,78 Z" />
+</vector>

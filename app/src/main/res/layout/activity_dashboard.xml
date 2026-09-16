@@ -94,6 +94,7 @@
                 android:padding="14dp">
 
                 <!-- Avatar Configurado Correctamente -->
+
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivUserProfile"
                     android:layout_width="56dp"

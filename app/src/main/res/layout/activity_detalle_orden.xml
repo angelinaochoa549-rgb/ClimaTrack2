@@ -1,493 +1,436 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_detalle_orden">
+    android:background="@drawable/bg_detalle_orden"
+    tools:context=".activities.DetalleOrdenActivity">
 
-    <!-- BARRA SUPERIOR (TOOLBAR) -->
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- BARRA SUPERIOR (HEADER) -->
+    <RelativeLayout
+        android:id="@+id/headerToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:elevation="0dp">
+        android:layout_height="65dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
-            android:elevation="0dp"
-            app:navigationIcon="@drawable/abc_ic_ab_back_material"
-            app:navigationIconTint="@color/white"
-            app:title="Detalle de Orden"
-            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
-            app:titleTextColor="@color/white" />
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/btnBack"
+            android:layout_marginStart="16dp"
+            android:text="Detalle de Orden"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <!-- CONTENIDO CON SCROLL -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:clipToPadding="false"
-        android:fillViewport="true"
+        android:paddingTop="8dp"
         android:paddingBottom="90dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerToolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp">
+            android:paddingEnd="16dp">
 
-            <!-- ========================= -->
-            <!-- CARD 1: ORDEN + CLIENTE   -->
-            <!-- ========================= -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- ================= CARD 1: OT + CLIENTE ================= -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="3dp"
-                app:strokeColor="#E0F2F1"
-                app:strokeWidth="1dp">
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!-- Indicador lateral turquesa -->
+                    <!-- FRANJA VERDE TURQUESA LATERAL -->
                     <View
-                        android:layout_width="5dp"
+                        android:layout_width="6dp"
                         android:layout_height="match_parent"
-                        android:background="#26A69A" />
+                        android:background="#14B8A6" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:padding="16dp">
 
-                        <!-- SECCIÓN ORDEN -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                        <!-- CÍRCULO PORTAPAPELES -->
 
-                            <!-- Icono Portapapeles en círculo -->
-                            <FrameLayout
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:background="@drawable/bg_icon_circle">
-
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="53dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/ic_clipboard_list"
-                                     />
-                            </FrameLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvNumeroOrden"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="OT-00025"
-                                    android:textColor="#0D47A1"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tvFecha"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="Fecha: 18/08/2026"
-                                    android:textColor="#757575"
-                                    android:textSize="13sp" />
-                            </LinearLayout>
-
-                            <!-- Badge PENDIENTE -->
-                            <TextView
-                                android:id="@+id/tvEstado"
-                                style="@style/StatusChip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_badge_pendiente"
-                                android:paddingStart="12dp"
-                                android:paddingTop="6dp"
-                                android:paddingEnd="12dp"
-                                android:paddingBottom="6dp"
-                                android:text="PENDIENTE"
-                                android:textColor="@color/white"
-                                android:textSize="11sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <!-- Divisor sutil -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_marginBottom="14dp"
-                            android:background="#F0F4F8" />
-
-                        <!-- SECCIÓN CLIENTE -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <!-- Icono Cliente en círculo -->
-                            <FrameLayout
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:background="@drawable/bg_icon_circle">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/ic_user_circle" />
-                            </FrameLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="CLIENTE"
-                                    android:textColor="#90A4AE"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tvCliente"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="1dp"
-                                    android:text="ACME S.A.S."
-                                    android:textColor="#0D47A1"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tvDireccion"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="Calle 123 #45-67"
-                                    android:textColor="#757575"
-                                    android:textSize="13sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- ========================= -->
-            <!-- CARD 2: EQUIPO            -->
-            <!-- ========================= -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="3dp"
-                app:strokeColor="#E0F2F1"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="5dp"
-                        android:layout_height="match_parent"
-                        android:background="#4FC3F7" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        <ImageView
+                            android:id="@+id/iconOt"
+                            android:layout_width="68dp"
+                            android:layout_height="69dp"
+                            android:background="@drawable/bg_icon_circle"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_clipboard_list" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <FrameLayout
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:background="@drawable/bg_icon_circle">
-
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/ic_gear_circle" />
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:text="EQUIPO"
-                                android:textColor="#90A4AE"
-                                android:textSize="11sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="73dp"
-                                android:layout_height="66dp"
-                                android:src="@drawable/ic_air_conditioner" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvEquipoModelo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Split Inverter 24K"
-                                    android:textColor="#0D47A1"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tvEquipoCodigo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="Código: EQ-00015"
-                                    android:textColor="#757575"
-                                    android:textSize="13sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnVerEquipo"
-                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:id="@+id/layoutOt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="8dp"
-                            android:backgroundTint="@color/white"
-                            android:text="VER HOJA DE VIDA  >"
-                            android:textColor="#0288D1"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            app:strokeColor="#0288D1"
-                            app:strokeWidth="1.5dp"
-                            app:cornerRadius="20dp" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- ========================= -->
-            <!-- CARD 3: SERVICIO          -->
-            <!-- ========================= -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="3dp"
-                app:strokeColor="#E0F2F1"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/bg_icon_circle">
-
-                            <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_gravity="center"
-                                android:src="@android:drawable/ic_menu_agenda"
-                                app:tint="#00838F" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/iconOt"
                             android:layout_marginStart="12dp"
-                            android:text="SERVICIO"
-                            android:textColor="#90A4AE"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvNumeroOrden"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="OT-00025"
+                                android:textColor="#0F4C81"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvFecha"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="📅 Fecha: 18/08/2026"
+                                android:textColor="#64748B"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- BADGE PENDIENTE -->
+                        <TextView
+                            android:id="@+id/tvEstado"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/bg_badge_pendiente"
+                            android:paddingStart="14dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="14dp"
+                            android:paddingBottom="5dp"
+                            android:text="PENDIENTE"
+                            android:textColor="@color/white"
                             android:textSize="11sp"
                             android:textStyle="bold" />
-                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvTipoServicio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Mantenimiento Preventivo"
-                        android:textColor="#0D47A1"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        <!-- DIVISOR -->
+                        <View
+                            android:id="@+id/div1"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@id/iconOt"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="14dp"
+                            android:background="#F1F5F9" />
 
-                    <TextView
-                        android:id="@+id/tvDescripcion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:lineSpacingExtra="3dp"
-                        android:text="Limpieza de filtros, revisión de presiones y prueba de funcionamiento."
-                        android:textColor="#757575"
-                        android:textSize="13sp" />
+                        <!-- CÍRCULO CLIENTE -->
 
+                        <ImageView
+                            android:id="@+id/iconCliente"
+                            android:layout_width="62dp"
+                            android:layout_height="64dp"
+                            android:layout_below="@id/div1"
+                            android:layout_marginTop="-2dp"
+                            android:background="@drawable/bg_icon_circle"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_user_circle" />
+
+                        <LinearLayout
+                            android:id="@+id/layoutCliente"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/div1"
+                            android:layout_toEndOf="@id/iconCliente"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CLIENTE"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvCliente"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ACME S.A.S."
+                                android:textColor="#0F4C81"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvDireccion"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="📍 Calle 123 #45-67"
+                                android:textColor="#64748B"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <!-- CONTENEDOR DE ACCIONES (EN PROCESO) -->
-            <LinearLayout
-                android:id="@+id/llAccionesMantenimiento"
+            <!-- ================= CARD 2: EQUIPO ================= -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="@color/white">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- FRANJA VERDE TURQUESA LATERAL -->
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="match_parent"
+                        android:background="#14B8A6" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <!-- CÍRCULO ENGRANAJE -->
+                        <ImageView
+                            android:id="@+id/iconEquipo"
+                            android:layout_width="54dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_icon_circle"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_ajuste"
+                            app:tint="#0F4C81" />
+
+                        <LinearLayout
+                            android:id="@+id/layoutEquipoHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/iconEquipo"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="EQUIPO"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvEquipoModelo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Split Inverter 24K"
+                                android:textColor="#0F4C81"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvEquipoCodigo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="#️⃣Código: EQ-00015"
+                                android:textColor="#64748B"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- DIBUJO AIRE ACONDICIONADO -->
+                        <ImageView
+                            android:id="@+id/imgAc"
+                            android:layout_width="118dp"
+                            android:layout_height="116dp"
+                            android:layout_below="@id/iconEquipo"
+                            android:layout_marginTop="-4dp"
+                            android:src="@drawable/ic_air_conditioner" />
+
+                        <!-- BOTÓN VER HOJA DE VIDA -->
+                        <LinearLayout
+                            android:id="@+id/btnVerEquipo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/layoutEquipoHeader"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/bg_btn_hoja_vida"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📝 VER HOJA DE VIDA  >"
+                                android:textColor="#0F4C81"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ================= CARD 3: SERVICIO ================= -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- FRANJA VERDE TURQUESA LATERAL -->
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="match_parent"
+                        android:background="#14B8A6" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <!-- CÍRCULO LLAVE INGLESA -->
+                        <ImageView
+                            android:id="@+id/iconServicio"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_icon_circle"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_llave"
+                            app:tint="#0F4C81" />
+
+                        <LinearLayout
+                            android:id="@+id/layoutServicioHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/iconServicio"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SERVICIO"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvTipoServicio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mantenimiento Preventivo"
+                                android:textColor="#0F4C81"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvDescripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/iconServicio"
+                            android:layout_marginTop="12dp"
+                            android:text="🛡️ Limpieza de filtros, revisión de presiones y prueba de funcionamiento."
+                            android:textColor="#64748B"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ================= BOTÓN INICIAR MANTENIMIENTO ================= -->
+            <RelativeLayout
+                android:id="@+id/layoutBtnIniciar"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_btn_iniciar"
+                android:clickable="true"
+                android:focusable="true"
+                android:elevation="6dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <!-- ICONO HERRAMIENTA -->
+                <ImageView
+                    android:id="@+id/btnIconWrench"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_llave"
+                    app:tint="@color/white" />
+
+                <!-- SEPARADOR VERTICAL -->
+                <View
+                    android:id="@+id/btnDivider"
+                    android:layout_width="1dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/btnIconWrench"
+                    android:layout_marginStart="16dp"
+                    android:background="#50FFFFFF" />
+
+                <!-- TEXTO CENTRAL -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="ACCIONES DISPONIBLES"
-                    android:textColor="#0D47A1"
-                    android:textSize="11sp"
+                    android:layout_centerInParent="true"
+                    android:text="INICIAR MANTENIMIENTO"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnRepuestos"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        android:text="REPUESTOS"
-                        android:textColor="#0288D1"
-                        app:icon="@android:drawable/ic_menu_add"
-                        app:iconTint="#0288D1" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnEvidencias"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        android:text="EVIDENCIAS"
-                        android:textColor="#0288D1"
-                        app:icon="@android:drawable/ic_menu_camera"
-                        app:iconTint="#0288D1" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnUbicacion"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        android:text="UBICACIÓN"
-                        android:textColor="#0288D1"
-                        app:icon="@android:drawable/ic_menu_mylocation"
-                        app:iconTint="#0288D1" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAprobacion"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        android:text="APROBACIÓN"
-                        android:textColor="#0288D1"
-                        app:icon="@android:drawable/ic_menu_edit"
-                        app:iconTint="#0288D1" />
-
-                </GridLayout>
-            </LinearLayout>
+                <!-- FLECHA DERECHA -->
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_siguiente"
+                    app:tint="@color/white" />
+            </RelativeLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- BOTÓN INICIAR MANTENIMIENTO FIJO EN LA PARTE INFERIOR -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnIniciarMantenimiento"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="#0077C2"
-        android:text="INICIAR MANTENIMIENTO"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:cornerRadius="28dp"
-        app:elevation="6dp"
-        app:icon="@android:drawable/ic_menu_preferences"
-        app:iconGravity="textStart"
-        app:iconTint="@color/white" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,8 @@ package com.example.climatrack.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,42 +29,20 @@ class DetalleOrdenActivity : AppCompatActivity() {
             return
         }
 
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar).setNavigationOnClickListener {
+        // Botón regresar en la barra personalizada
+        findViewById<ImageView>(R.id.btnBack)?.setOnClickListener {
             finish()
         }
-        cargarDetalle()
 
-        findViewById<Button>(R.id.btnIniciarMantenimiento).setOnClickListener {
+        // Accionar botón "Iniciar Mantenimiento"
+        findViewById<View>(R.id.layoutBtnIniciar)?.setOnClickListener {
             val intent = Intent(this, MantenimientoActivity::class.java)
             intent.putExtra("ORDEN_ID", ordenId)
             startActivity(intent)
         }
 
-        findViewById<Button>(R.id.btnRepuestos).setOnClickListener {
-            val intent = Intent(this, RepuestosActivity::class.java)
-            intent.putExtra("ORDEN_ID", ordenId)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.btnEvidencias).setOnClickListener {
-            val intent = Intent(this, EvidenciasActivity::class.java)
-            intent.putExtra("ORDEN_ID", ordenId)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.btnUbicacion).setOnClickListener {
-            val intent = Intent(this, UbicacionActivity::class.java)
-            intent.putExtra("ORDEN_ID", ordenId)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.btnAprobacion).setOnClickListener {
-            val intent = Intent(this, AprobacionActivity::class.java)
-            intent.putExtra("ORDEN_ID", ordenId)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.btnVerEquipo).setOnClickListener {
+        // Accionar botón "Ver Hoja de Vida"
+        findViewById<View>(R.id.btnVerEquipo)?.setOnClickListener {
             val db = dbHelper.readableDatabase
             db.rawQuery("SELECT equipo_id FROM ordenes WHERE id = ?", arrayOf(ordenId.toString())).use { cursor ->
                 if (cursor.moveToFirst()) {
@@ -74,6 +53,8 @@ class DetalleOrdenActivity : AppCompatActivity() {
                 }
             }
         }
+
+        cargarDetalle()
     }
 
     override fun onResume() {
@@ -93,39 +74,40 @@ class DetalleOrdenActivity : AppCompatActivity() {
 
         db.rawQuery(query, arrayOf(ordenId.toString())).use { cursor ->
             if (cursor.moveToFirst()) {
-                findViewById<TextView>(R.id.tvNumeroOrden).text = cursor.getString(0)
-                findViewById<TextView>(R.id.tvFecha).text = "Fecha: ${cursor.getString(1)}"
-                findViewById<TextView>(R.id.tvCliente).text = cursor.getString(2)
-                findViewById<TextView>(R.id.tvDireccion).text = cursor.getString(3)
-                findViewById<TextView>(R.id.tvEquipoModelo).text = cursor.getString(4)
-                findViewById<TextView>(R.id.tvEquipoCodigo).text = "Código: ${cursor.getString(5)}"
-                findViewById<TextView>(R.id.tvTipoServicio).text = cursor.getString(6)
-                findViewById<TextView>(R.id.tvDescripcion).text = cursor.getString(7)
+                findViewById<TextView>(R.id.tvNumeroOrden)?.text = cursor.getString(0)
+                findViewById<TextView>(R.id.tvFecha)?.text = "Fecha: ${cursor.getString(1)}"
+                findViewById<TextView>(R.id.tvCliente)?.text = cursor.getString(2)
+                findViewById<TextView>(R.id.tvDireccion)?.text = cursor.getString(3)
+                findViewById<TextView>(R.id.tvEquipoModelo)?.text = cursor.getString(4)
+                findViewById<TextView>(R.id.tvEquipoCodigo)?.text = "Código: ${cursor.getString(5)}"
+                findViewById<TextView>(R.id.tvTipoServicio)?.text = cursor.getString(6)
+                findViewById<TextView>(R.id.tvDescripcion)?.text = cursor.getString(7)
 
                 val estado = cursor.getString(8)
                 val tvEstado = findViewById<TextView>(R.id.tvEstado)
-                tvEstado.text = estado
+                tvEstado?.text = estado
 
+                // Actualiza dinámicamente el color del estado según corresponda
                 val colorRes = when (estado) {
                     "PENDIENTE" -> R.color.status_pendiente
                     "EN PROCESO" -> R.color.status_en_proceso
                     "FINALIZADA" -> R.color.status_finalizada
                     else -> R.color.status_cancelada
                 }
-                tvEstado.backgroundTintList = ContextCompat.getColorStateList(this, colorRes)
+                tvEstado?.background?.setTint(ContextCompat.getColor(this, colorRes))
 
-                val btnIniciar = findViewById<Button>(R.id.btnIniciarMantenimiento)
-                val llAcciones = findViewById<android.widget.LinearLayout>(R.id.llAccionesMantenimiento)
+                val btnIniciar = findViewById<View>(R.id.layoutBtnIniciar)
+                val llAcciones = findViewById<View>(R.id.llAccionesMantenimiento)
 
                 if (estado == "PENDIENTE") {
-                    btnIniciar.visibility = android.view.View.VISIBLE
-                    llAcciones.visibility = android.view.View.GONE
+                    btnIniciar?.visibility = View.VISIBLE
+                    llAcciones?.visibility = View.GONE
                 } else if (estado == "EN PROCESO") {
-                    btnIniciar.visibility = android.view.View.GONE
-                    llAcciones.visibility = android.view.View.VISIBLE
+                    btnIniciar?.visibility = View.GONE
+                    llAcciones?.visibility = View.VISIBLE
                 } else {
-                    btnIniciar.visibility = android.view.View.GONE
-                    llAcciones.visibility = android.view.View.GONE
+                    btnIniciar?.visibility = View.GONE
+                    llAcciones?.visibility = View.GONE
                 }
             }
         }

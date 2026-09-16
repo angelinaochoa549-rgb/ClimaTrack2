@@ -1,55 +1,63 @@
 package com.example.climatrack.adapters
 
-import android.net.Uri
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.climatrack.R
+import com.example.climatrack.databinding.ItemEvidenciaBinding
 import com.example.climatrack.models.Evidencia
-import java.io.File
 
-class EvidenciaAdapter(
-    private var evidencias: List<Evidencia>,
-    private val onDeleteClick: (Evidencia) -> Unit
-) : RecyclerView.Adapter<EvidenciaAdapter.EvidenciaViewHolder>() {
+class EvidenciasAdapter(
+    private val listaEvidencias: MutableList<Evidencia>,
+    private val onEliminarClick: (Evidencia) -> Unit
+) : RecyclerView.Adapter<EvidenciasAdapter.EvidenciaViewHolder>() {
 
-    class EvidenciaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ivFoto: ImageView = view.findViewById(R.id.ivFoto)
-        val btnEliminar: ImageButton = view.findViewById(R.id.btnEliminar)
-        val tvFecha: TextView = view.findViewById(R.id.tvFecha)
-    }
+    inner class EvidenciaViewHolder(val binding: ItemEvidenciaBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EvidenciaViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_evidencia, parent, false)
-        return EvidenciaViewHolder(view)
+        val binding = ItemEvidenciaBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return EvidenciaViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: EvidenciaViewHolder, position: Int) {
-        val evidencia = evidencias[position]
-        
-        if (evidencia.rutaFoto.startsWith("content://") || evidencia.rutaFoto.startsWith("file://")) {
-            holder.ivFoto.setImageURI(Uri.parse(evidencia.rutaFoto))
-        } else {
-            val file = File(evidencia.rutaFoto)
-            if (file.exists()) {
-                holder.ivFoto.setImageURI(Uri.fromFile(file))
-            } else {
-                holder.ivFoto.setImageResource(android.R.drawable.ic_menu_report_image)
+        val item = listaEvidencias[position]
+        with(holder.binding) {
+            tvFecha.text = item.fecha
+            tvTitulo.text = item.titulo
+
+            // Carga limpia de la imagen
+            try {
+                val inputStream = root.context.contentResolver.openInputStream(item.imageUri)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+                ivFoto.setImageBitmap(bitmap)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            btnEliminar.setOnClickListener {
+                onEliminarClick(item)
             }
         }
-        
-        holder.tvFecha.text = evidencia.fecha
-        holder.btnEliminar.setOnClickListener { onDeleteClick(evidencia) }
     }
 
-    override fun getItemCount() = evidencias.size
+    override fun getItemCount(): Int = listaEvidencias.size
 
-    fun updateList(newList: List<Evidencia>) {
-        evidencias = newList
-        notifyDataSetChanged()
+    fun agregarEvidencia(evidencia: Evidencia) {
+        listaEvidencias.add(evidencia)
+        notifyItemInserted(listaEvidencias.size - 1)
+    }
+
+    fun eliminarEvidencia(evidencia: Evidencia) {
+        val index = listaEvidencias.indexOf(evidencia)
+        if (index != -1) {
+            listaEvidencias.removeAt(index)
+            notifyItemRemoved(index)
+            notifyItemRangeChanged(index, listaEvidencias.size)
+        }
     }
 }

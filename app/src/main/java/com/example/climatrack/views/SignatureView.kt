@@ -17,7 +17,6 @@ class SignatureView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val path = Path()
-    private var isDirty = false
     private val paint = Paint().apply {
         isAntiAlias = true
         color = Color.BLACK
@@ -52,10 +51,7 @@ class SignatureView @JvmOverloads constructor(
                 path.moveTo(x, y)
                 parent.requestDisallowInterceptTouchEvent(true)
             }
-            MotionEvent.ACTION_MOVE -> {
-                path.lineTo(x, y)
-                isDirty = true
-            }
+            MotionEvent.ACTION_MOVE -> path.lineTo(x, y)
             MotionEvent.ACTION_UP -> {
                 extraCanvas?.drawPath(path, paint)
                 path.reset()
@@ -69,7 +65,6 @@ class SignatureView @JvmOverloads constructor(
 
     fun clear() {
         path.reset()
-        isDirty = false
         extraBitmap?.eraseColor(Color.TRANSPARENT)
         invalidate()
     }
@@ -83,6 +78,8 @@ class SignatureView @JvmOverloads constructor(
     }
 
     fun isEmpty(): Boolean {
-        return !isDirty
+        if (extraBitmap == null) return true
+        val emptyBitmap = Bitmap.createBitmap(extraBitmap!!.width, extraBitmap!!.height, extraBitmap!!.config ?: Bitmap.Config.ARGB_8888)
+        return extraBitmap!!.sameAs(emptyBitmap)
     }
 }

@@ -1,18 +1,15 @@
 package com.example.climatrack.activities
 
+import android.graphics.Color
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.climatrack.R
 import com.example.climatrack.adapters.HistorialAdapter
 import com.example.climatrack.database.DatabaseHelper
-import com.example.climatrack.models.Equipo
-import com.example.climatrack.models.Mantenimiento
 
 class DetalleEquipoActivity : AppCompatActivity() {
 
@@ -43,32 +40,45 @@ class DetalleEquipoActivity : AppCompatActivity() {
         val equipo = dbHelper.getEquipoPorId(equipoId)
         if (equipo != null) {
             findViewById<TextView>(R.id.tvCodigoDetalle).text = equipo.codigo
-            findViewById<TextView>(R.id.tvEstadoDetalle).text = equipo.estado
             findViewById<TextView>(R.id.tvTipoDetalle).text = "Tipo: ${equipo.tipo}"
             findViewById<TextView>(R.id.tvMarcaDetalle).text = "Marca: ${equipo.marca}"
             findViewById<TextView>(R.id.tvModeloDetalle).text = "Modelo: ${equipo.modelo}"
             findViewById<TextView>(R.id.tvSerieDetalle).text = "Serial: ${equipo.serie}"
             findViewById<TextView>(R.id.tvClienteDetalle).text = "Cliente: ${equipo.cliente}"
 
+            // --- ESTILO DE CHIP/BADGE PARA EL ESTADO DEL EQUIPO ---
             val tvEstado = findViewById<TextView>(R.id.tvEstadoDetalle)
-            val colorRes = when (equipo.estado.uppercase()) {
-                "OPERATIVO" -> R.color.status_operativo
-                "EN MANTENIMIENTO" -> R.color.status_en_proceso
-                "FUERA DE SERVICIO" -> R.color.status_cancelada
-                else -> R.color.status_pendiente
+
+            when (equipo.estado.uppercase()) {
+                "ACTIVO", "OPERATIVO" -> {
+                    tvEstado.text = "● Activo"
+                    tvEstado.setBackgroundResource(R.drawable.bg_status_activo)
+                    tvEstado.setTextColor(Color.parseColor("#0D652D")) // Verde oscuro
+                }
+                "EN USO" -> {
+                    tvEstado.text = "● En uso"
+                    tvEstado.setBackgroundResource(R.drawable.bg_status_en_uso)
+                    tvEstado.setTextColor(Color.parseColor("#1A73E8")) // Azul oscuro
+                }
+                "EN MANTENIMIENTO", "FUERA DE SERVICIO" -> {
+                    tvEstado.text = "● En mantenimiento"
+                    tvEstado.setBackgroundResource(R.drawable.bg_status_mantenimiento)
+                    tvEstado.setTextColor(Color.parseColor("#5F6368")) // Gris oscuro
+                }
+                else -> {
+                    tvEstado.text = equipo.estado
+                    tvEstado.setBackgroundResource(R.drawable.bg_status_mantenimiento)
+                    tvEstado.setTextColor(Color.parseColor("#5F6368"))
+                }
             }
-            tvEstado.setTextColor(ContextCompat.getColor(this, colorRes))
 
             cargarHistorial(equipo.codigo)
         }
     }
 
     private fun cargarHistorial(codigoEquipo: String) {
-        // En un escenario real, buscaríamos mantenimientos asociados a este equipo específicamente
-        // Por ahora cargamos el historial general filtrado por el modelo o lógica similar si existiera
-        val historial = dbHelper.getHistorialMantenimientos() 
-        // Nota: Idealmente getHistorialMantenimientos debería aceptar un equipoId para filtrar
-        
+        val historial = dbHelper.getHistorialMantenimientos()
+
         val rv = findViewById<RecyclerView>(R.id.rvHistorialEquipo)
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = HistorialAdapter(historial)

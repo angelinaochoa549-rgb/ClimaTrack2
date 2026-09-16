@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="800dp"
+    android:viewportWidth="360"
+    android:viewportHeight="800">
+
+    <!-- 1. Fondo base turquesa/blanco claro de toda la pantalla -->
+    <path
+        android:fillColor="#EFF6FF"
+        android:pathData="M0,0h360v800h-360z" />
+
+    <!-- 2. Franja Azul Superior Principal (Cubre todo el Toolbar) -->
+    <path
+        android:fillColor="#0B57D0"
+        android:pathData="M0,0 H360 V85 C300,95 220,110 140,115 C70,120 20,105 0,95 Z" />
+
+    <!-- 3. Onda Verde Turquesa Superior (Esquina Superior Derecha) -->
+    <path
+        android:fillColor="#2DD4BF"
+        android:pathData="M240,0 C270,30 310,40 360,45 V0 Z" />
+
+    <!-- 4. Línea Blanca Fina Curva en la Esquina Superior -->
+    <path
+        android:pathData="M260,0 C285,35 320,48 360,52"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5" />
+
+    <!-- 5. Onda Azul Clara Inferior que conecta con el header -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M0,85 C50,95 120,125 200,105 C260,90 310,50 360,45 L360,0 L0,0 Z"
+        android:fillAlpha="0.35" />
+
+    <!-- 6. Ondas del Fondo Inferior (Decoración abajo) -->
+    <path
+        android:fillColor="#1D4ED8"
+        android:pathData="M0,800 L360,800 V680 C300,720 220,780 160,780 C90,780 40,730 0,710 Z" />
+
+    <path
+        android:fillColor="#2DD4BF"
+        android:pathData="M0,800 L360,800 V720 C280,740 180,720 120,680 C60,640 20,680 0,710 Z"
+        android:fillAlpha="0.5" />
+
+</vector>

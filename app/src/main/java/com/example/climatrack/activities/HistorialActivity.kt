@@ -9,7 +9,6 @@ import com.example.climatrack.adapters.HistorialAdapter
 import com.example.climatrack.database.DatabaseHelper
 import com.example.climatrack.databinding.ActivityHistorialBinding
 import com.example.climatrack.models.Mantenimiento
-import com.google.android.material.tabs.TabLayout
 
 class HistorialActivity : AppCompatActivity() {
 
@@ -25,12 +24,13 @@ class HistorialActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
 
-        binding.toolbar.setNavigationOnClickListener { finish() }
+        // Listener para el botón de regreso en el header
+        binding.btnBack.setOnClickListener { finish() }
 
         setupBottomNavigation()
         setupRecyclerView()
-        setupTabs()
-        
+        setupChips()
+
         cargarDatos()
     }
 
@@ -41,50 +41,47 @@ class HistorialActivity : AppCompatActivity() {
         adapter.actualizarLista(listaMantenimientos)
     }
 
-    private fun setupTabs() {
-        binding.tabLayout.removeAllTabs()
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("TODOS"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("PREVENTIVO"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("CORRECTIVO"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("INSPECCIÓN"))
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val filtro = when (tab?.position) {
-                    1 -> "PREVENTIVO"
-                    2 -> "CORRECTIVO"
-                    3 -> "INSPECCIÓN"
-                    else -> "TODOS"
-                }
-                cargarDatos(filtro)
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
+    // Adaptado a la estructura de Chips / TextViews de tu XML
+    private fun setupChips() {
+        binding.chipTodos.setOnClickListener {
+            seleccionarChip("TODOS")
+            cargarDatos("TODOS")
+        }
+        binding.chipPreventivo.setOnClickListener {
+            seleccionarChip("PREVENTIVO")
+            cargarDatos("PREVENTIVO")
+        }
+        binding.chipCorrectivo.setOnClickListener {
+            seleccionarChip("CORRECTIVO")
+            cargarDatos("CORRECTIVO")
+        }
+        binding.chipInspeccion.setOnClickListener {
+            seleccionarChip("INSPECCIÓN")
+            cargarDatos("INSPECCIÓN")
+        }
     }
 
+    private fun seleccionarChip(filtro: String) {
+        // Resetea los backgrounds de los chips según la selección
+        binding.chipTodos.setBackgroundResource(if (filtro == "TODOS") R.drawable.bg_chip_selected else R.drawable.bg_chip_unselected)
+        binding.chipPreventivo.setBackgroundResource(if (filtro == "PREVENTIVO") R.drawable.bg_chip_selected else R.drawable.bg_chip_unselected)
+        binding.chipCorrectivo.setBackgroundResource(if (filtro == "CORRECTIVO") R.drawable.bg_chip_selected else R.drawable.bg_chip_unselected)
+        binding.chipInspeccion.setBackgroundResource(if (filtro == "INSPECCIÓN") R.drawable.bg_chip_selected else R.drawable.bg_chip_unselected)
+    }
+
+    // Adaptado al LinearLayout con items de navegación de tu XML
     private fun setupBottomNavigation() {
-        binding.bottomNavigation.selectedItemId = R.id.nav_historial
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_ordenes -> {
-                    startActivity(Intent(this, OrdenesActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_equipos -> {
-                    startActivity(Intent(this, EquiposActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_historial -> true
-                else -> false
-            }
+        binding.navHome.setOnClickListener {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
+        }
+        binding.navOrdenes.setOnClickListener {
+            startActivity(Intent(this, OrdenesActivity::class.java))
+            finish()
+        }
+        binding.navEquipos.setOnClickListener {
+            startActivity(Intent(this, EquiposActivity::class.java))
+            finish()
         }
     }
 

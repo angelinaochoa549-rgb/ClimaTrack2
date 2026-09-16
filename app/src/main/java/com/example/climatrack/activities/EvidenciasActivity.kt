@@ -1,144 +1,124 @@
 package com.example.climatrack.activities
 
-import android.content.ContentValues
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.climatrack.R
-import com.example.climatrack.adapters.EvidenciaAdapter
-import com.example.climatrack.database.DatabaseHelper
+import com.example.climatrack.adapters.EvidenciasAdapter
+import com.example.climatrack.databinding.ActivityEvidenciasBinding
 import com.example.climatrack.models.Evidencia
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class EvidenciasActivity : AppCompatActivity() {
 
-    private lateinit var dbHelper: DatabaseHelper
-    private lateinit var adapter: EvidenciaAdapter
-    private lateinit var rvEvidencias: RecyclerView
-    private var ordenId: Int = -1
-    private var currentPhotoPath: String = ""
+    private lateinit var binding: ActivityEvidenciasBinding
 
-    private val takePicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            guardarEvidenciaEnBD(currentPhotoPath)
-            cargarEvidencias()
+    // Lista 100% vacía al inicio
+    private val listaEvidencias = mutableListOf<Evidencia>()
+    private lateinit var adapter: EvidenciasAdapter
+    private var tempPhotoUri: Uri? = null
+
+    private val titulosFrecuentes = listOf(
+        "Filtro antes", "Filtro después",
+        "Conexiones eléctricas", "Presión del sistema",
+        "Unidad interior", "Unidad exterior"
+    )
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { exitoso ->
+        if (exitoso && tempPhotoUri != null) {
+            val fechaHora = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
+            val indiceTitulo = listaEvidencias.size % titulosFrecuentes.size
+            val tituloSugerido = titulosFrecuentes[indiceTitulo]
+
+            val nuevaEvidencia = Evidencia(
+                titulo = tituloSugerido,
+                fecha = fechaHora,
+                imageUri = tempPhotoUri!!
+            )
+
+            // Agrega solo la foto recién tomada a la lista
+            adapter.agregarEvidencia(nuevaEvidencia)
+            binding.rvEvidencias.smoothScrollToPosition(listaEvidencias.size - 1)
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            abrirCamara()
+        } else {
+            Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_evidencias)
+        binding = ActivityEvidenciasBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        dbHelper = DatabaseHelper(this)
-        ordenId = intent.getIntExtra("ORDEN_ID", -1)
+        binding.btnVolver.setOnClickListener { finish() }
 
-        if (ordenId == -1) {
-            finish()
-            return
-        }
+        setupRecyclerView()
 
-        rvEvidencias = findViewById(R.id.rvEvidencias)
-        val btnTomarFoto = findViewById<Button>(R.id.btnTomarFoto)
-
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar).setNavigationOnClickListener {
-            finish()
-        }
-
-        rvEvidencias.layoutManager = GridLayoutManager(this, 2)
-        adapter = EvidenciaAdapter(emptyList()) { evidencia ->
-            eliminarEvidencia(evidencia)
-        }
-        rvEvidencias.adapter = adapter
-
-        btnTomarFoto.setOnClickListener {
-            despacharIntentCamara()
-        }
-
-        cargarEvidencias()
+        binding.btnTomarFoto.setOnClickListener { verificarPermisosYCamara() }
+        binding.btnMasHeader.setOnClickListener { verificarPermisosYCamara() }
     }
 
-    private fun cargarEvidencias() {
-        val db = dbHelper.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT id, orden_id, ruta_foto, fecha FROM evidencias WHERE orden_id = ?",
-            arrayOf(ordenId.toString())
+    private fun setupRecyclerView() {
+        // Inicializa el adaptador con la lista vacía
+        adapter = EvidenciasAdapter(listaEvidencias) { evidencia ->
+            adapter.eliminarEvidencia(evidencia)
+        }
+        binding.rvEvidencias.layoutManager = GridLayoutManager(this, 2)
+        binding.rvEvidencias.adapter = adapter
+    }
+
+    private fun verificarPermisosYCamara() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            abrirCamara()
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
+    private fun abrirCamara() {
+        val file = crearArchivoImagen()
+        tempPhotoUri = FileProvider.getUriForFile(
+            this,
+            "${packageName}.fileprovider",
+            file
         )
-        val lista = mutableListOf<Evidencia>()
-        if (cursor.moveToFirst()) {
-            do {
-                lista.add(
-                    Evidencia(
-                        id = cursor.getInt(0),
-                        ordenId = cursor.getInt(1),
-                        rutaFoto = cursor.getString(2),
-                        fecha = cursor.getString(3)
-                    )
-                )
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        adapter.updateList(lista)
-    }
 
-    private fun despacharIntentCamara() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                val photoFile: File? = try {
-                    crearArchivoImagen()
-                } catch (ex: Exception) {
-                    null
-                }
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        "$packageName.fileprovider",
-                        it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    takePicture.launch(takePictureIntent)
-                }
-            } ?: run {
-                // Si no hay app de cámara, mockeamos una entrada para el prototipo
-                Toast.makeText(this, "Cámara no disponible, simulando captura...", Toast.LENGTH_SHORT).show()
-                guardarEvidenciaEnBD("mock_path_${System.currentTimeMillis()}.jpg")
-                cargarEvidencias()
-            }
-        }
+        // Concede permisos explícitos de lectura sobre la Uri
+        grantUriPermission(
+            "com.android.camera",
+            tempPhotoUri,
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
+
+        takePictureLauncher.launch(tempPhotoUri)
     }
 
     private fun crearArchivoImagen(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
-            currentPhotoPath = absolutePath
-        }
-    }
-
-    private fun guardarEvidenciaEnBD(path: String) {
-        val db = dbHelper.writableDatabase
-        val values = ContentValues().apply {
-            put("orden_id", ordenId)
-            put("ruta_foto", path)
-            put("fecha", SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date()))
-        }
-        db.insert("evidencias", null, values)
-    }
-
-    private fun eliminarEvidencia(evidencia: Evidencia) {
-        val db = dbHelper.writableDatabase
-        db.delete("evidencias", "id = ?", arrayOf(evidencia.id.toString()))
-        cargarEvidencias()
-        Toast.makeText(this, "Evidencia eliminada", Toast.LENGTH_SHORT).show()
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir = getExternalFilesDir(null) // Guarda en almacenamiento externo de la App para lectura continua
+        return File.createTempFile("EVIDENCIA_${timeStamp}_", ".jpg", storageDir)
     }
 }

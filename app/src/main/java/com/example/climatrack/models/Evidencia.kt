@@ -1,8 +1,9 @@
 package com.example.climatrack.models
 
+import android.net.Uri
+
 data class Evidencia(
-    val id: Int,
-    val ordenId: Int,
-    val rutaFoto: String,
-    val fecha: String
+    val titulo: String,
+    val fecha: String,
+    val imagenResId: Int? = null // O la URL de la foto
 )
