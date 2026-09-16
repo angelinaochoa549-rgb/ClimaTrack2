@@ -1,175 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/primary"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
-            app:title="Repuestos Utilizados"
-            app:titleTextColor="@color/white">
-
-            <ImageView
-                android:id="@+id/btnAgregarRepuesto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:padding="16dp"
-                android:src="@android:drawable/ic_input_add"
-                app:tint="@color/white" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
+    <!-- Imagen de fondo principal -->
+    <ImageView
+        android:id="@+id/imgFondoPantalla"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_detalle_orden" />
 
-        <!-- Header Card (Similar to Mantenimiento) -->
-        <androidx.cardview.widget.CardView
+    <!-- Header superior con flecha, título y botón flotante (+) -->
+    <RelativeLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/btnBack"
+            android:text="Repuestos utilizados"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnAddRepuesto"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_input_add"
+            app:tint="#FFFFFF" />
+    </RelativeLayout>
+
+    <!-- Scroll principal con la información de la orden y la lista -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layoutPillTotal"
+        android:layout_below="@id/headerLayout"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp">
 
-            <RelativeLayout
+            <!-- Card Superior: Resumen de la Orden (OT-00025) -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
 
-                <ImageView
-                    android:id="@+id/imgIconoOrden"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_pendiente" />
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/imgIconoOrden"
-                    android:orientation="vertical">
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/imgIconoOrdenResumen"
+                        android:layout_width="56dp"
+                        android:layout_height="61dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_pill_total_cyan"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_clipboard_list" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_toEndOf="@id/imgIconoOrdenResumen"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvNumeroOrden"
-                            android:layout_width="0dp"
+                            android:id="@+id/tvOrdenTitulo"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="Orden: OT-00025"
-                            android:textColor="#0F172A"
-                            android:textSize="16sp"
+                            android:textColor="#0052CC"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvEstadoBadge"
+                            android:id="@+id/tvEquipoDetalle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_badge_en_proceso"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
+                            android:layout_marginTop="2dp"
+                            android:text="Equipo: Split Inverter 24K (EQ-00015)"
+                            android:textColor="#556B82"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvClienteDetalle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Cliente: ACME S.A.S."
+                            android:textColor="#556B82"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <!-- Badge Estado (EN PROCESO) -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/bg_pill_total_cyan"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="6dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/bg_circle_dot_blue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="EN PROCESO"
-                            android:textColor="#FFFFFF"
-                            android:textSize="11sp"
+                            android:textColor="#0052CC"
+                            android:textSize="9sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvClienteInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="Cliente: ACME S.A.S."
-                        android:textColor="#64748B"
-                        android:textSize="13sp" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/tvEquipoInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Equipo: Split Inverter 24K (EQ-00015)"
-                        android:textColor="#64748B"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRepuestos"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:paddingHorizontal="16dp" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
+            <!-- RecyclerView de Repuestos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRepuestos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_repuesto" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Total repuestos"
-                    android:textColor="@color/on_surface"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 
-                <TextView
-                    android:id="@+id/tvTotalRepuestos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$ 0"
-                    android:textColor="@color/primary"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+    <!-- Pill de Total Repuestos con monto azul -->
+    <RelativeLayout
+        android:id="@+id/layoutPillTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomBarCustom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_pill_total_cyan"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
-        <!-- Barra de navegación limpia como la imagen 2 -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:backgroundTint="@android:color/white"
-            app:elevation="8dp"
-            app:itemActiveIndicatorStyle="@null"
-            app:itemIconTint="@color/bottom_nav_colors"
-            app:itemTextColor="@color/bottom_nav_colors"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_menu" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                app:tint="#0052CC" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Total repuestos"
+                android:textColor="#0052CC"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Botón azul de precio total -->
+        <TextView
+            android:id="@+id/tvTotalPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_pill_blue_price"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="6dp"
+            android:text="$ 148.000"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!-- Navigation Bar con pestaña EQUIPOS activa -->
+    <LinearLayout
+        android:id="@+id/bottomBarCustom"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_bottom_nav"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <!-- Inicio -->
+        <LinearLayout
+            android:id="@+id/navInicio"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_home"
+                app:tint="#7A8B9B" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Inicio"
+                android:textColor="#7A8B9B"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Órdenes -->
+        <LinearLayout
+            android:id="@+id/navOrdenes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_ordenes"
+                app:tint="#7A8B9B" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Órdenes"
+                android:textColor="#7A8B9B"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Equipos (ACTIVO) -->
+        <LinearLayout
+            android:id="@+id/navEquipos"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_copo"
+                app:tint="#0052CC" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Equipos"
+                android:textColor="#0052CC"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="36dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="4dp"
+                android:background="#4DD0E1" />
+        </LinearLayout>
+
+        <!-- Historial -->
+        <LinearLayout
+            android:id="@+id/navHistorial"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_historial"
+                app:tint="#7A8B9B" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Historial"
+                android:textColor="#7A8B9B"
+                android:textSize="11sp" />
+        </LinearLayout>
 
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

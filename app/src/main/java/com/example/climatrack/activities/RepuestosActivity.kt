@@ -3,7 +3,6 @@ package com.example.climatrack.activities
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -17,7 +16,6 @@ import com.example.climatrack.adapters.RepuestoAdapter
 import com.example.climatrack.database.DatabaseHelper
 import com.example.climatrack.models.Repuesto
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -42,7 +40,7 @@ class RepuestosActivity : AppCompatActivity() {
         tvTotalRepuestos = findViewById(R.id.tvTotalRepuestos)
         rvRepuestos = findViewById(R.id.rvRepuestos)
 
-        findViewById<Toolbar>(R.id.toolbar).setNavigationOnClickListener {
+        findViewById<Toolbar>(R.id.toolbar)?.setNavigationOnClickListener {
             finish()
         }
 
@@ -52,8 +50,11 @@ class RepuestosActivity : AppCompatActivity() {
 
         configurarBottomNavigation()
 
+        // Inicializamos el Adapter pasando la lambda para el evento de eliminar
         rvRepuestos.layoutManager = LinearLayoutManager(this)
-        adapter = RepuestoAdapter(emptyList())
+        adapter = RepuestoAdapter(emptyList()) { repuesto ->
+            mostrarOpcionesRepuesto(repuesto)
+        }
         rvRepuestos.adapter = adapter
 
         cargarHeaderOrden()
@@ -62,7 +63,7 @@ class RepuestosActivity : AppCompatActivity() {
 
     private fun configurarBottomNavigation() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNav?.selectedItemId = R.id.nav_ordenes
+        bottomNav?.selectedItemId = R.id.nav_equipos
         bottomNav?.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
@@ -233,6 +234,31 @@ class RepuestosActivity : AppCompatActivity() {
         val res = db.insert("detalle_repuestos", null, values)
         if (res != -1L) {
             Toast.makeText(this, "Repuesto agregado", Toast.LENGTH_SHORT).show()
+            cargarRepuestos()
+        }
+    }
+
+    private fun mostrarOpcionesRepuesto(repuesto: Repuesto) {
+        val opciones = arrayOf("Eliminar de la orden")
+        AlertDialog.Builder(this)
+            .setTitle(repuesto.nombre)
+            .setItems(opciones) { _, which ->
+                if (which == 0) {
+                    eliminarRepuesto(repuesto.id)
+                }
+            }
+            .show()
+    }
+
+    private fun eliminarRepuesto(repuestoId: Int) {
+        val db = dbHelper.writableDatabase
+        val filasBorradas = db.delete(
+            "detalle_repuestos",
+            "mantenimiento_id = ? AND repuesto_id = ?",
+            arrayOf(mantenimientoId.toString(), repuestoId.toString())
+        )
+        if (filasBorradas > 0) {
+            Toast.makeText(this, "Repuesto eliminado", Toast.LENGTH_SHORT).show()
             cargarRepuestos()
         }
     }

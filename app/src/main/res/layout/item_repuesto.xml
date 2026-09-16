@@ -1,105 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="0dp"
-    app:strokeColor="@color/outline"
-    app:strokeWidth="1dp">
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="12dp">
+
+        <!-- Imagen/Ícono del repuesto -->
+
+        <!-- Código, Descripción y Cantidad -->
 
         <ImageView
             android:id="@+id/imgRepuesto"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="12dp"
-            android:src="@drawable/ic_gear"
-            app:tint="@color/primary" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvDescripcion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/on_surface"
-                android:textSize="15sp"
-                tools:text="Filtro de aire" />
-
-            <TextView
-                android:id="@+id/tvCodigo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="12sp"
-                tools:text="RPT-001" />
-
-        </LinearLayout>
+            android:layout_width="92dp"
+            android:layout_height="117dp"
+            android:background="@drawable/bg_pill_total_cyan"
+            android:padding="10dp"
+            android:src="@drawable/filtro_aire" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@id/imgRepuesto"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvPrecio"
+                android:id="@+id/tvCodigoRepuesto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="$ 50.000" />
+                android:text="RPT-0007"
+                android:textColor="#0052CC"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNombreRepuesto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Filtro de aire lavable"
+                android:textColor="#556B82"
+                android:textSize="11sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@android:drawable/ic_menu_agenda"
+                    app:tint="#0052CC" />
 
                 <TextView
-                    android:id="@+id/tvCantidad"
+                    android:id="@+id/tvCantidadRepuesto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/on_surface"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="x2" />
-
-                <TextView
-                    android:id="@+id/tvUnidad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="12sp"
-                    tools:text="Unid." />
+                    android:text="Cantidad: 2"
+                    android:textColor="#556B82"
+                    android:textSize="11sp" />
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Botón de menú (tres puntos) -->
         <ImageView
-            android:id="@+id/btnOpciones"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:padding="4dp"
+            android:id="@+id/btnMenuOpciones"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/ic_chevron_right"
-            app:tint="@color/outline" />
+            app:tint="#0052CC" />
 
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+        <!-- Bloque Derecho: Unidad y Precio en pill celeste -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/btnMenuOpciones"
+            android:layout_marginTop="4dp"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvUnidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unidad"
+                android:textColor="#7A8B9B"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tvPrecioItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_pill_total_cyan"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="$ 25.000"
+                android:textColor="#0052CC"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
