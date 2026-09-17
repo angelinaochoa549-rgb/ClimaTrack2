@@ -57,11 +57,11 @@
                         android:background="@drawable/circulo_blanco_borde">
 
                         <ImageView
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
+                            android:layout_width="70dp"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:contentDescription="Herramienta"
-                            android:src="@drawable/ic_wrench"
+                            android:src="@drawable/llave_cruzada"
                             app:tint="#0F387A" />
                     </FrameLayout>
 

@@ -22,7 +22,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_llave"
+            android:src="@drawable/ic_menu"
             app:tint="@color/white" />
 
         <TextView
@@ -123,10 +123,10 @@
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="90dp"
+        android:paddingBottom="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutSearch"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         tools:listitem="@layout/item_equipo" />
 
     <!-- MENÚ INFERIOR -->
@@ -134,10 +134,17 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:layout_gravity="bottom"
         android:background="#FFFFFF"
-        app:elevation="8dp"
+        app:elevation="12dp"
+        app:itemActiveIndicatorStyle="@null"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/bottom_nav_colors_light"
+        app:itemTextColor="@color/bottom_nav_colors_light"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

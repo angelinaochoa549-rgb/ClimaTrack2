@@ -37,27 +37,33 @@ class EquiposActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // Asegura que la pestaña actual resalte al volver a la actividad
+        binding.bottomNavigation.selectedItemId = R.id.nav_equipos
         cargarDatos()
     }
 
     private fun setupBottomNavigation() {
+        // Marca la pestaña activa sin disparar el listener inicialmente
         binding.bottomNavigation.selectedItemId = R.id.nav_equipos
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
                     startActivity(Intent(this, DashboardActivity::class.java))
+                    overridePendingTransition(0, 0)
                     finish()
                     true
                 }
                 R.id.nav_ordenes -> {
                     startActivity(Intent(this, OrdenesActivity::class.java))
+                    overridePendingTransition(0, 0)
                     finish()
                     true
                 }
                 R.id.nav_equipos -> true
                 R.id.nav_historial -> {
                     startActivity(Intent(this, HistorialActivity::class.java))
+                    overridePendingTransition(0, 0)
                     finish()
                     true
                 }
