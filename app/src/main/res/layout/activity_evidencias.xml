@@ -166,7 +166,7 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/bg_btn_tomar_foto"
+        android:background="@drawable/btn_gradient"
         android:paddingHorizontal="16dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNavContainer">
 

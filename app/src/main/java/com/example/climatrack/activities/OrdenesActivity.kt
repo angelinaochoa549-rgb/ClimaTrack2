@@ -3,6 +3,7 @@ package com.example.climatrack.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,11 +31,11 @@ class OrdenesActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
 
         rvOrdenes = findViewById(R.id.rvOrdenes)
-        tvTotal = findViewById(R.id.tvTotalOrdenes)
-        tvSinOrdenes = findViewById(R.id.tvSinOrdenes)
-        val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
-
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarOrdenes).setNavigationOnClickListener {
+        tvTotal = findViewById(R.id.tvTotalPendientes)
+        // tvSinOrdenes no existe en el XML actual, usaremos una lógica simple o lo ignoraremos
+        // tvSinOrdenes = findViewById(R.id.tvSinOrdenes) 
+        
+        findViewById<ImageView>(R.id.btnBack).setOnClickListener {
             finish()
         }
 
@@ -46,47 +47,35 @@ class OrdenesActivity : AppCompatActivity() {
         }
         rvOrdenes.adapter = adapter
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                estadoActual = when (tab?.position) {
-                    0 -> "PENDIENTE"
-                    1 -> "EN PROCESO"
-                    2 -> "FINALIZADA"
-                    else -> "PENDIENTE"
-                }
-                cargarOrdenes()
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
+        findViewById<View>(R.id.btnPendientes).setOnClickListener {
+            estadoActual = "PENDIENTE"
+            cargarOrdenes()
+        }
+        findViewById<View>(R.id.btnEnProceso).setOnClickListener {
+            estadoActual = "EN PROCESO"
+            cargarOrdenes()
+        }
+        findViewById<View>(R.id.btnFinalizadas).setOnClickListener {
+            estadoActual = "FINALIZADA"
+            cargarOrdenes()
+        }
 
         cargarOrdenes()
         setupBottomNavigation()
     }
 
     private fun setupBottomNavigation() {
-        val bottomNavigation = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.nav_ordenes
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_ordenes -> true
-                R.id.nav_equipos -> {
-                    startActivity(Intent(this, EquiposActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_historial -> {
-                    startActivity(Intent(this, HistorialActivity::class.java))
-                    finish()
-                    true
-                }
-                else -> false
-            }
+        findViewById<View>(R.id.navInicio).setOnClickListener {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
+        }
+        findViewById<View>(R.id.navEquipos).setOnClickListener {
+            startActivity(Intent(this, EquiposActivity::class.java))
+            finish()
+        }
+        findViewById<View>(R.id.navHistorial).setOnClickListener {
+            startActivity(Intent(this, HistorialActivity::class.java))
+            finish()
         }
     }
 
@@ -123,13 +112,5 @@ class OrdenesActivity : AppCompatActivity() {
 
         adapter.updateList(lista)
         tvTotal.text = "Total: ${lista.size} órdenes"
-        
-        if (lista.isEmpty()) {
-            tvSinOrdenes.visibility = View.VISIBLE
-            rvOrdenes.visibility = View.GONE
-        } else {
-            tvSinOrdenes.visibility = View.GONE
-            rvOrdenes.visibility = View.VISIBLE
-        }
     }
 }

@@ -406,7 +406,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_gravity="top"
-                    android:background="@drawable/bg_button_top_blue"
+                    android:background="@drawable/btn_gradient"
                     android:clickable="true"
                     android:focusable="true"
                     android:paddingHorizontal="16dp">

@@ -18,8 +18,8 @@ class EquipoAdapter(
 
     class EquipoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgEquipo: ImageView = itemView.findViewById(R.id.imgEquipo)
-        val tvCodigo: TextView = itemView.findViewById(R.id.tvCodigo)
-        val tvEstado: TextView = itemView.findViewById(R.id.tvEstado)
+        val tvCodigo: TextView = itemView.findViewById(R.id.tvCodigoEquipo)
+        val tvEstado: TextView = itemView.findViewById(R.id.tvEstadoBadge)
         val tvTipo: TextView = itemView.findViewById(R.id.tvTipo)
         val tvMarca: TextView = itemView.findViewById(R.id.tvMarca)
         val tvModelo: TextView = itemView.findViewById(R.id.tvModelo)

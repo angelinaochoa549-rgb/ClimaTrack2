@@ -3,6 +3,7 @@ package com.example.climatrack.activities
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -37,14 +38,14 @@ class RepuestosActivity : AppCompatActivity() {
 
         mantenimientoId = obtenerOcrearMantenimientoId()
 
-        tvTotalRepuestos = findViewById(R.id.tvTotalRepuestos)
+        tvTotalRepuestos = findViewById(R.id.tvTotalPrecio)
         rvRepuestos = findViewById(R.id.rvRepuestos)
 
-        findViewById<Toolbar>(R.id.toolbar)?.setNavigationOnClickListener {
+        findViewById<View>(R.id.btnBack).setOnClickListener {
             finish()
         }
 
-        findViewById<ImageView>(R.id.btnAgregarRepuesto)?.setOnClickListener {
+        findViewById<View>(R.id.btnAddRepuesto).setOnClickListener {
             mostrarDialogoAgregar()
         }
 
@@ -52,7 +53,7 @@ class RepuestosActivity : AppCompatActivity() {
 
         // Inicializamos el Adapter pasando la lambda para el evento de eliminar
         rvRepuestos.layoutManager = LinearLayoutManager(this)
-        adapter = RepuestoAdapter(emptyList()) { repuesto ->
+        adapter = RepuestoAdapter(emptyList()) { repuesto, view ->
             mostrarOpcionesRepuesto(repuesto)
         }
         rvRepuestos.adapter = adapter
@@ -62,32 +63,17 @@ class RepuestosActivity : AppCompatActivity() {
     }
 
     private fun configurarBottomNavigation() {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNav?.selectedItemId = R.id.nav_equipos
-        bottomNav?.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_ordenes -> {
-                    startActivity(Intent(this, OrdenesActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_equipos -> {
-                    startActivity(Intent(this, EquiposActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_historial -> {
-                    startActivity(Intent(this, HistorialActivity::class.java))
-                    finish()
-                    true
-                }
-                else -> false
-            }
+        findViewById<View>(R.id.navInicio).setOnClickListener {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
+        }
+        findViewById<View>(R.id.navOrdenes).setOnClickListener {
+            startActivity(Intent(this, OrdenesActivity::class.java))
+            finish()
+        }
+        findViewById<View>(R.id.navHistorial).setOnClickListener {
+            startActivity(Intent(this, HistorialActivity::class.java))
+            finish()
         }
     }
 
@@ -134,10 +120,9 @@ class RepuestosActivity : AppCompatActivity() {
             val equipoModelo = cursor.getString(4) ?: "24K"
             val equipoCodigo = cursor.getString(5) ?: "EQ-00015"
 
-            findViewById<TextView>(R.id.tvNumeroOrden)?.text = "Orden: $numOrden"
-            findViewById<TextView>(R.id.tvEstadoBadge)?.text = estado.uppercase()
-            findViewById<TextView>(R.id.tvClienteInfo)?.text = "Cliente: $cliente"
-            findViewById<TextView>(R.id.tvEquipoInfo)?.text = "Equipo: $equipoTipo $equipoModelo ($equipoCodigo)"
+            findViewById<TextView>(R.id.tvOrdenTitulo)?.text = "Orden: $numOrden"
+            findViewById<TextView>(R.id.tvClienteDetalle)?.text = "Cliente: $cliente"
+            findViewById<TextView>(R.id.tvEquipoDetalle)?.text = "Equipo: $equipoTipo $equipoModelo ($equipoCodigo)"
         }
         cursor.close()
     }

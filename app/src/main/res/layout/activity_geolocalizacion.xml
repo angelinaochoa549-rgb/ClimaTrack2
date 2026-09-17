@@ -34,9 +34,9 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="19dp"
-                android:layout_height="29dp"
-                android:background="@drawable/ic_verde"
+                android:layout_width="43dp"
+                android:layout_height="46dp"
+                android:background="@drawable/ic_ubi2"
                 android:gravity="center"
                 android:textColor="#68D0BC"
                 android:textSize="38sp" />
@@ -50,13 +50,7 @@
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="96dp"
-                android:layout_height="62dp"
-                android:background="@drawable/ic_puntero"
-                android:gravity="center"
-                android:textColor="#68D0BC"
-                android:textSize="28dp" />
+
 
         </LinearLayout>
 
@@ -72,7 +66,7 @@
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/ic_ubi"
+                android:background="@drawable/ic_ordenes"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
                 android:textSize="35sp" />
@@ -222,9 +216,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="29dp"
+                    android:layout_width="54dp"
                     android:layout_height="43dp"
-                    android:background="@drawable/ic_verde"
+                    android:background="@drawable/ic_ubi2"
                     android:gravity="center"
                     android:textColor="#68D0BC"
                     android:textSize="35sp" />

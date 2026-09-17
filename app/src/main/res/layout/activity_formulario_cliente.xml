@@ -186,37 +186,37 @@
             <!-- Botón azul principal desplazado hacia arriba -->
 
             <!-- BOTÓN: GUARDAR CLIENTE -->
-            <RelativeLayout
-                android:id="@+id/btnGuardarCliente"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:background="@drawable/bg_btn_tomar_foto"
-                android:clickable="true"
-                android:elevation="4dp"
-                android:focusable="true"
-                android:paddingHorizontal="16dp">
+                <RelativeLayout
+                    android:id="@+id/btnGuardarCliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/btn_gradient"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:focusable="true"
+                    android:paddingHorizontal="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="GUARDAR CLIENTE"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="GUARDAR CLIENTE"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                <!-- Círculo turquesa con flecha -->
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/bg_circle_arrow"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_chevron_right"
-                    app:tint="@android:color/white" />
+                    <!-- Círculo turquesa con flecha -->
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_circle_arrow"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@android:color/white" />
 
-            </RelativeLayout>
+                </RelativeLayout>
             </FrameLayout>
 
         </LinearLayout>

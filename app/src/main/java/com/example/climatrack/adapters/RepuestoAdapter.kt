@@ -18,12 +18,12 @@ class RepuestoAdapter(
 
     class RepuestoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgRepuesto: ImageView = view.findViewById(R.id.imgRepuesto)
-        val tvCodigo: TextView = view.findViewById(R.id.tvCodigo)
-        val tvDescripcion: TextView = view.findViewById(R.id.tvDescripcion)
+        val tvCodigo: TextView = view.findViewById(R.id.tvCodigoRepuesto)
+        val tvDescripcion: TextView = view.findViewById(R.id.tvNombreRepuesto)
         val tvUnidad: TextView = view.findViewById(R.id.tvUnidad)
-        val tvCantidad: TextView = view.findViewById(R.id.tvCantidad)
-        val tvPrecio: TextView = view.findViewById(R.id.tvPrecio)
-        val btnOpciones: ImageView = view.findViewById(R.id.btnOpciones)
+        val tvCantidad: TextView = view.findViewById(R.id.tvCantidadRepuesto)
+        val tvPrecio: TextView = view.findViewById(R.id.tvPrecioItem)
+        val btnOpciones: ImageView = view.findViewById(R.id.btnMenuOpciones)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepuestoViewHolder {

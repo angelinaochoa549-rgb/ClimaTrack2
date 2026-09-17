@@ -38,7 +38,7 @@ class DashboardActivity : AppCompatActivity() {
         // Configuración de navegación inferior
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_inicio -> {
+                R.id.nav_home -> {
                     Toast.makeText(this, "Inicio", Toast.LENGTH_SHORT).show()
                     true
                 }
