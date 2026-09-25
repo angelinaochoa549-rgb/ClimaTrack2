@@ -148,7 +148,7 @@ class UbicacionActivity : AppCompatActivity() {
         if (miMarcador == null) {
             miMarcador = Marker(binding.mapaOsm).apply {
                 title = "Ubicación del Técnico"
-                anchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             }
             binding.mapaOsm.overlays.add(miMarcador)
         }

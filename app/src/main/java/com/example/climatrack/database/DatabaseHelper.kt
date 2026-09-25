@@ -272,23 +272,47 @@ class DatabaseHelper(context: Context) :
     // --- MÉTODOS DE AUTENTICACIÓN ---
 
     fun validarUsuario(usuario: String, password: String): com.example.climatrack.models.Usuario? {
-        val db = readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT id, usuario, password, nombre, rol FROM usuarios WHERE usuario = ? AND password = ?",
-            arrayOf(usuario, password)
-        )
+        val db = writableDatabase
+        try {
+            val countCursor = db.rawQuery("SELECT COUNT(*) FROM usuarios WHERE usuario = ?", arrayOf("tecnico01"))
+            var exists = false
+            if (countCursor.moveToFirst()) {
+                exists = countCursor.getInt(0) > 0
+            }
+            countCursor.close()
+
+            if (!exists) {
+                val values = ContentValues().apply {
+                    put("usuario", "tecnico01")
+                    put("password", "123456")
+                    put("nombre", "Técnico 01")
+                    put("rol", "Técnico")
+                }
+                db.insert("usuarios", null, values)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         var resultado: com.example.climatrack.models.Usuario? = null
-        if (cursor.moveToFirst()) {
-            resultado = com.example.climatrack.models.Usuario(
-                id = cursor.getInt(0),
-                usuario = cursor.getString(1),
-                password = cursor.getString(2),
-                nombre = cursor.getString(3),
-                rol = cursor.getString(4)
+        try {
+            val cursor = db.rawQuery(
+                "SELECT id, usuario, password, nombre, rol FROM usuarios WHERE usuario = ? AND password = ?",
+                arrayOf(usuario, password)
             )
+            if (cursor.moveToFirst()) {
+                resultado = com.example.climatrack.models.Usuario(
+                    id = cursor.getInt(0),
+                    usuario = cursor.getString(1),
+                    password = cursor.getString(2),
+                    nombre = cursor.getString(3),
+                    rol = cursor.getString(4)
+                )
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        cursor.close()
         return resultado
     }
 

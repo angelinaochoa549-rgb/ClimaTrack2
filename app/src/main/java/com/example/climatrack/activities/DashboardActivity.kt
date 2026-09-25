@@ -18,15 +18,15 @@ class DashboardActivity : AppCompatActivity() {
 
         // Manejo de eventos en las tarjetas de accesos rápidos
         binding.cardOrdenes.setOnClickListener {
-            Toast.makeText(this, "Navegando a Órdenes", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, OrdenesActivity::class.java))
         }
 
         binding.cardEquipos.setOnClickListener {
-            Toast.makeText(this, "Navegando a Equipos", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, EquiposActivity::class.java))
         }
 
         binding.cardHistorial.setOnClickListener {
-            Toast.makeText(this, "Navegando a Historial", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, HistorialActivity::class.java))
         }
 
         binding.cardCerrarSesion.setOnClickListener {
@@ -38,20 +38,23 @@ class DashboardActivity : AppCompatActivity() {
         // Configuración de navegación inferior
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_home -> {
-                    Toast.makeText(this, "Inicio", Toast.LENGTH_SHORT).show()
-                    true
-                }
+                R.id.nav_home -> true
                 R.id.nav_ordenes -> {
-                    Toast.makeText(this, "Órdenes", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, OrdenesActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
                     true
                 }
                 R.id.nav_equipos -> {
-                    Toast.makeText(this, "Equipos", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, EquiposActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
                     true
                 }
                 R.id.nav_historial -> {
-                    Toast.makeText(this, "Historial", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, HistorialActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
                     true
                 }
                 else -> false

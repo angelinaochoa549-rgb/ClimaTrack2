@@ -1,5 +1,6 @@
 package com.example.climatrack.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,6 +49,29 @@ class HistorialActivity : AppCompatActivity() {
         // Botón regresar
         binding.btnBack.setOnClickListener {
             finish()
+        }
+
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.navHome.setOnClickListener {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+        binding.navOrdenes.setOnClickListener {
+            startActivity(Intent(this, OrdenesActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+        binding.navEquipos.setOnClickListener {
+            startActivity(Intent(this, EquiposActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+        binding.navHistorial.setOnClickListener {
+            // Ya estás aquí
         }
     }
 

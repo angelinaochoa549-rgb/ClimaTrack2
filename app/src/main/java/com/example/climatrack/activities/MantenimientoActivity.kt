@@ -13,6 +13,7 @@ class MantenimientoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMantenimientoBinding
     private lateinit var dbHelper: DatabaseHelper
+    private var ordenId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,7 @@ class MantenimientoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         dbHelper = DatabaseHelper(this)
+        ordenId = intent.getIntExtra("ORDEN_ID", -1)
 
         configurarSpinners()
         configurarDatePicker()
@@ -64,15 +66,49 @@ class MantenimientoActivity : AppCompatActivity() {
 
     private fun guardarMantenimiento() {
         val descripcion = binding.etDescripcion.text.toString().trim()
+        val fecha = binding.etFechaMantenimiento.text.toString().trim().ifEmpty { "18/08/2026" }
+        val tecnico = binding.spTecnico.selectedItem?.toString() ?: "Técnico 01"
+        val tipoMantenimiento = binding.spTipoMantenimiento.selectedItem?.toString() ?: "Preventivo"
+        val estadoEquipo = binding.spEstadoEquipo.selectedItem?.toString() ?: "Operativo"
 
-        // Validación según Módulo 4 de la guía
         if (descripcion.isEmpty()) {
-            Toast.makeText(this, "Por favor complete los campos obligatorios", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Por favor complete la descripción del mantenimiento", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Lógica para registrar en la base de datos local SQLite
-        Toast.makeText(this, "Mantenimiento registrado correctamente", Toast.LENGTH_SHORT).show()
-        finish()
+        val db = dbHelper.writableDatabase
+        try {
+            db.beginTransaction()
+
+            // 1. Insertar mantenimiento
+            val values = android.content.ContentValues().apply {
+                put("orden_id", if (ordenId != -1) ordenId else 1)
+                put("fecha", fecha)
+                put("diagnostico", "Diagnóstico general - $tipoMantenimiento")
+                put("trabajo_realizado", descripcion)
+                put("observaciones", "Estado del equipo: $estadoEquipo")
+                put("recomendaciones", "Monitorear funcionamiento")
+                put("tiempo_empleado", "2 horas")
+                put("tecnico_nombre", tecnico)
+            }
+            db.insert("mantenimientos", null, values)
+
+            // 2. Actualizar estado de la orden a "EN PROCESO"
+            if (ordenId != -1) {
+                val orderValues = android.content.ContentValues().apply {
+                    put("estado", "EN PROCESO")
+                    put("tipo_servicio", tipoMantenimiento.uppercase())
+                }
+                db.update("ordenes", orderValues, "id = ?", arrayOf(ordenId.toString()))
+            }
+
+            db.setTransactionSuccessful()
+            Toast.makeText(this, "Mantenimiento registrado y orden en proceso", Toast.LENGTH_SHORT).show()
+            finish()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
+        } finally {
+            db.endTransaction()
+        }
     }
 }

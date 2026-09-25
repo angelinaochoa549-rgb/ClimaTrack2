@@ -122,16 +122,8 @@ class DetalleOrdenActivity : AppCompatActivity() {
                 val btnIniciar = findViewById<View>(R.id.layoutBtnIniciar)
                 val llAcciones = findViewById<View>(R.id.llAccionesMantenimiento)
 
-                if (estado == "PENDIENTE") {
-                    btnIniciar?.visibility = View.VISIBLE
-                    llAcciones?.visibility = View.GONE
-                } else if (estado == "EN PROCESO") {
-                    btnIniciar?.visibility = View.GONE
-                    llAcciones?.visibility = View.VISIBLE
-                } else {
-                    btnIniciar?.visibility = View.GONE
-                    llAcciones?.visibility = View.GONE
-                }
+                btnIniciar?.visibility = View.VISIBLE
+                llAcciones?.visibility = View.VISIBLE
             }
         }
     }

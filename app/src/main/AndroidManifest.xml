@@ -42,6 +42,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Demás Activities de la aplicación -->
         <activity
             android:name=".activities.FormularioClienteActivity"
@@ -93,11 +98,6 @@
             android:name=".activities.EvidenciasActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".activities.UbicacionActivity"
-            android:exported="false" />
-
-        <!-- Registrada la actividad del Mapa -->
         <activity
             android:name=".activities.UbicacionActivity"
             android:exported="false"
