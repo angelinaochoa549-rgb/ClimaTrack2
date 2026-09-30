@@ -1,8 +1,19 @@
 package com.example.climatrack.activities
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.climatrack.R
 import com.example.climatrack.adapters.HistorialAdapter
 import com.example.climatrack.database.DatabaseHelper
 import com.example.climatrack.databinding.ActivityHistorialBinding
@@ -20,6 +31,24 @@ class HistorialActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
 
+        // Manejo de Insets para que la barra de estado/notch no solape el header
+        ViewCompat.setOnApplyWindowInsetsListener(binding.headerToolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(
+                left = 16.dpToPx(),
+                top = systemBars.top + 8.dpToPx(),
+                right = 16.dpToPx(),
+                bottom = 12.dpToPx()
+            )
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = systemBars.bottom)
+            insets
+        }
+
         // Configuración del RecyclerView
         binding.rvHistorial.layoutManager = LinearLayoutManager(this)
 
@@ -28,22 +57,9 @@ class HistorialActivity : AppCompatActivity() {
         adapter = HistorialAdapter(listaInicial)
         binding.rvHistorial.adapter = adapter
 
-        // Eventos de clic para los botones de filtro
-        binding.btnTodos.setOnClickListener {
-            filtrarLista("TODOS")
-        }
-
-        binding.btnPreventivos.setOnClickListener {
-            filtrarLista("PREVENTIVO")
-        }
-
-        binding.btnCorrectivos.setOnClickListener {
-            filtrarLista("CORRECTIVO")
-        }
-
-        binding.btnInspecciones.setOnClickListener {
-            filtrarLista("INSPECCIÓN")
-        }
+        setupBuscador()
+        setupFiltrosChips()
+        setupBottomNavigation()
 
         // Botón regresar
         binding.btnBack.setOnClickListener {
@@ -51,8 +67,113 @@ class HistorialActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupBuscador() {
+        // Alternar visibilidad de la barra de búsqueda al hacer clic en la lupa del header
+        binding.btnFiltroHeader.setOnClickListener {
+            if (binding.layoutSearchBar.visibility == View.VISIBLE) {
+                ocultarBarraBusqueda()
+            } else {
+                mostrarBarraBusqueda()
+            }
+        }
+
+        binding.etBuscarHistorial.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val texto = s?.toString() ?: ""
+                binding.btnClearSearch.visibility = if (texto.isNotEmpty()) View.VISIBLE else View.GONE
+                adapter.filtrar(texto)
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.btnClearSearch.setOnClickListener {
+            binding.etBuscarHistorial.setText("")
+            adapter.filtrar("")
+        }
+    }
+
+    private fun mostrarBarraBusqueda() {
+        binding.layoutSearchBar.visibility = View.VISIBLE
+        binding.etBuscarHistorial.requestFocus()
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.showSoftInput(binding.etBuscarHistorial, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun ocultarBarraBusqueda() {
+        binding.layoutSearchBar.visibility = View.GONE
+        binding.etBuscarHistorial.setText("")
+        adapter.filtrar("")
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(binding.etBuscarHistorial.windowToken, 0)
+    }
+
+    private fun setupFiltrosChips() {
+        binding.btnTodos.setOnClickListener {
+            actualizarChipSeleccionado(binding.btnTodos)
+            filtrarLista("TODOS")
+        }
+
+        binding.btnPreventivos.setOnClickListener {
+            actualizarChipSeleccionado(binding.btnPreventivos)
+            filtrarLista("PREVENTIVO")
+        }
+
+        binding.btnCorrectivos.setOnClickListener {
+            actualizarChipSeleccionado(binding.btnCorrectivos)
+            filtrarLista("CORRECTIVO")
+        }
+
+        binding.btnInspecciones.setOnClickListener {
+            actualizarChipSeleccionado(binding.btnInspecciones)
+            filtrarLista("INSPECCIÓN")
+        }
+    }
+
+    private fun actualizarChipSeleccionado(chipActivo: TextView) {
+        val chips = listOf(binding.btnTodos, binding.btnPreventivos, binding.btnCorrectivos, binding.btnInspecciones)
+        for (chip in chips) {
+            if (chip == chipActivo) {
+                chip.setBackgroundResource(R.drawable.bg_chip_selected)
+                chip.setTextColor(Color.WHITE)
+            } else {
+                chip.setBackgroundResource(R.drawable.bg_chip_unselected)
+                chip.setTextColor(Color.parseColor("#0052CC"))
+            }
+        }
+    }
+
+    private fun setupBottomNavigation() {
+        binding.navHome.setOnClickListener {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+
+        binding.navOrdenes.setOnClickListener {
+            startActivity(Intent(this, OrdenesActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+
+        binding.navEquipos.setOnClickListener {
+            startActivity(Intent(this, EquiposActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+
+        binding.navHistorial.setOnClickListener {
+            // Ya estamos en Historial
+        }
+    }
+
     private fun filtrarLista(tipo: String) {
         val listaFiltrada = dbHelper.getHistorialMantenimientos(tipo)
         adapter.actualizarLista(listaFiltrada)
+        if (binding.etBuscarHistorial.text.isNotEmpty()) {
+            adapter.filtrar(binding.etBuscarHistorial.text.toString())
+        }
     }
+
+    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
 }

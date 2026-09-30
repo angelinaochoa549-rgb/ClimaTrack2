@@ -10,7 +10,7 @@ class DatabaseHelper(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "climatrack.db"
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 5
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -205,7 +205,7 @@ class DatabaseHelper(context: Context) :
             put("tecnico_id", tecnicoId)
             put("tipo_servicio", "PREVENTIVO")
             put("descripcion", "Mantenimiento preventivo general")
-            put("estado", "COMPLETADA")
+            put("estado", "PENDIENTE")
         })
 
         db.insert("ordenes", null, ContentValues().apply {
@@ -216,7 +216,18 @@ class DatabaseHelper(context: Context) :
             put("tecnico_id", tecnicoId)
             put("tipo_servicio", "CORRECTIVO")
             put("descripcion", "Revisión fuga de gas")
-            put("estado", "COMPLETADA")
+            put("estado", "EN PROCESO")
+        })
+
+        db.insert("ordenes", null, ContentValues().apply {
+            put("numero", "OT-00027")
+            put("fecha", "20/08/2026")
+            put("cliente_id", clienteId)
+            put("equipo_id", equipoId)
+            put("tecnico_id", tecnicoId)
+            put("tipo_servicio", "INSPECCIÓN")
+            put("descripcion", "Inspección de rutina")
+            put("estado", "FINALIZADA")
         })
 
         // Mock data: Mantenimientos
@@ -389,6 +400,34 @@ class DatabaseHelper(context: Context) :
     }
 
     // --- MÉTODOS PARA HISTORIAL Y MANTENIMIENTOS ---
+
+    fun guardarMantenimiento(
+        ordenId: Int,
+        fecha: String,
+        diagnostico: String,
+        trabajoRealizado: String,
+        tecnicoNombre: String
+    ): Long {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("orden_id", ordenId)
+            put("fecha", fecha)
+            put("diagnostico", diagnostico)
+            put("trabajo_realizado", trabajoRealizado)
+            put("tecnico_nombre", tecnicoNombre)
+        }
+        val id = db.insert("mantenimientos", null, values)
+        actualizarEstadoOrden(ordenId, "EN PROCESO")
+        return id
+    }
+
+    fun actualizarEstadoOrden(ordenId: Int, nuevoEstado: String): Int {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("estado", nuevoEstado)
+        }
+        return db.update("ordenes", values, "id = ?", arrayOf(ordenId.toString()))
+    }
 
     fun getHistorialMantenimientos(tipoFiltro: String = "TODOS"): List<com.example.climatrack.models.Mantenimiento> {
         val lista = mutableListOf<com.example.climatrack.models.Mantenimiento>()

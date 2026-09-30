@@ -14,6 +14,8 @@ class OrdenAdapter(
     private val onItemClick: (Orden) -> Unit
 ) : RecyclerView.Adapter<OrdenAdapter.OrdenViewHolder>() {
 
+    private var ordenesOriginal: List<Orden> = ordenes
+
     class OrdenViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNumero: TextView = view.findViewById(R.id.tvNumeroOrden)
         val tvEstado: TextView = view.findViewById(R.id.tvEstado)
@@ -52,7 +54,24 @@ class OrdenAdapter(
     override fun getItemCount() = ordenes.size
 
     fun updateList(newList: List<Orden>) {
+        ordenesOriginal = newList
         ordenes = newList
+        notifyDataSetChanged()
+    }
+
+    fun filtrar(texto: String) {
+        if (texto.isEmpty()) {
+            ordenes = ordenesOriginal
+        } else {
+            val q = texto.lowercase().trim()
+            ordenes = ordenesOriginal.filter {
+                it.numero.lowercase().contains(q) ||
+                it.clienteNombre.lowercase().contains(q) ||
+                it.equipoNombre.lowercase().contains(q) ||
+                it.tipoServicio.lowercase().contains(q) ||
+                it.descripcion.lowercase().contains(q)
+            }
+        }
         notifyDataSetChanged()
     }
 }

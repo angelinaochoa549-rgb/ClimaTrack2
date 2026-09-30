@@ -32,6 +32,12 @@ class EquiposActivity : AppCompatActivity() {
         binding.btnAgregarEquipo.setOnClickListener {
             startActivity(Intent(this, FormularioEquipoActivity::class.java))
         }
+
+        binding.iconHeader.setOnClickListener {
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onResume() {

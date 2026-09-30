@@ -16,7 +16,8 @@
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
         android:background="#3982b8"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -39,12 +40,34 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/btnNotificaciones"
-            android:layout_width="43dp"
-            android:layout_height="46dp"
-            android:src="@drawable/ic_bell"
-            app:tint="#FFFFFF" />
+        <FrameLayout
+            android:id="@+id/layoutNotificaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/btnNotificaciones"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_bell"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/badgeNotificaciones"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="top|end"
+                android:background="@drawable/bg_notification_badge"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </FrameLayout>
     </LinearLayout>
 
     <!-- Contenido Scrollable sobre el fondo -->
@@ -441,10 +464,11 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
         android:layout_alignParentBottom="true"
         app:backgroundTint="#0D50B5"
-        app:itemIconTint="@color/bottom_nav_colors_dashboard"
+        app:itemIconTint="@color/bottom_nav_colors_white"
         app:itemTextColor="#FFFFFF"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu" />

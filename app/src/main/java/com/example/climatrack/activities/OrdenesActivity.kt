@@ -1,18 +1,25 @@
 package com.example.climatrack.activities
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.climatrack.R
 import com.example.climatrack.adapters.OrdenAdapter
 import com.example.climatrack.database.DatabaseHelper
 import com.example.climatrack.models.Orden
-import com.google.android.material.tabs.TabLayout
 
 class OrdenesActivity : AppCompatActivity() {
 
@@ -20,7 +27,9 @@ class OrdenesActivity : AppCompatActivity() {
     private lateinit var adapter: OrdenAdapter
     private lateinit var rvOrdenes: RecyclerView
     private lateinit var tvTotal: TextView
-    private lateinit var tvSinOrdenes: TextView
+    private lateinit var layoutSearchBar: View
+    private lateinit var etBuscar: EditText
+    private lateinit var btnClearSearch: ImageView
 
     private var estadoActual = "PENDIENTE"
 
@@ -30,14 +39,38 @@ class OrdenesActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
 
+        val headerLayout = findViewById<View>(R.id.headerLayout)
+        val bottomBarCustom = findViewById<View>(R.id.bottomBarCustom)
+
+        // Manejo de Insets para que la barra de estado y notch no tapen la barra superior
+        ViewCompat.setOnApplyWindowInsetsListener(headerLayout) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(
+                left = 16.dpToPx(),
+                top = systemBars.top + 8.dpToPx(),
+                right = 16.dpToPx(),
+                bottom = 12.dpToPx()
+            )
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(bottomBarCustom) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(bottom = systemBars.bottom)
+            insets
+        }
+
         rvOrdenes = findViewById(R.id.rvOrdenes)
         tvTotal = findViewById(R.id.tvTotalPendientes)
-        // tvSinOrdenes no existe en el XML actual, usaremos una lógica simple o lo ignoraremos
-        // tvSinOrdenes = findViewById(R.id.tvSinOrdenes) 
-        
+        layoutSearchBar = findViewById(R.id.layoutSearchBar)
+        etBuscar = findViewById(R.id.etBuscarOrdenes)
+        btnClearSearch = findViewById(R.id.btnClearSearch)
+
         findViewById<ImageView>(R.id.btnBack).setOnClickListener {
             finish()
         }
+
+        setupBuscador()
 
         rvOrdenes.layoutManager = LinearLayoutManager(this)
         adapter = OrdenAdapter(emptyList()) { orden ->
@@ -49,19 +82,87 @@ class OrdenesActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.btnPendientes).setOnClickListener {
             estadoActual = "PENDIENTE"
+            actualizarUIFiltros()
             cargarOrdenes()
         }
         findViewById<View>(R.id.btnEnProceso).setOnClickListener {
             estadoActual = "EN PROCESO"
+            actualizarUIFiltros()
             cargarOrdenes()
         }
         findViewById<View>(R.id.btnFinalizadas).setOnClickListener {
             estadoActual = "FINALIZADA"
+            actualizarUIFiltros()
             cargarOrdenes()
         }
 
+        actualizarUIFiltros()
         cargarOrdenes()
         setupBottomNavigation()
+    }
+
+    private fun setupBuscador() {
+        findViewById<ImageView>(R.id.btnSearch).setOnClickListener {
+            if (layoutSearchBar.visibility == View.VISIBLE) {
+                ocultarBarraBusqueda()
+            } else {
+                mostrarBarraBusqueda()
+            }
+        }
+
+        etBuscar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val texto = s?.toString() ?: ""
+                btnClearSearch.visibility = if (texto.isNotEmpty()) View.VISIBLE else View.GONE
+                adapter.filtrar(texto)
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        btnClearSearch.setOnClickListener {
+            etBuscar.setText("")
+            adapter.filtrar("")
+        }
+    }
+
+    private fun mostrarBarraBusqueda() {
+        layoutSearchBar.visibility = View.VISIBLE
+        etBuscar.requestFocus()
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.showSoftInput(etBuscar, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun ocultarBarraBusqueda() {
+        layoutSearchBar.visibility = View.GONE
+        etBuscar.setText("")
+        adapter.filtrar("")
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(etBuscar.windowToken, 0)
+    }
+
+    private fun actualizarUIFiltros() {
+        val btnPendientes = findViewById<TextView>(R.id.btnPendientes)
+        val btnEnProceso = findViewById<TextView>(R.id.btnEnProceso)
+        val btnFinalizadas = findViewById<TextView>(R.id.btnFinalizadas)
+
+        val tabs = listOf(
+            Triple(btnPendientes, "PENDIENTE", "Pendientes"),
+            Triple(btnEnProceso, "EN PROCESO", "En proceso"),
+            Triple(btnFinalizadas, "FINALIZADA", "Finalizadas")
+        )
+
+        for ((view, estado, _) in tabs) {
+            if (view != null) {
+                if (estado == estadoActual) {
+                    view.setBackgroundResource(R.drawable.bg_chip_selected)
+                    view.setTextColor(Color.WHITE)
+                } else {
+                    view.setBackgroundResource(android.R.color.transparent)
+                    view.setTextColor(Color.parseColor("#0052CC"))
+                }
+            }
+        }
     }
 
     private fun setupBottomNavigation() {
@@ -111,6 +212,11 @@ class OrdenesActivity : AppCompatActivity() {
         }
 
         adapter.updateList(lista)
+        if (etBuscar.text.isNotEmpty()) {
+            adapter.filtrar(etBuscar.text.toString())
+        }
         tvTotal.text = "Total: ${lista.size} órdenes"
     }
+
+    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
 }

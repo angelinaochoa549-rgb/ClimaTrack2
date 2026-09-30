@@ -11,6 +11,8 @@ class HistorialAdapter(
     private var lista: List<Mantenimiento>
 ) : RecyclerView.Adapter<HistorialAdapter.ViewHolder>() {
 
+    private var listaOriginal: List<Mantenimiento> = lista
+
     class ViewHolder(val binding: ItemHistorialBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,7 +45,24 @@ class HistorialAdapter(
     override fun getItemCount(): Int = lista.size
 
     fun actualizarLista(nuevaLista: List<Mantenimiento>) {
+        listaOriginal = nuevaLista
         lista = nuevaLista
+        notifyDataSetChanged()
+    }
+
+    fun filtrar(texto: String) {
+        if (texto.isEmpty()) {
+            lista = listaOriginal
+        } else {
+            val q = texto.lowercase().trim()
+            lista = listaOriginal.filter {
+                it.orden.lowercase().contains(q) ||
+                it.tecnico.lowercase().contains(q) ||
+                it.tipo.lowercase().contains(q) ||
+                it.descripcion.lowercase().contains(q) ||
+                it.fecha.lowercase().contains(q)
+            }
+        }
         notifyDataSetChanged()
     }
 }

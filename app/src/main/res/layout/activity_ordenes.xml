@@ -14,27 +14,32 @@
         android:src="@drawable/bg_detalle_orden" />
 
     <!-- Header superior transparente -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:paddingTop="12dp">
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Regresar"
             android:src="@drawable/ic_arrow_back"
             app:tint="#FFFFFF" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvTituloOrdenes"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_toEndOf="@id/btnBack"
+            android:layout_weight="1"
             android:text="Órdenes"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
@@ -42,59 +47,122 @@
 
         <ImageView
             android:id="@+id/btnSearch"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Buscar"
             android:src="@android:drawable/ic_menu_search"
             app:tint="#FFFFFF" />
-    </RelativeLayout>
+    </LinearLayout>
+
+    <!-- BARRA DE BÚSQUEDA DESPLEGABLE -->
+    <LinearLayout
+        android:id="@+id/layoutSearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerLayout"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_input_rounded"
+            android:paddingHorizontal="12dp">
+
+            <ImageView
+                android:id="@+id/iconSearchInput"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@android:drawable/ic_menu_search"
+                app:tint="#0052CC" />
+
+            <EditText
+                android:id="@+id/etBuscarOrdenes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_toStartOf="@id/btnClearSearch"
+                android:layout_toEndOf="@id/iconSearchInput"
+                android:background="@null"
+                android:hint="Buscar orden, cliente o equipo..."
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="#102A43"
+                android:textColorHint="#829AB1"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/btnClearSearch"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:visibility="gone"
+                app:tint="#829AB1" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <!-- Selector de Filtros (Pendientes, En proceso, Finalizadas) -->
     <LinearLayout
         android:id="@+id/tabsLayout"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_below="@id/headerLayout"
+        android:layout_below="@id/layoutSearchBar"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/bg_tabs_rounded"
         android:orientation="horizontal"
         android:padding="3dp">
 
-        <Button
+        <TextView
             android:id="@+id/btnPendientes"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="#0052CC"
+            android:background="@drawable/bg_chip_selected"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
             android:text="Pendientes"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
-            android:textStyle="bold"
-            app:cornerRadius="20dp" />
+            android:textStyle="bold" />
 
-        <Button
+        <TextView
             android:id="@+id/btnEnProceso"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="@android:color/transparent"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
             android:text="En proceso"
             android:textColor="#0052CC"
             android:textSize="12sp"
-            app:cornerRadius="20dp" />
+            android:textStyle="bold" />
 
-        <Button
+        <TextView
             android:id="@+id/btnFinalizadas"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="@android:color/transparent"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
             android:text="Finalizadas"
             android:textColor="#0052CC"
             android:textSize="12sp"
-            app:cornerRadius="20dp" />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!-- Scroll con lista de tarjetas -->
