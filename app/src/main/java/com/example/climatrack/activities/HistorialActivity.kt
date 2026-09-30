@@ -1,7 +1,10 @@
 package com.example.climatrack.activities
 
 import android.content.Intent
+<<<<<<< HEAD
 import android.graphics.Color
+=======
+>>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -64,6 +67,29 @@ class HistorialActivity : AppCompatActivity() {
         // Botón regresar
         binding.btnBack.setOnClickListener {
             finish()
+        }
+
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.navHome.setOnClickListener {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+        binding.navOrdenes.setOnClickListener {
+            startActivity(Intent(this, OrdenesActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+        binding.navEquipos.setOnClickListener {
+            startActivity(Intent(this, EquiposActivity::class.java))
+            overridePendingTransition(0, 0)
+            finish()
+        }
+        binding.navHistorial.setOnClickListener {
+            // Ya estás aquí
         }
     }
 
