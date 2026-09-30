@@ -45,10 +45,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
-<<<<<<< HEAD
             android:screenOrientation="portrait"
-=======
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
             android:windowSoftInputMode="adjustResize" />
 
         <!-- Demás Activities de la aplicación -->
@@ -102,10 +99,7 @@
             android:name=".activities.EvidenciasActivity"
             android:exported="false" />
 
-<<<<<<< HEAD
         <!-- Registrada la actividad del Mapa -->
-=======
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
         <activity
             android:name=".activities.UbicacionActivity"
             android:exported="false"

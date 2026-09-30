@@ -82,29 +82,14 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.nav_home -> true
                 R.id.nav_ordenes -> {
                     startActivity(Intent(this, OrdenesActivity::class.java))
-<<<<<<< HEAD
-=======
-                    overridePendingTransition(0, 0)
-                    finish()
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
                     true
                 }
                 R.id.nav_equipos -> {
                     startActivity(Intent(this, EquiposActivity::class.java))
-<<<<<<< HEAD
-=======
-                    overridePendingTransition(0, 0)
-                    finish()
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
                     true
                 }
                 R.id.nav_historial -> {
                     startActivity(Intent(this, HistorialActivity::class.java))
-<<<<<<< HEAD
-=======
-                    overridePendingTransition(0, 0)
-                    finish()
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
                     true
                 }
                 else -> false

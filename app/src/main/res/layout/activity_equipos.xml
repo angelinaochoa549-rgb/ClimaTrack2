@@ -20,27 +20,31 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- HEADER / TOOLBAR -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/headerToolbar"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:paddingHorizontal="20dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iconHeader"
-            android:layout_width="45dp"
-            android:layout_height="41dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Menú"
             android:src="@drawable/ic_menu_blanco" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginStart="12dp"
-            android:layout_toEndOf="@id/iconHeader"
+            android:layout_weight="1"
             android:text="Equipos"
             android:textColor="@android:color/white"
             android:textSize="22sp"
@@ -51,8 +55,6 @@
             android:id="@+id/btnAgregarEquipo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:contentDescription="Agregar"
             android:src="@android:drawable/ic_input_add"
             app:backgroundTint="#2DD4BF"
@@ -61,7 +63,7 @@
             app:fabSize="mini"
             app:tint="@android:color/white" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <!-- BARRA DE BÚSQUEDA Y FILTRO -->
     <LinearLayout

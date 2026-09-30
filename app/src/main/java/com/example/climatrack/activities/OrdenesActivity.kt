@@ -6,12 +6,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-<<<<<<< HEAD
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-=======
-import android.widget.Button
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -31,16 +27,9 @@ class OrdenesActivity : AppCompatActivity() {
     private lateinit var adapter: OrdenAdapter
     private lateinit var rvOrdenes: RecyclerView
     private lateinit var tvTotal: TextView
-<<<<<<< HEAD
     private lateinit var layoutSearchBar: View
     private lateinit var etBuscar: EditText
     private lateinit var btnClearSearch: ImageView
-=======
-
-    private lateinit var btnPendientes: Button
-    private lateinit var btnEnProceso: Button
-    private lateinit var btnFinalizadas: Button
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
 
     private var estadoActual = "PENDIENTE"
 
@@ -73,17 +62,10 @@ class OrdenesActivity : AppCompatActivity() {
 
         rvOrdenes = findViewById(R.id.rvOrdenes)
         tvTotal = findViewById(R.id.tvTotalPendientes)
-<<<<<<< HEAD
         layoutSearchBar = findViewById(R.id.layoutSearchBar)
         etBuscar = findViewById(R.id.etBuscarOrdenes)
         btnClearSearch = findViewById(R.id.btnClearSearch)
 
-=======
-        btnPendientes = findViewById(R.id.btnPendientes)
-        btnEnProceso = findViewById(R.id.btnEnProceso)
-        btnFinalizadas = findViewById(R.id.btnFinalizadas)
-        
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
         findViewById<ImageView>(R.id.btnBack).setOnClickListener {
             finish()
         }
@@ -98,44 +80,27 @@ class OrdenesActivity : AppCompatActivity() {
         }
         rvOrdenes.adapter = adapter
 
-        btnPendientes.setOnClickListener {
+        findViewById<View>(R.id.btnPendientes).setOnClickListener {
             estadoActual = "PENDIENTE"
-<<<<<<< HEAD
             actualizarUIFiltros()
-=======
-            actualizarBotonesTab(btnPendientes)
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
             cargarOrdenes()
         }
-        btnEnProceso.setOnClickListener {
+        findViewById<View>(R.id.btnEnProceso).setOnClickListener {
             estadoActual = "EN PROCESO"
-<<<<<<< HEAD
             actualizarUIFiltros()
-=======
-            actualizarBotonesTab(btnEnProceso)
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
             cargarOrdenes()
         }
-        btnFinalizadas.setOnClickListener {
+        findViewById<View>(R.id.btnFinalizadas).setOnClickListener {
             estadoActual = "FINALIZADA"
-<<<<<<< HEAD
             actualizarUIFiltros()
             cargarOrdenes()
         }
 
         actualizarUIFiltros()
-=======
-            actualizarBotonesTab(btnFinalizadas)
-            cargarOrdenes()
-        }
-
-        actualizarBotonesTab(btnPendientes)
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
         cargarOrdenes()
         setupBottomNavigation()
     }
 
-<<<<<<< HEAD
     private fun setupBuscador() {
         findViewById<ImageView>(R.id.btnSearch).setOnClickListener {
             if (layoutSearchBar.visibility == View.VISIBLE) {
@@ -196,17 +161,6 @@ class OrdenesActivity : AppCompatActivity() {
                     view.setBackgroundResource(android.R.color.transparent)
                     view.setTextColor(Color.parseColor("#0052CC"))
                 }
-=======
-    private fun actualizarBotonesTab(btnSeleccionado: Button) {
-        val botones = arrayOf(btnPendientes, btnEnProceso, btnFinalizadas)
-        for (btn in botones) {
-            if (btn == btnSeleccionado) {
-                btn.setBackgroundColor(Color.parseColor("#0052CC"))
-                btn.setTextColor(Color.WHITE)
-            } else {
-                btn.setBackgroundColor(Color.TRANSPARENT)
-                btn.setTextColor(Color.parseColor("#0052CC"))
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
             }
         }
     }
@@ -228,61 +182,46 @@ class OrdenesActivity : AppCompatActivity() {
 
     private fun cargarOrdenes() {
         val db = dbHelper.readableDatabase
+        val query = """
+            SELECT o.id, o.numero, o.fecha, c.nombre as cliente, e.modelo as equipo, o.tipo_servicio, o.descripcion, o.estado
+            FROM ordenes o
+            JOIN clientes c ON o.cliente_id = c.id
+            JOIN equipos e ON o.equipo_id = e.id
+            WHERE o.estado = ? OR (o.estado = 'COMPLETADA' AND ? = 'FINALIZADA')
+        """.trimIndent()
+
         val lista = mutableListOf<Orden>()
 
-        val cursor = if (estadoActual == "FINALIZADA") {
-            val query = """
-                SELECT o.id, o.numero, o.fecha, c.nombre as cliente, e.modelo as equipo, o.tipo_servicio, o.descripcion, o.estado
-                FROM ordenes o
-                JOIN clientes c ON o.cliente_id = c.id
-                JOIN equipos e ON o.equipo_id = e.id
-                WHERE o.estado = 'FINALIZADA' OR o.estado = 'COMPLETADA'
-            """.trimIndent()
-            db.rawQuery(query, null)
-        } else {
-            val query = """
-                SELECT o.id, o.numero, o.fecha, c.nombre as cliente, e.modelo as equipo, o.tipo_servicio, o.descripcion, o.estado
-                FROM ordenes o
-                JOIN clientes c ON o.cliente_id = c.id
-                JOIN equipos e ON o.equipo_id = e.id
-                WHERE o.estado = ?
-            """.trimIndent()
-            db.rawQuery(query, arrayOf(estadoActual))
-        }
-
-        cursor.use {
-            if (it.moveToFirst()) {
+        db.rawQuery(query, arrayOf(estadoActual, estadoActual)).use { cursor ->
+            if (cursor.moveToFirst()) {
                 do {
                     lista.add(
                         Orden(
-                            id = it.getInt(0),
-                            numero = it.getString(1),
-                            fecha = it.getString(2),
-                            clienteNombre = it.getString(3),
-                            equipoNombre = it.getString(4),
-                            tipoServicio = it.getString(5),
-                            descripcion = it.getString(6),
-                            estado = it.getString(7)
+                            id = cursor.getInt(0),
+                            numero = cursor.getString(1),
+                            fecha = cursor.getString(2),
+                            clienteNombre = cursor.getString(3),
+                            equipoNombre = cursor.getString(4),
+                            tipoServicio = cursor.getString(5),
+                            descripcion = cursor.getString(6),
+                            estado = cursor.getString(7)
                         )
                     )
-                } while (it.moveToNext())
+                } while (cursor.moveToNext())
             }
         }
 
         adapter.updateList(lista)
-<<<<<<< HEAD
         if (etBuscar.text.isNotEmpty()) {
             adapter.filtrar(etBuscar.text.toString())
         }
-        tvTotal.text = "Total: ${lista.size} órdenes"
-=======
+
         val etiquetaEstado = when (estadoActual) {
             "PENDIENTE" -> "pendientes"
             "EN PROCESO" -> "en proceso"
             else -> "finalizadas"
         }
         tvTotal.text = "Total $etiquetaEstado: ${lista.size} órdenes"
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
     }
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()

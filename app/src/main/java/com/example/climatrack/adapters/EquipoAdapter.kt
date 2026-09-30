@@ -71,28 +71,49 @@ class EquipoAdapter(
 
     override fun getItemCount(): Int = listaEquipos.size
 
+    private var listaOriginal: List<Equipo> = ArrayList(listaEquipos)
+
     fun actualizarLista(nuevaLista: List<Equipo>) {
+        listaOriginal = ArrayList(nuevaLista)
         listaEquipos = nuevaLista
         notifyDataSetChanged()
     }
-
-    private var listaOriginal: List<Equipo> = ArrayList(listaEquipos)
 
     fun filtrar(texto: String) {
         if (listaOriginal.isEmpty() && listaEquipos.isNotEmpty()) {
             listaOriginal = ArrayList(listaEquipos)
         }
         
-        val listaFiltrada = if (texto.isEmpty()) {
+        val q = texto.lowercase().trim()
+        listaEquipos = if (q.isEmpty()) {
             listaOriginal
         } else {
             listaOriginal.filter {
-                it.codigo.lowercase().contains(texto.lowercase()) ||
-                        it.cliente.lowercase().contains(texto.lowercase()) ||
-                        it.tipo.lowercase().contains(texto.lowercase())
+                it.codigo.lowercase().contains(q) ||
+                it.cliente.lowercase().contains(q) ||
+                it.tipo.lowercase().contains(q) ||
+                it.modelo.lowercase().contains(q) ||
+                it.serie.lowercase().contains(q) ||
+                it.estado.lowercase().contains(q)
             }
         }
-        listaEquipos = listaFiltrada
+        notifyDataSetChanged()
+    }
+
+    fun filtrarPorEstadoOTipo(filtro: String) {
+        if (listaOriginal.isEmpty() && listaEquipos.isNotEmpty()) {
+            listaOriginal = ArrayList(listaEquipos)
+        }
+
+        val q = filtro.lowercase().trim()
+        listaEquipos = if (q.isEmpty() || q == "todos") {
+            listaOriginal
+        } else {
+            listaOriginal.filter {
+                it.estado.lowercase().contains(q) ||
+                it.tipo.lowercase().contains(q)
+            }
+        }
         notifyDataSetChanged()
     }
 

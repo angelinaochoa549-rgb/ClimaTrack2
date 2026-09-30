@@ -13,11 +13,7 @@ class MantenimientoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMantenimientoBinding
     private lateinit var dbHelper: DatabaseHelper
-<<<<<<< HEAD
-    private var ordenId: Int = 1
-=======
     private var ordenId: Int = -1
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +21,7 @@ class MantenimientoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         dbHelper = DatabaseHelper(this)
-<<<<<<< HEAD
-        ordenId = intent.getIntExtra("ORDEN_ID", 1)
-=======
         ordenId = intent.getIntExtra("ORDEN_ID", -1)
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
 
         configurarSpinners()
         configurarDatePicker()
@@ -43,6 +35,7 @@ class MantenimientoActivity : AppCompatActivity() {
     }
 
     private fun cargarDatosOrden() {
+        if (ordenId == -1) return
         val db = dbHelper.readableDatabase
         val query = """
             SELECT o.numero, c.nombre, e.modelo, e.codigo, o.tipo_servicio
@@ -99,35 +92,16 @@ class MantenimientoActivity : AppCompatActivity() {
 
     private fun guardarMantenimiento() {
         val descripcion = binding.etDescripcion.text.toString().trim()
-<<<<<<< HEAD
-        val fecha = binding.etFechaMantenimiento.text.toString().ifEmpty { "18/08/2026" }
-        val tecnico = binding.spTecnico.selectedItem?.toString() ?: "Técnico 01"
-        val tipoServicio = binding.spTipoMantenimiento.selectedItem?.toString() ?: "Preventivo"
-=======
         val fecha = binding.etFechaMantenimiento.text.toString().trim().ifEmpty { "18/08/2026" }
         val tecnico = binding.spTecnico.selectedItem?.toString() ?: "Técnico 01"
         val tipoMantenimiento = binding.spTipoMantenimiento.selectedItem?.toString() ?: "Preventivo"
         val estadoEquipo = binding.spEstadoEquipo.selectedItem?.toString() ?: "Operativo"
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
 
         if (descripcion.isEmpty()) {
             Toast.makeText(this, "Por favor complete la descripción del mantenimiento", Toast.LENGTH_SHORT).show()
             return
         }
 
-<<<<<<< HEAD
-        // Lógica para registrar en la base de datos local SQLite y actualizar estado de la orden a EN PROCESO
-        dbHelper.guardarMantenimiento(
-            ordenId = ordenId,
-            fecha = fecha,
-            diagnostico = tipoServicio,
-            trabajoRealizado = descripcion,
-            tecnicoNombre = tecnico
-        )
-
-        Toast.makeText(this, "Mantenimiento registrado correctamente", Toast.LENGTH_SHORT).show()
-        finish()
-=======
         val db = dbHelper.writableDatabase
         try {
             db.beginTransaction()
@@ -162,6 +136,5 @@ class MantenimientoActivity : AppCompatActivity() {
         } finally {
             db.endTransaction()
         }
->>>>>>> 77214c7b77679aa1f03a430104a0800c507dbef9
     }
 }
