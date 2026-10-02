@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Avatar circular con borde -->
+        <RelativeLayout
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="12dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgDialogPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_circle_avatar"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_tec"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bg_circle_camera_badge"
+                android:padding="5dp"
+                android:src="@drawable/ic_camara"
+                app:tint="#FFFFFF" />
+        </RelativeLayout>
+
+        <!-- Nombre del Técnico -->
+        <TextView
+            android:id="@+id/tvNombrePerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Técnico 01"
+            android:textColor="#0D47A1"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Técnico de Campo • HVAC"
+            android:textColor="#546E7A"
+            android:textSize="13sp" />
+
+        <!-- Detalles del Técnico -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_pill_total_cyan"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🆔 Código: #TECNICO-108"
+                android:textColor="#102A43"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="💼 Rol: Técnico Especialista"
+                android:textColor="#102A43"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="📍 Zona: Sector Central / HVAC"
+                android:textColor="#102A43"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="⚡ Estado: En servicio activo"
+                android:textColor="#16866F"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Botones de Acción -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCambiarFoto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_gradient"
+                android:text="CAMBIAR FOTO"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:cornerRadius="20dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCerrarPerfil"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="CERRAR"
+                android:textColor="#546E7A"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

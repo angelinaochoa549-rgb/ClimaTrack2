@@ -10,6 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.climatrack.R
@@ -37,6 +40,35 @@ class RepuestosActivity : AppCompatActivity() {
         ordenId = intent.getIntExtra("ORDEN_ID", 1)
 
         mantenimientoId = obtenerOcrearMantenimientoId()
+
+        val headerLayout = findViewById<View>(R.id.headerLayout)
+        val bottomBarCustom = findViewById<View>(R.id.bottomBarCustom)
+
+        if (headerLayout != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(headerLayout) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.updatePadding(
+                    left = 16.dpToPx(),
+                    top = systemBars.top + 8.dpToPx(),
+                    right = 16.dpToPx(),
+                    bottom = 12.dpToPx()
+                )
+                insets
+            }
+        }
+
+        if (bottomBarCustom != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(bottomBarCustom) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.updatePadding(
+                    left = 0,
+                    top = 6.dpToPx(),
+                    right = 0,
+                    bottom = systemBars.bottom + 6.dpToPx()
+                )
+                insets
+            }
+        }
 
         tvTotalRepuestos = findViewById(R.id.tvTotalPrecio)
         rvRepuestos = findViewById(R.id.rvRepuestos)
@@ -247,4 +279,6 @@ class RepuestosActivity : AppCompatActivity() {
             cargarRepuestos()
         }
     }
+
+    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
 }

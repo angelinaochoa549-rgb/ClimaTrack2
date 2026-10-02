@@ -7,10 +7,11 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.example.climatrack.R
 import com.example.climatrack.database.DatabaseHelper
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
 
 class FormularioEquipoActivity : AppCompatActivity() {
 
@@ -22,13 +23,28 @@ class FormularioEquipoActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
 
+        val headerToolbar = findViewById<View>(R.id.headerToolbar)
+        if (headerToolbar != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(headerToolbar) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.updatePadding(
+                    left = 16.dpToPx(),
+                    top = systemBars.top + 8.dpToPx(),
+                    right = 16.dpToPx(),
+                    bottom = 12.dpToPx()
+                )
+                insets
+            }
+        }
+
         findViewById<View>(R.id.btnVolver).setOnClickListener {
             finish()
         }
 
         setupSpinners()
 
-        findViewById<MaterialButton>(R.id.btnGuardarEquipo).setOnClickListener {
+        // FIX: Usar View para evitar ClassCastException (R.id.btnGuardarEquipo es RelativeLayout)
+        findViewById<View>(R.id.btnGuardarEquipo).setOnClickListener {
             guardarEquipo()
         }
     }
@@ -89,4 +105,6 @@ class FormularioEquipoActivity : AppCompatActivity() {
             Toast.makeText(this, "Error al registrar el equipo", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
 }

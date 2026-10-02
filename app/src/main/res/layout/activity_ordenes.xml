@@ -227,21 +227,26 @@
     <LinearLayout
         android:id="@+id/bottomBarCustom"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
+        android:minHeight="68dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_bottom_nav"
         android:elevation="8dp"
         android:orientation="horizontal"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         android:weightSum="4">
 
         <!-- Inicio -->
         <LinearLayout
             android:id="@+id/navInicio"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingVertical="4dp">
 
             <ImageView
                 android:layout_width="24dp"
@@ -262,10 +267,12 @@
         <LinearLayout
             android:id="@+id/navOrdenes"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingVertical="4dp">
 
             <ImageView
                 android:layout_width="24dp"
@@ -294,10 +301,12 @@
         <LinearLayout
             android:id="@+id/navEquipos"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingVertical="4dp">
 
             <ImageView
                 android:layout_width="24dp"
@@ -318,10 +327,12 @@
         <LinearLayout
             android:id="@+id/navHistorial"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingVertical="4dp">
 
             <ImageView
                 android:layout_width="24dp"

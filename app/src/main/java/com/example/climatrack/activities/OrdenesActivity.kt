@@ -56,7 +56,12 @@ class OrdenesActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(bottomBarCustom) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(bottom = systemBars.bottom)
+            v.updatePadding(
+                left = 0,
+                top = 6.dpToPx(),
+                right = 0,
+                bottom = systemBars.bottom + 6.dpToPx()
+            )
             insets
         }
 

@@ -327,6 +327,43 @@ class DatabaseHelper(context: Context) :
         return resultado
     }
 
+    fun existeUsuario(usuario: String): Boolean {
+        val db = readableDatabase
+        var existe = false
+        try {
+            val cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM usuarios WHERE usuario = ?",
+                arrayOf(usuario)
+            )
+            if (cursor.moveToFirst()) {
+                existe = cursor.getInt(0) > 0
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return existe
+    }
+
+    fun actualizarPassword(usuario: String, nuevaPassword: String): Boolean {
+        val db = writableDatabase
+        return try {
+            val values = ContentValues().apply {
+                put("password", nuevaPassword)
+            }
+            val filasAfectadas = db.update(
+                "usuarios",
+                values,
+                "usuario = ?",
+                arrayOf(usuario)
+            )
+            filasAfectadas > 0
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     // --- MÉTODOS PARA UBICACIONES ---
 
     fun guardarUbicacion(ordenId: Int, latitud: Double, longitud: Double, fecha: String): Long {

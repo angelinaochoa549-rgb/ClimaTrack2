@@ -42,7 +42,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/bg_circle_arrow"
             android:padding="6dp"
-            android:src="@android:drawable/ic_input_add"
+            android:src="@drawable/ic_add"
             app:tint="@android:color/white" />
     </RelativeLayout>
 

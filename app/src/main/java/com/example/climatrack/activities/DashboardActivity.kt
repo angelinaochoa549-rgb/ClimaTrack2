@@ -1,15 +1,22 @@
 package com.example.climatrack.activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -17,12 +24,44 @@ import com.example.climatrack.R
 import com.example.climatrack.database.DatabaseHelper
 import com.example.climatrack.databinding.ActivityDashboardBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.io.File
+import java.io.FileOutputStream
 
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var dbHelper: DatabaseHelper
     private var notificacionesLeidas = false
+
+    private var tempPhotoUri: Uri? = null
+
+    private val galeriaLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            guardarFotoPerfilUri(uri)
+        }
+    }
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            tempPhotoUri?.let { uri ->
+                guardarFotoPerfilUri(uri)
+            }
+        }
+    }
+
+    private val cameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            abrirCamara()
+        } else {
+            Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +82,15 @@ class DashboardActivity : AppCompatActivity() {
             v.updatePadding(bottom = systemBars.bottom)
             insets
         }
+
+        // Click en Avatar para cambiar foto de perfil
+        binding.imgAvatar.setOnClickListener {
+            mostrarOpcionesFotoPerfil()
+        }
+        binding.layoutAvatarContainer.setOnClickListener {
+            mostrarOpcionesFotoPerfil()
+        }
+        cargarFotoPerfil()
 
         // Configuración de Menú y Campanita
         binding.btnMenu.setOnClickListener {
@@ -102,6 +150,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         actualizarBadgeNotificaciones()
+        cargarFotoPerfil()
     }
 
     private fun actualizarBadgeNotificaciones() {
@@ -130,6 +179,15 @@ class DashboardActivity : AppCompatActivity() {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.dialog_menu_principal, null)
         dialog.setContentView(view)
+
+        val imgMenuAvatar = view.findViewById<ImageView>(R.id.imgMenuAvatar)
+        if (imgMenuAvatar != null) {
+            cargarFotoPerfilEnMenu(imgMenuAvatar)
+            imgMenuAvatar.setOnClickListener {
+                dialog.dismiss()
+                mostrarOpcionesFotoPerfil()
+            }
+        }
 
         view.findViewById<View>(R.id.btnCloseMenu)?.setOnClickListener { dialog.dismiss() }
 
@@ -335,12 +393,157 @@ class DashboardActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun mostrarPerfilTecnico() {
+    private fun verificarPermisoYCamara() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            abrirCamara()
+        } else {
+            cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
+    private fun abrirCamara() {
+        try {
+            val file = File(cacheDir, "temp_profile_photo.jpg")
+            tempPhotoUri = FileProvider.getUriForFile(
+                this,
+                "${packageName}.fileprovider",
+                file
+            )
+            tempPhotoUri?.let { uri ->
+                takePictureLauncher.launch(uri)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error al abrir la cámara", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun abrirGaleria() {
+        galeriaLauncher.launch("image/*")
+    }
+
+    private fun guardarFotoPerfilUri(uri: Uri) {
+        try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return
+            val destFile = File(filesDir, "profile_avatar.jpg")
+            val outputStream = FileOutputStream(destFile)
+            inputStream.copyTo(outputStream)
+            inputStream.close()
+            outputStream.close()
+
+            val prefs = getSharedPreferences("climatrack_prefs", MODE_PRIVATE)
+            prefs.edit().putString("profile_image_path", destFile.absolutePath).apply()
+
+            cargarFotoPerfil()
+            Toast.makeText(this, "¡Foto de perfil actualizada con éxito!", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error al guardar la foto de perfil", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun restablecerFotoPerfilDefault() {
+        try {
+            val destFile = File(filesDir, "profile_avatar.jpg")
+            if (destFile.exists()) {
+                destFile.delete()
+            }
+            val prefs = getSharedPreferences("climatrack_prefs", MODE_PRIVATE)
+            prefs.edit().remove("profile_image_path").apply()
+
+            cargarFotoPerfil()
+            Toast.makeText(this, "Foto de perfil restablecida", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun cargarFotoPerfil() {
+        val prefs = getSharedPreferences("climatrack_prefs", MODE_PRIVATE)
+        val path = prefs.getString("profile_image_path", null)
+
+        if (path != null) {
+            val file = File(path)
+            if (file.exists()) {
+                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                if (bitmap != null) {
+                    binding.imgAvatar.setImageBitmap(bitmap)
+                    return
+                }
+            }
+        }
+        binding.imgAvatar.setImageResource(R.drawable.avatar_tec)
+    }
+
+    private fun cargarFotoPerfilEnMenu(imageView: ImageView) {
+        val prefs = getSharedPreferences("climatrack_prefs", MODE_PRIVATE)
+        val path = prefs.getString("profile_image_path", null)
+
+        if (path != null) {
+            val file = File(path)
+            if (file.exists()) {
+                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                if (bitmap != null) {
+                    imageView.setImageBitmap(bitmap)
+                    return
+                }
+            }
+        }
+        imageView.setImageResource(R.drawable.avatar_tec)
+    }
+
+    private fun mostrarOpcionesFotoPerfil() {
+        val opciones = arrayOf(
+            "📸 Tomar foto con la cámara",
+            "🖼️ Elegir de la galería",
+            "🔄 Restablecer foto predeterminada"
+        )
+
         AlertDialog.Builder(this)
-            .setTitle("Perfil de Técnico")
-            .setMessage("👤 Nombre: Técnico 01\n🆔 Código: #TECNICO-108\n💼 Rol: Técnico de Campo\n📍 Zona: Sector Central / HVAC\n⚡ Estado: En servicio activo")
-            .setPositiveButton("ACEPTAR", null)
+            .setTitle("Cambiar Foto de Perfil")
+            .setItems(opciones) { _, which ->
+                when (which) {
+                    0 -> verificarPermisoYCamara()
+                    1 -> abrirGaleria()
+                    2 -> restablecerFotoPerfilDefault()
+                }
+            }
+            .setNegativeButton("CANCELAR", null)
             .show()
+    }
+
+    private fun mostrarPerfilTecnico() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_perfil_tecnico, null)
+        val imgPerfil = dialogView.findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.imgDialogPerfil)
+        val btnCambiarFoto = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCambiarFoto)
+
+        if (imgPerfil != null) {
+            cargarFotoPerfilEnMenu(imgPerfil)
+            imgPerfil.setOnClickListener {
+                mostrarOpcionesFotoPerfil()
+            }
+        }
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+
+        btnCambiarFoto?.setOnClickListener {
+            dialog.dismiss()
+            mostrarOpcionesFotoPerfil()
+        }
+
+        dialogView.findViewById<View>(R.id.btnCerrarPerfil)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun mostrarAcercaDe() {
